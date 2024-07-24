@@ -6,7 +6,7 @@
 #    By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/07/24 17:41:21 by amakela          ###   ########.fr        #
+#    Updated: 2024/07/24 18:20:31 by amakela          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ MLX42		= $(MLXDIR)/build/libmlx42.a
 
 HEADERS 	= -I /include -I $(MLX42)/include
 
-LIBS		= $(LIBFTDIR)/$(LIBFT) $(LIBMLX42) -lglfw -L"~/.brew/Cellar/glfw/3.4/lib/"
+LIBS		= $(LIBFT) $(LIBMLX42) -lglfw -L"~/.brew/Cellar/glfw/3.4/lib/"
 
 CFLAGS		= -Wall -Wextra -Werror
 
