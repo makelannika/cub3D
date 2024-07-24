@@ -6,7 +6,7 @@
 #    By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/07/24 18:20:31 by amakela          ###   ########.fr        #
+#    Updated: 2024/07/24 18:29:12 by amakela          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,3 +54,4 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re libmlx
+
