@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/07/25 21:50:09 by amakela          ###   ########.fr       */
+/*   Updated: 2024/07/25 23:13:02 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,17 @@
 # define CUB3D_H
 
 # include "../libft/include/libft.h"
+# include <fcntl.h>
+
+typedef struct s_cub
+{
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	int		floor[3];
+	int		ceiling[3];
+} t_cub;
 
 #endif
+
