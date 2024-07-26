@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: linhnguy <linhnguy@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/26 19:48:24 by linhnguy          #+#    #+#             */
+/*   Updated: 2024/07/26 19:49:36 by linhnguy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
 int	parse_file(t_cub *data, char *file)
@@ -16,7 +28,7 @@ int	parse_file(t_cub *data, char *file)
 			line = get_next_line(fd);
 			continue ;
 		}
-		if(check_identifier(line, data))
+		if (check_identifier(line, data))
 			return (err("Error"));
 		free(line);
 		line = get_next_line(fd);
@@ -28,7 +40,7 @@ int	parse_file(t_cub *data, char *file)
 
 int	main(int argc, char **argv)
 {
-	t_cub data;
+	t_cub	data;
 
 	data = (t_cub){0};
 	if (argc != 2 || check_extension(argv[1]))
@@ -41,4 +53,3 @@ int	main(int argc, char **argv)
 		return (err("\nError map is shit")); // clean
 	return (0);
 }
-

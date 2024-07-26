@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 19:34:52 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/07/26 19:41:26 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/07/26 19:50:46 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int	check_map_char(t_cub *data)
 {
 	int	i;
-	int j;
-	int flag;
+	int	j;
+	int	flag;
 
 	i = 0;
 	flag = 0;
@@ -25,12 +25,13 @@ int	check_map_char(t_cub *data)
 		j = 0;
 		while (data->map[i][j])
 		{
-			if (data->map[i][j] == ' ' || data->map[i][j] == '1' || data->map[i][j] == '0')
+			if (data->map[i][j] == ' ' || data->map[i][j] == '1'
+				|| data->map[i][j] == '0')
 				;
-			else if (!flag && (data->map[i][j] == 'N'|| data->map[i][j] == 'W'
+			else if (!flag && (data->map[i][j] == 'N' || data->map[i][j] == 'W'
 				|| data->map[i][j] == 'E' || data->map[i][j] == 'S'))
 				flag = 1;
-			else 
+			else
 				return (1);
 			j++;
 		}
@@ -39,9 +40,9 @@ int	check_map_char(t_cub *data)
 	return (0);
 }
 
-int increase_array_capacity(t_cub *data, int *capacity)
+int	increase_array_capacity(t_cub *data, int *capacity)
 {
-	char 	**new_array;
+	char	**new_array;
 	int		new_capacity;
 	int		i;
 
@@ -84,5 +85,6 @@ int	init_map(int fd, t_cub *data, char *line)
 		free (line);
 		line = get_next_line(fd); // check line
 	}
+	free (line);
 	return (0);
 }

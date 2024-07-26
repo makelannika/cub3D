@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 19:37:42 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/07/26 19:38:04 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/07/26 19:51:21 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	copy_path(char *line, char *id)
 
 int	copy_color(char *line, int *id)
 {
-	char **rgb;
-	
+	char	**rgb;
+
 	while (*line == ' ')
 		line++;
 	//check the rgb is a good string
