@@ -81,7 +81,7 @@ int	init_map(int fd, t_cub *data, char *line)
 	data->map = malloc(sizeof(char *) * capacity);
 	while (line)
 	{
-		data->map[i] = ft_strdup(line);
+		data->map[i] = strdup_no_newline(line);
 		if (!data->map[i])
 			return (1); //needs free funciton that checks array index and free in cleanup;
 		i++;
@@ -122,7 +122,7 @@ int	parse_file(t_cub *data, char *file)
 		return (err("Error"));
 	return (0);
 }
-//not working
+
 int	check_map(t_cub *data)
 {
 	int	i;
@@ -130,7 +130,6 @@ int	check_map(t_cub *data)
 	int flag;
 
 	i = 0;
-	j = 0;
 	flag = 0;
 	while (data->map[i])
 	{
@@ -138,16 +137,13 @@ int	check_map(t_cub *data)
 		while (data->map[i][j])
 		{
 			if (data->map[i][j] == ' ' || data->map[i][j] == '1' || data->map[i][j] == '0')
-				j++;
+				;
 			else if (!flag && (data->map[i][j] == 'N'|| data->map[i][j] == 'W'
 				|| data->map[i][j] == 'E' || data->map[i][j] == 'S'))
-			{
-				ft_printf(2, "entered flag\n");
 				flag = 1;
-				j++;
-			}
-			else
-				return(1);
+			else 
+				return (1);
+			j++;
 		}
 		i++;
 	}
@@ -164,7 +160,7 @@ int	main(int argc, char **argv)
 	if (parse_file(&data, argv[1]))
 		return (1); //checks what exist and free
 	for (int i = 0; data.map[i]; i++)
-		ft_printf(2, "%s", data.map[i]);
+		ft_printf(2, "%s\n", data.map[i]);
 	if (check_map(&data))
 		return (err("\nError map is shit")); // clean
 	return (0);

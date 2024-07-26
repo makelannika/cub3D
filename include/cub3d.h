@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/07/26 12:53:14 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/07/26 19:26:01 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_cub
 
 		/**********UTILS**********/
 int		err(char *str);
+char	*strdup_no_newline(const char *s1);
 
 #endif
 
