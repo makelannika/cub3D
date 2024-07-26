@@ -49,7 +49,7 @@ int	check_identifier(char *line, t_cub *data)
 	return (0);
 }
 
-int increase_capacity(t_cub *data, int *capacity)
+int increase_array_capacity(t_cub *data, int *capacity)
 {
 	char 	**new_array;
 	int		new_capacity;
@@ -71,16 +71,14 @@ int increase_capacity(t_cub *data, int *capacity)
 	return (0);
 }
 
-int	init_map(int fd, t_cub *data)
+int	init_map(int fd, t_cub *data, char *line)
 {
-	char	*line;
 	int		capacity;
 	int		i;
 
 	i = 0;
 	capacity = 2;
 	data->map = malloc(sizeof(char *) * capacity);
-	line = get_next_line(fd); //check line
 	while (line)
 	{
 		data->map[i] = ft_strdup(line);
@@ -90,7 +88,7 @@ int	init_map(int fd, t_cub *data)
 		data->map[i] = NULL;
 		if (i == capacity - 1)
 		{
-			if (increase_capacity(data, &capacity))
+			if (increase_array_capacity(data, &capacity))
 				return (1); //needs free funciton that checks array index and free in cleanup;
 		}
 		free (line);
@@ -116,12 +114,43 @@ int	parse_file(t_cub *data, char *file)
 			continue ;
 		}
 		if(check_identifier(line, data))
-			return (err("Error1"));
+			return (err("Error"));
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (init_map(fd, data))
-		return (err("Error2"));
+	if (init_map(fd, data, line))
+		return (err("Error"));
+	return (0);
+}
+//not working
+int	check_map(t_cub *data)
+{
+	int	i;
+	int j;
+	int flag;
+
+	i = 0;
+	j = 0;
+	flag = 0;
+	while (data->map[i])
+	{
+		j = 0;
+		while (data->map[i][j])
+		{
+			if (data->map[i][j] == ' ' || data->map[i][j] == '1' || data->map[i][j] == '0')
+				j++;
+			else if (!flag && (data->map[i][j] == 'N'|| data->map[i][j] == 'W'
+				|| data->map[i][j] == 'E' || data->map[i][j] == 'S'))
+			{
+				ft_printf(2, "entered flag\n");
+				flag = 1;
+				j++;
+			}
+			else
+				return(1);
+		}
+		i++;
+	}
 	return (0);
 }
 
@@ -134,9 +163,10 @@ int	main(int argc, char **argv)
 		return (err("Error: invalid argument"));
 	if (parse_file(&data, argv[1]))
 		return (1); //checks what exist and free
-	ft_printf(1, "map is\n");
 	for (int i = 0; data.map[i]; i++)
-		ft_printf(1, "%s", data.map[i]);
+		ft_printf(2, "%s", data.map[i]);
+	if (check_map(&data))
+		return (err("\nError map is shit")); // clean
 	return (0);
 }
 
