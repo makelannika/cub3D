@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 12:36:24 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/07/26 19:25:21 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/07/26 19:33:42 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,12 @@ char	*strdup_no_newline(const char *s1)
 	}
 	ptr[i] = '\0';
 	return (ptr);
+}
+
+int	check_extension(char *arg)
+{
+	int     len;
+
+	len = ft_strlen(arg);
+	return (ft_strncmp(&arg[len - 4], ".cub", 5));
 }

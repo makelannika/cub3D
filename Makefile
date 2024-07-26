@@ -6,7 +6,7 @@
 #    By: linhnguy <linhnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/07/26 14:11:24 by linhnguy         ###   ########.fr        #
+#    Updated: 2024/07/26 19:40:17 by linhnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ CFLAGS		= -Wall -Wextra -Werror -g
 
 CC			= cc
 
-CFILES		= src/main.c src/utils.c
+CFILES		=	src/main.c	src/utils.c		src/check_identifier.c	\
+				src/prep_map.c
 
 OFILES		= $(CFILES:.c=.o)
 
