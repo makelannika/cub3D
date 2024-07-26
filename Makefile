@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+         #
+#    By: linhnguy <linhnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/07/24 20:15:37 by amakela          ###   ########.fr        #
+#    Updated: 2024/07/26 14:11:24 by linhnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,11 +22,11 @@ HEADERS 	= -I /include -I $(MLX42)/include
 
 LIBS		= $(LIBFT) $(LIBMLX42) -lglfw -L"~/.brew/Cellar/glfw/3.4/lib/"
 
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 
 CC			= cc
 
-CFILES		= src/main.c
+CFILES		= src/main.c src/utils.c
 
 OFILES		= $(CFILES:.c=.o)
 

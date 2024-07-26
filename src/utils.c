@@ -1,34 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ultis.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: linhnguy <linhnguy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/07/26 12:53:14 by linhnguy         ###   ########.fr       */
+/*   Created: 2024/07/26 12:36:24 by linhnguy          #+#    #+#             */
+/*   Updated: 2024/07/26 12:37:08 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "../include/cub3d.h"
 
-# include "../libft/include/libft.h"
-# include <fcntl.h>
-
-typedef struct s_cub
+int	err(char *str)
 {
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
-	int		floor[3];
-	int		ceiling[3];
-	char	**map;
-} t_cub;
-
-		/**********UTILS**********/
-int		err(char *str);
-
-#endif
-
+	ft_printf(2, "%s\n", str);
+	return (1);
+}
