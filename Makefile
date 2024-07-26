@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+         #
+#    By: linhnguy <linhnguy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/07/24 18:29:12 by amakela          ###   ########.fr        #
+#    Updated: 2024/07/26 19:40:17 by linhnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,11 +22,12 @@ HEADERS 	= -I /include -I $(MLX42)/include
 
 LIBS		= $(LIBFT) $(LIBMLX42) -lglfw -L"~/.brew/Cellar/glfw/3.4/lib/"
 
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 
 CC			= cc
 
-CFILES		= src/main.c
+CFILES		=	src/main.c	src/utils.c		src/check_identifier.c	\
+				src/prep_map.c
 
 OFILES		= $(CFILES:.c=.o)
 
@@ -54,4 +55,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re libmlx
-

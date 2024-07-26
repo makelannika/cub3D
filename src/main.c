@@ -1,25 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: linhnguy <linhnguy@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/26 19:48:24 by linhnguy          #+#    #+#             */
+/*   Updated: 2024/07/26 19:49:36 by linhnguy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
-int	check_extension(char *arg)
+int	parse_file(t_cub *data, char *file)
 {
-	int     len;
+	int		fd;
+	char	*line;
 
-	len = ft_strlen(arg);
-	return (ft_strncmp(&arg[len - 4], ".cub", 5));
-}
-
-int	err(char *str)
-{
-	ft_printf(2, "%s\n", str);
-	return (1);
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		return (err("Error: open failed :("));
+	line = get_next_line(fd); //check line
+	while (line && ft_strncmp(line, " ", 1) && ft_strncmp(line, "1", 1))
+	{
+		if (ft_strncmp(line, "\n", 1))
+		{
+			line = get_next_line(fd);
+			continue ;
+		}
+		if (check_identifier(line, data))
+			return (err("Error"));
+		free(line);
+		line = get_next_line(fd);
+	}
+	if (init_map(fd, data, line))
+		return (err("Error"));
+	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	if (argc != 2)
-		return (err("error: invalid arguments"));
-	if (check_extension(argv[1]))
-		return (err("error: invalid file type"));
-	ft_printf(1, "OK\n");
+	t_cub	data;
+
+	data = (t_cub){0};
+	if (argc != 2 || check_extension(argv[1]))
+		return (err("Error: invalid argument"));
+	if (parse_file(&data, argv[1]))
+		return (1); //checks what exist and free
+	for (int i = 0; data.map[i]; i++)
+		ft_printf(2, "%s\n", data.map[i]);
+	if (check_map_char(&data))
+		return (err("\nError map is shit")); // clean
 	return (0);
 }
