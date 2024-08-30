@@ -1,12 +1,14 @@
-#include "../include/cub3d.h"
-
-int	check_extension(char *arg)
-{
-	int     len;
-
-	len = ft_strlen(arg);
-	return (ft_strncmp(&arg[len - 4], ".cub", 5));
-}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: linhnguy <linhnguy@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/26 19:48:24 by linhnguy          #+#    #+#             */
+/*   Updated: 2024/07/26 19:49:36 by linhnguy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 int	err(char *str, void *ptr)
 {
@@ -178,7 +180,7 @@ int	free_data(t_cub *data)
 
 int	main(int argc, char **argv)
 {
-	t_cub data;
+	t_cub	data;
 
 	data = (t_cub){0};
 	if (argc != 2 || check_extension(argv[1]))
