@@ -8,9 +8,12 @@ int	check_extension(char *arg)
 	return (ft_strncmp(&arg[len - 4], ".cub", 5));
 }
 
-int	err(char *str)
+int	err(char *str, void *ptr)
 {
-	ft_printf(2, "%s\n", str);
+	if (str)
+		ft_printf(2, "%s\n", str);
+	if (ptr)
+		free(ptr);
 	return (1);
 }
 
@@ -49,13 +52,13 @@ int	validate_color(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if ((str[i] < '0' || str[i] > '9') && str[i] != '\n')
-			return (err("Error: invalid element"));
+		if ((str[i] < '0' || str[i] > '9'))
+			return (err("Error: invalid element", NULL));
 		i++;
 	}
 	color = ft_atoi(str);
 	if (color < 0 || color > 255)
-		return (err("Error: invalid element"));
+		return (err("Error: invalid element", NULL));
 	return (color);
 }
 
@@ -64,10 +67,10 @@ int	copy_color(char *str, int *id)
 	char **rgb;
 	
 	if (count_commas(str) != 2)
-		return (err("Error: invalid element"));
+		return (err("Error: invalid element", NULL));
 	rgb = ft_split(str, ',');
 	if (!rgb)
-		return (err("Error: malloc failed in split"));
+		return (err("Error: malloc failed", NULL));
 	id[0] = validate_color(rgb[0]);
 	id[1] = validate_color(rgb[1]);
 	id[2] = validate_color(rgb[2]);
@@ -87,7 +90,7 @@ int	check_identifier(char **element, t_cub *data)
 		return (copy_color(element[1], data->ceiling));
 	copy = ft_strdup(element[1]);
 	if (!copy)
-		return (err("Error: malloc failed"));
+		return (err("Error: malloc failed", NULL));
 	if (!ft_strncmp("NO", element[0], 3))
 		data->no = copy;
 	else if (!ft_strncmp("WE", element[0], 3))
@@ -97,10 +100,7 @@ int	check_identifier(char **element, t_cub *data)
 	else if (!ft_strncmp("SO", element[0], 3))
 		data->so = copy;
 	else
-	{
-		free(copy);
-		return (1);
-	}
+		return (err("Error: invalid .cub file content", copy));
 	return (0);
 }
 
@@ -111,11 +111,11 @@ int	parse_element(t_cub *data, char *line)
 
 	element = ft_split(line, ' ');
 	if (!element)
-		return (err("Error: malloc failed"));
+		return (err("Error: malloc failed", NULL));
 	if (element[2])
 	{
 		free_str_array(element);
-		return (err("Error: invalid element"));
+		return (err("Error: invalid element", NULL));
 	}
 	len = ft_strlen(element[1]);
 	element[1][len - 1] = '\0';
@@ -129,10 +129,7 @@ int	parse_element(t_cub *data, char *line)
 int	parse_map(t_cub *data, char *line)
 {
 	if (data->elements_found != 6)
-	{
-		free(line);
-		return (err("Error: invalid .cub file content"));
-	}
+		return (err("Error: invalid .cub file content", line));
 	free(line);
 	return (0);
 }
@@ -144,28 +141,23 @@ int	parse_file(t_cub *data, char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (err("Error: open failed :("));
+		return (err("Error: open failed", NULL));
 	line = get_next_line(fd); // add malloc check for gnl
-	while (line)
+	while (line && *line != '1' && *line != ' ')
 	{
 		if (ft_strchr("NSWEFC", *line)) {
 			if (parse_element(data, line))
-			{
-				free(line);
-				return (1);
-			}
-		}
-		else if (ft_strchr(" 1", *line)) {
-			return (parse_map(data, line));
+				return (err(NULL, line));
 		}
 		else if (*line != '\n')
-		{
-			free(line);
-			return (err("Error: forbidden content in .cub file"));
-		}
+			return (err("Error: forbidden content in .cub file", line));
 		free(line);
 		line = get_next_line(fd); // malloc check
 	}
+	if (line && ft_strchr(" 1", *line))
+		return (parse_map(data, line));
+	else
+		return (err("Error: invalid .cub file content", NULL));
 	return (0);
 }
 
@@ -188,7 +180,7 @@ int	main(int argc, char **argv)
 
 	data = (t_cub){0};
 	if (argc != 2 || check_extension(argv[1]))
-		return (err("Error: invalid argument"));
+		return (err("Error: program takes one .cub file as an argument", NULL));
 	if (parse_file(&data, argv[1]))
 		return (free_data(&data));
 	ft_printf(1, "NO: %s\n", data.no);
