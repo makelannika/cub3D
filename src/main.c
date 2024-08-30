@@ -157,7 +157,7 @@ int	parse_file(t_cub *data, char *file)
 	if (line && ft_strchr(" 1", *line))
 		return (parse_map(data, line));
 	else
-		return (err("Error: invalid .cub file content", NULL));
+		return (err("Error: invalid .cub file content", line));
 	return (0);
 }
 
@@ -171,6 +171,8 @@ int	free_data(t_cub *data)
 		free(data->we);
 	if (data->ea)
 		free(data->ea);
+	if (data->map)
+		free_str_array(data->map);
 	return (1);
 }
 
