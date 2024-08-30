@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/08/29 21:09:42 by amakela          ###   ########.fr       */
+/*   Updated: 2024/08/30 15:00:18 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_cub
 	char	*so;
 	char	*we;
 	char	*ea;
+	char	**map;
 	int		floor[3];
 	int		ceiling[3];
 	int		elements_found;
