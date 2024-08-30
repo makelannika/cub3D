@@ -6,9 +6,11 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 19:48:24 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/08/30 17:33:04 by amakela          ###   ########.fr       */
+/*   Updated: 2024/08/30 17:39:48 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../include/cub3d.h"
 
 int	check_extension(char *arg)
 {
