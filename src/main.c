@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 19:48:24 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/08/30 17:39:48 by amakela          ###   ########.fr       */
+/*   Updated: 2024/08/31 16:32:46 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_extension(char *arg)
 int	err(char *str, void *ptr)
 {
 	if (str)
-		ft_printf(2, "%s\n", str);
+		ft_printf(2, "Error: %s\n", str);
 	if (ptr)
 		free(ptr);
 	return (1);
@@ -65,12 +65,12 @@ int	validate_color(char *str)
 	while (str[i])
 	{
 		if ((str[i] < '0' || str[i] > '9'))
-			return (err("Error: invalid element", NULL));
+			return (err("invalid element", NULL));
 		i++;
 	}
 	color = ft_atoi(str);
 	if (color < 0 || color > 255)
-		return (err("Error: invalid element", NULL));
+		return (err("invalid element", NULL));
 	return (color);
 }
 
@@ -79,10 +79,10 @@ int	copy_color(char *str, int *id)
 	char **rgb;
 	
 	if (count_commas(str) != 2)
-		return (err("Error: invalid element", NULL));
+		return (err("invalid element", NULL));
 	rgb = ft_split(str, ',');
 	if (!rgb)
-		return (err("Error: malloc failed", NULL));
+		return (err("malloc failed", NULL));
 	id[0] = validate_color(rgb[0]);
 	id[1] = validate_color(rgb[1]);
 	id[2] = validate_color(rgb[2]);
@@ -102,7 +102,7 @@ int	check_identifier(char **element, t_cub *data)
 		return (copy_color(element[1], data->ceiling));
 	copy = ft_strdup(element[1]);
 	if (!copy)
-		return (err("Error: malloc failed", NULL));
+		return (err("malloc failed", NULL));
 	if (!ft_strncmp("NO", element[0], 3))
 		data->no = copy;
 	else if (!ft_strncmp("WE", element[0], 3))
@@ -112,7 +112,7 @@ int	check_identifier(char **element, t_cub *data)
 	else if (!ft_strncmp("SO", element[0], 3))
 		data->so = copy;
 	else
-		return (err("Error: invalid .cub file content", copy));
+		return (err("4 invalid .cub file content", copy));
 	return (0);
 }
 
@@ -123,11 +123,11 @@ int	parse_element(t_cub *data, char *line)
 
 	element = ft_split(line, ' ');
 	if (!element)
-		return (err("Error: malloc failed", NULL));
+		return (err("malloc failed", NULL));
 	if (element[2])
 	{
 		free_str_array(element);
-		return (err("Error: invalid element", NULL));
+		return (err("invalid element", NULL));
 	}
 	len = ft_strlen(element[1]);
 	element[1][len - 1] = '\0';
@@ -138,12 +138,55 @@ int	parse_element(t_cub *data, char *line)
 	return (0);
 }
 
-int	parse_map(t_cub *data, char *line)
+int	copy_map(t_cub *data, int fd, char *file)
+{
+	int		i;
+	char	*line;
+	
+	i = 0;
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		return (err("open failed", NULL));
+	data->map.layout = malloc((sizeof(char *) * data->map.height + 1));
+	if (!data->map.layout)
+		return (err("malloc failed", NULL));
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (ft_strchr("1 ", *line)) {
+			data->map.layout[i++] = ft_substr(line, 0, ft_strlen(line) - 1);
+			if (!data->map.layout[i - 1])
+				return (err("malloc failed", line));
+		}
+		free(line);
+		line = get_next_line(fd);
+	}
+	data->map.layout[i] = NULL;
+	return (0);
+}
+
+int	get_map_height(t_cub *data, char *line, int fd)
+{
+	while (line && ft_strchr("1 ", *line))
+	{
+		data->map.height++;
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+	if (line)
+		return (err("3 invalid .cub file content", line));
+	return (0);
+}
+
+int	parse_map(t_cub *data, char *line, int fd, char *file)
 {
 	if (data->elements_found != 6)
-		return (err("Error: invalid .cub file content", line));
-	
-	free(line);
+		return (err("2 invalid .cub file content", line));
+	if (get_map_height(data, line, fd))
+		return (1);
+	if (copy_map(data, fd, file))
+		return (1);
 	return (0);
 }
 
@@ -154,7 +197,7 @@ int	parse_file(t_cub *data, char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (err("Error: open failed", NULL));
+		return (err("open failed", NULL));
 	line = get_next_line(fd); // add malloc check for gnl
 	while (line && *line != '1' && *line != ' ')
 	{
@@ -163,14 +206,14 @@ int	parse_file(t_cub *data, char *file)
 				return (err(NULL, line));
 		}
 		else if (*line != '\n')
-			return (err("Error: forbidden content in .cub file", line));
+			return (err("forbidden content in .cub file", line));
 		free(line);
 		line = get_next_line(fd); // malloc check
 	}
 	if (line && ft_strchr(" 1", *line))
-		return (parse_map(data, line));
+		return (parse_map(data, line, fd, file));
 	else
-		return (err("Error: invalid .cub file content", line));
+		return (err("1 invalid .cub file content", line));
 }
 
 int	free_data(t_cub *data)
@@ -183,8 +226,8 @@ int	free_data(t_cub *data)
 		free(data->we);
 	if (data->ea)
 		free(data->ea);
-	if (data->map)
-		free_str_array(data->map);
+	if (data->map.layout)
+		free_str_array(data->map.layout);
 	return (1);
 }
 
@@ -194,7 +237,7 @@ int	main(int argc, char **argv)
 
 	data = (t_cub){0};
 	if (argc != 2 || check_extension(argv[1]))
-		return (err("Error: program takes one .cub file as an argument", NULL));
+		return (err("program takes one .cub file as an argument", NULL));
 	if (parse_file(&data, argv[1]))
 		return (free_data(&data));
 	ft_printf(1, "NO: %s\n", data.no);
@@ -203,7 +246,9 @@ int	main(int argc, char **argv)
 	ft_printf(1, "EA: %s\n", data.ea);
 	ft_printf(1, "floor: %d,%d,%d\n", data.floor[0], data.floor[1], data.floor[2]);
 	ft_printf(1, "ceiling: %d,%d,%d\n", data.ceiling[0], data.ceiling[1], data.ceiling[2]);
-	ft_printf(1, "OK\n");
+	ft_printf(1, "map height: %d\n", data.map.height);
+	for (int i = 0; i < data.map.height; i++)
+		ft_printf(1, "%s\n", data.map.layout[i]);
 	free_data(&data);
 	return (0);
 }
