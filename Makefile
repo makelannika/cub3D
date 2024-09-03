@@ -20,7 +20,7 @@ MLX42		= $(MLXDIR)/build/libmlx42.a
 
 HEADERS 	= -I /include -I $(MLX42)/include
 
-LIBS		= $(LIBFT) $(LIBMLX42) -lglfw -L"~/.brew/Cellar/glfw/3.4/lib/"
+LIBS		= $(LIBFT) -lglfw -L"~/.brew/Cellar/glfw/3.4/lib/"
 
 CFLAGS		= -Wall -Wextra -Werror -g
 
@@ -31,7 +31,7 @@ CFILES		=	src/main.c
 OFILES		= $(CFILES:.c=.o)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS) $(INCLUDE)
+	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
 	
 all: $(MLX42) $(NAME)
 
