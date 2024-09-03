@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/08/31 14:56:49 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/03 19:36:09 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct s_point
 
 typedef struct s_map
 {
-	int		width;
 	int 	height;
 	char	**layout;
 	char	orientation;
