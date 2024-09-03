@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 19:48:24 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/03 20:57:59 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/03 21:03:17 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ int	validate_color(char *str)
 	while (str[i])
 	{
 		if ((str[i] < '0' || str[i] > '9'))
-			return (err("invalid element", NULL));
+			return (err("invalid .cub file content", NULL));
 		i++;
 	}
 	color = ft_atoi(str);
 	if (color < 0 || color > 255)
-		return (err("invalid element", NULL));
+		return (err("invalid .cub file content", NULL));
 	return (color);
 }
 
@@ -79,7 +79,7 @@ int	copy_color(char *str, int *id)
 	char **rgb;
 	
 	if (count_commas(str) != 2)
-		return (err("invalid element", NULL));
+		return (err("invalid .cub file content", NULL));
 	rgb = ft_split(str, ',');
 	if (!rgb)
 		return (err("malloc failed", NULL));
@@ -112,7 +112,7 @@ int	check_identifier(char **element, t_cub *data)
 	else if (!ft_strncmp("SO", element[0], 3))
 		data->so = copy;
 	else
-		return (err("4 invalid .cub file content", copy));
+		return (err("invalid .cub file content", copy));
 	return (0);
 }
 
@@ -127,7 +127,7 @@ int	parse_element(t_cub *data, char *line)
 	if (element[2])
 	{
 		free_str_array(element);
-		return (err("invalid element", NULL));
+		return (err("invalid .cub file content", NULL));
 	}
 	len = ft_strlen(element[1]);
 	element[1][len - 1] = '\0';
@@ -254,7 +254,7 @@ int	parse_file(t_cub *data, char *file)
 				return (err(NULL, line));
 		}
 		else if (*line != '\n')
-			return (err("forbidden content in .cub file", line));
+			return (err("invalid .cub file content", line));
 		free(line);
 		line = get_next_line(fd); // malloc/open check
 	}
