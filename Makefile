@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+         #
+#    By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/08/30 17:40:54 by amakela          ###   ########.fr        #
+#    Updated: 2024/09/03 18:37:56 by linhnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,13 +20,13 @@ MLX42		= $(MLXDIR)/build/libmlx42.a
 
 HEADERS 	= -I /include -I $(MLX42)/include
 
-LIBS		= $(LIBFT) -lglfw -L"~/.brew/Cellar/glfw/3.4/lib/"
+LIBS		= $(LIBFT) $(MLX42) -lglfw -L"~/.brew/Cellar/glfw/3.4/lib/"
 
 CFLAGS		= -Wall -Wextra -Werror -g
 
 CC			= cc
 
-CFILES		=	src/main.c
+CFILES		=	src/game.c #src/main.c 
 
 OFILES		= $(CFILES:.c=.o)
 

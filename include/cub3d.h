@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/08/30 17:39:58 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/03 20:06:49 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 
 # include "../libft/include/libft.h"
 # include <fcntl.h>
+# include "../MLX42/include/MLX42/MLX42.h"
 
-typedef struct s_point
+typedef struct s_coor
 {
 	int	x;
 	int	y;
-} t_point;
+} t_coor;
 
 typedef struct s_map
 {
-	int		width;
 	int 	height;
 	char	**layout;
 	char	orientation;
-	t_point	player;
+	t_coor	player;
 } t_map;
 
 typedef struct s_cub
@@ -41,6 +41,16 @@ typedef struct s_cub
 	int		ceiling[3];
 	int		elements_found;
 	t_map	map;
+	
 } t_cub;
+
+typedef struct s_minimap
+{
+	mlx_t			*mlx;
+	mlx_image_t		*arrow_png;
+	mlx_image_t		*background_png;
+	mlx_texture_t	*arrow_tex;
+	mlx_texture_t	*background_tex;
+}t_minimap;
 
 #endif
