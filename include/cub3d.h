@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/04 17:17:48 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:40:19 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ typedef struct s_coor
 
 typedef struct s_map
 {
-	int		width;
 	int 	height;
 	char	**layout;
 	char	orientation;
