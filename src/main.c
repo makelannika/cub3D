@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 19:48:24 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/04 17:47:21 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/04 18:30:55 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,8 @@ int	validate_index(t_cub *data, char **layout, int x, int y)
 		if (data->map.orientation)
 			return (err("multiple starting positions found in the map", NULL));
 		data->map.orientation = layout[y][x];
+		data->map.player.x = x;
+		data->map.player.y = y;
 		return (0);
 	}
 	if (!ft_strchr("01NSWE", layout[y][x - 1])
@@ -225,6 +227,19 @@ int	validate_map(t_cub *data)
 	return (0);
 }
 
+void get_map_width(t_cub *data)
+{
+	int i;
+
+	i = 0;
+	while (data->map.layout[i])
+	{
+		if ((int)ft_strlen(data->map.layout[i]) > data->map.width)
+			data->map.width = ft_strlen(data->map.layout[i]);
+		i++;
+	}
+}
+
 int	parse_map(t_cub *data, char *line, int fd, char *file)
 {
 	if (data->elements_found != 6)
@@ -233,6 +248,7 @@ int	parse_map(t_cub *data, char *line, int fd, char *file)
 		return (1);
 	if (copy_map(data, fd, file))
 		return (1);
+	get_map_width(data);
 	if (validate_map(data))
 		return (1);
 	return (0);
@@ -295,8 +311,10 @@ int	main(int argc, char **argv)
 	// ft_printf(1, "floor: %d,%d,%d\n", data.floor[0], data.floor[1], data.floor[2]);
 	// ft_printf(1, "ceiling: %d,%d,%d\n", data.ceiling[0], data.ceiling[1], data.ceiling[2]);
 	// ft_printf(1, "map height: %d\n", data.map.height);
+	// ft_printf(1, "map width: %d\n", data.map.width);
 	// for (int i = 0; i < data.map.height; i++)
 	// 	ft_printf(1, "%s\n", data.map.layout[i]);
+	// ft_printf(1, "player x: %d y: %d\n", data.map.player.x, data.map.player.y);
 	do_game(data);
 	free_data(&data);
 	return (0);

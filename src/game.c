@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/04 17:30:18 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/04 18:20:19 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int create_images(t_minimap *data)
 {
-	data->background_tex = mlx_load_png("assets/minimap_background.png");
+	data->background_tex = mlx_load_png("assets/black_bg.png");
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_resize_image(data->background_png, 250, 250);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
@@ -36,7 +36,7 @@ void draw_square(t_minimap *data, float y_coor, float x_coor)
 		j = 0;
 		while (j < data->index_width)
 		{
-			mlx_put_pixel(data->background_png, (int)(x_coor + j), (int)(y_coor + i), 0xFFFFFF);
+			mlx_put_pixel(data->background_png, (int)(x_coor + j), (int)(y_coor + i), 0x00FFFF);
 			j++;
 		}
 		i++;
@@ -60,18 +60,18 @@ int draw_wall(t_minimap *data)
 		}
 		i++;
 	}
+	printf("done\n");
 	return (0);
 }
 
 int draw_player(t_minimap *data)
 {
-	int x_index = 2;
-	int y_index = 1;
-	data->player_x = (data->index_width * x_index) + (data->index_width / 2);
-	data->player_y = (data->index_height * y_index) + (data->index_height / 2);
+	data->player_x = (data->index_width * 26) + (data->index_width / 2);
+	data->player_y = (data->index_height * 11) + (data->index_height / 2);
 	int i = 0;
 
 	i = 0;
+	mlx_put_pixel(data->background_png, (int)(data->player_x), (int)(data->player_y), 0xFFFFFF);
 	while (i < 10)
 	{
 		mlx_put_pixel(data->background_png, (int)(data->player_x - i), (int)(data->player_y + i), 0xFFFFFF);
@@ -88,24 +88,21 @@ int init_game(t_minimap *data)
 	draw_player(data);
 	draw_wall(data);
 	mlx_loop(data->mlx);
+	mlx_terminate(data->mlx);
 	return (0);
 }
 
-int main()
+void do_game(t_cub data2)
 {
 	t_minimap	data;
 	data = (t_minimap){0};
-	data.map = malloc(sizeof(char *)  * 4);
-	data.map[0] = ft_strdup("1111");
-	data.map[1] = ft_strdup("10E1");
-	data.map[2] = ft_strdup("1111");
-	data.map[3] = NULL;
-	data.index_height = 250/3;
-	data.index_width = 250/4;
-	data.map_width = 4;
-	data.map_height = 3;
+	data.map = data2.map.layout;
+	data.index_height = 250/ data2.map.height;
+	data.index_width = 250/  data2.map.width;
+	data.map_width = data2.map.width;
+	data.map_height = data2.map.height;
 
-	for(int i = 0; i < 3; i++)
+	for(int i = 0; data.map[i]; i++)
 		printf("%s\n", data.map[i]);
 	init_game(&data);
 }

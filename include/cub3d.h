@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/04 17:40:19 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/04 18:01:57 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_coor
 typedef struct s_map
 {
 	int 	height;
+	int		width;
 	char	**layout;
 	char	orientation;
 	t_coor	player;
@@ -60,5 +61,7 @@ typedef struct s_minimap
 	mlx_texture_t	*arrow_tex;
 	mlx_texture_t	*background_tex;
 }t_minimap;
+
+void	do_game(t_cub data);
 
 #endif

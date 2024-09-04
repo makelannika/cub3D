@@ -6,7 +6,7 @@
 #    By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/09/03 18:37:56 by linhnguy         ###   ########.fr        #
+#    Updated: 2024/09/04 17:42:18 by linhnguy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ CFLAGS		= -Wall -Wextra -Werror -g
 
 CC			= cc
 
-CFILES		=	src/game.c #src/main.c 
+CFILES		=	src/game.c src/main.c 
 
 OFILES		= $(CFILES:.c=.o)
 
