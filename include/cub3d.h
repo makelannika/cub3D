@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/03 20:06:49 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:17:48 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/include/libft.h"
 # include <fcntl.h>
 # include "../MLX42/include/MLX42/MLX42.h"
+# include <stdio.h> /*delete*/
 
 typedef struct s_coor
 {
@@ -25,6 +26,7 @@ typedef struct s_coor
 
 typedef struct s_map
 {
+	int		width;
 	int 	height;
 	char	**layout;
 	char	orientation;
@@ -46,6 +48,13 @@ typedef struct s_cub
 
 typedef struct s_minimap
 {
+	int				map_width;
+	int				map_height;
+	float			index_width;
+	float			index_height;
+	float			player_x;
+	float			player_y;
+	char			**map;
 	mlx_t			*mlx;
 	mlx_image_t		*arrow_png;
 	mlx_image_t		*background_png;
