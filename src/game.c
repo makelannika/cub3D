@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/05 13:49:39 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/05 13:54:17 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void draw_square(t_minimap *data, float y_coor, float x_coor)
 	int i;
 	int j;
 
-	i = 1;
+	i = 0;
 	while (i < INDEX_HEIGHT)
 	{
-		j = 1;
+		j = 0;
 		while (j < INDEX_WIDTH)
 		{
 			mlx_put_pixel(data->background_png, (int)(x_coor + j), (int)(y_coor + i), 0x00FFFF);
