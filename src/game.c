@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/05 17:42:07 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:47:23 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int draw_player(t_minimap *data)
 
 	i = 0;
 	mlx_put_pixel(data->background_png, (int)PLAYER_X, (int)PLAYER_Y, 0xFFFFFF);
-	while (i < 10)
+	while (i < 6)
 	{
 		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y + i), 0xFFFFFF);
 		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y - i), 0xFFFFFF);
@@ -96,10 +96,10 @@ void	my_keyhook(mlx_key_data_t keydata, void *game_data)
 	
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_RELEASE)
 		mlx_close_window(data->mlx);
-	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
-		move_up(data);
-	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
-		move_up(data);
+	// if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
+		// move_up(data);
+	// if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
+		// move_up(data);
 	// if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
 	// 	move_up(data);
 	// if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
