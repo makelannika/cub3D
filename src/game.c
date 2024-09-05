@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/05 16:54:32 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:10:31 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,10 @@ void	my_keyhook(mlx_key_data_t keydata, void *game_data)
 	
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_RELEASE)
 		mlx_close_window(data->mlx);
+	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
+		move_up(data);
+	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
+		move_up(data);
 	// if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
 	// 	move_up(data);
 	// if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
