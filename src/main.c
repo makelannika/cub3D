@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 19:48:24 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/05 12:35:51 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/05 16:07:45 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,10 @@ int	copy_map(t_cub *data, int fd, char *file)
 	while (line)
 	{
 		if (ft_strchr("1 ", *line)) {
-			data->map.layout[i++] = ft_substr(line, 0, ft_strlen(line) - 1);
+			if (line[ft_strlen(line) - 1] == '\n')
+				data->map.layout[i++] = ft_substr(line, 0, ft_strlen(line) - 1);
+			else
+				data->map.layout[i++] = ft_substr(line, 0, ft_strlen(line));
 			if (!data->map.layout[i - 1])
 				return (err("malloc failed", line));
 		}
@@ -304,18 +307,18 @@ int	main(int argc, char **argv)
 		return (err("program takes one .cub file as an argument", NULL));
 	if (parse_file(&data, argv[1]))
 		return (free_data(&data));
-	// ft_printf(1, "NO: %s\n", data.no);
-	// ft_printf(1, "SO: %s\n", data.so);
-	// ft_printf(1, "WE: %s\n", data.we);
-	// ft_printf(1, "EA: %s\n", data.ea);
-	// ft_printf(1, "floor: %d,%d,%d\n", data.floor[0], data.floor[1], data.floor[2]);
-	// ft_printf(1, "ceiling: %d,%d,%d\n", data.ceiling[0], data.ceiling[1], data.ceiling[2]);
-	// ft_printf(1, "map height: %d\n", data.map.height);
-	// ft_printf(1, "map width: %d\n", data.map.width);
-	// for (int i = 0; i < data.map.height; i++)
-	// 	ft_printf(1, "%s\n", data.map.layout[i]);
+	ft_printf(1, "NO: %s\n", data.no);
+	ft_printf(1, "SO: %s\n", data.so);
+	ft_printf(1, "WE: %s\n", data.we);
+	ft_printf(1, "EA: %s\n", data.ea);
+	ft_printf(1, "floor: %d,%d,%d\n", data.floor[0], data.floor[1], data.floor[2]);
+	ft_printf(1, "ceiling: %d,%d,%d\n", data.ceiling[0], data.ceiling[1], data.ceiling[2]);
+	ft_printf(1, "map height: %d\n", data.map.height);
+	ft_printf(1, "map width: %d\n", data.map.width);
+	for (int i = 0; i < data.map.height; i++)
+		ft_printf(1, "%s\n", data.map.layout[i]);
 	ft_printf(1, "player x: %d y: %d\n", data.map.player.x, data.map.player.y);
-	do_game(data);
+	// do_game(data);
 	free_data(&data);
 	return (0);
 }
