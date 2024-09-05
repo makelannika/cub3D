@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/05 14:21:10 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/05 16:54:32 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,31 @@ int draw_player(t_minimap *data)
 	}
 	return (0);
 }
+
+void	my_keyhook(mlx_key_data_t keydata, void *game_data)
+{
+	t_minimap	*data;
+	data = (t_minimap *)game_data;
+	
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_RELEASE)
+		mlx_close_window(data->mlx);
+	// if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
+	// 	move_up(data);
+	// if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
+	// 	move_left(data);
+	// if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
+	// 	move_right(data);
+	// if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
+	// 	move_down(data);
+}
+
 int init_game(t_minimap *data)
 {
 	data->mlx = mlx_init(1000, 900, "Cub3D", false);
 	create_images(data);
 	draw_player(data);
 	draw_wall(data);
+	mlx_key_hook(data->mlx, &my_keyhook, data);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 	return (0);
@@ -113,21 +132,3 @@ void do_game(t_cub data2)
 	init_game(&data);
 }
 
-// void	my_keyhook(mlx_key_data_t keydata, void *game_data)
-// {
-// 	t_data			*data;
-
-// 	data = (t_data *)game_data;
-// 	if (data->is_end == true)
-// 		return ;
-// 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_RELEASE)
-// 		mlx_close_window(data->mlx);
-// 	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
-// 		move_up(data);
-// 	if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
-// 		move_left(data);
-// 	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
-// 		move_right(data);
-// 	if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
-// 		move_down(data);
-// }
