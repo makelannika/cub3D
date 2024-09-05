@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/05 13:25:10 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:21:10 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void draw_square(t_minimap *data, float y_coor, float x_coor)
 	int i;
 	int j;
 
-	i = 0;
+	i = 1;
 	while (i < INDEX_HEIGHT)
 	{
-		j = 0;
+		j = 1;
 		while (j < INDEX_WIDTH)
 		{
 			mlx_put_pixel(data->background_png, (int)(x_coor + j), (int)(y_coor + i), 0x00FFFF);
@@ -48,24 +48,28 @@ int draw_wall(t_minimap *data)
 	int	i;
 	int j;
 	int k;
+	int a = 0;
 
-	i = data->player->y - 4;
-	j = data->player->x - 4;
-	if (i < 0)
-		i = 0;
-	if (j < 0)
-		j = 0;
+	i = data->player->y - 5;
+	j = data->player->x - 5;
 	k = j;
-	while (data->map[i])
+	while (a < 11)
 	{
+		if (i >= 0 && !data->map[i])
+			break;
+		int b = 0;
 		j = k;
-		while (data->map[i][j])
+		while (b < 11)
 		{
-			if (data->map[i][j] == '1')
-				draw_square(data, i * INDEX_HEIGHT, j * INDEX_WIDTH);
+			if ((i >= 0 && j >= 0) && !data->map[i][j])
+				break;
+			if ((i >= 0 && j >= 0) && data->map[i][j] == '1')
+				draw_square(data, a * INDEX_HEIGHT, b * INDEX_WIDTH);
 			j++;
+			b++;
 		}
 		i++;
+		a++;
 	}
 	return (0);
 }
