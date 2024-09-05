@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/05 13:04:11 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/05 16:35:32 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,18 @@ typedef struct s_minimap
 }t_minimap;
 
 void	do_game(t_cub data);
+
+// PARSING
+int		check_extension(char *arg);
+int		parse_file(t_cub *data, char *file);
+int		parse_map(t_cub *data, char *line, int fd, char *file);
+int		get_map_height(t_cub *data, char *line, int fd);
+void	get_map_width(t_cub *data);
+int		count_commas(char *str);
+
+// CLEANING UTILS
+int		err(char *str, void *ptr);
+int		free_str_array(char **array);
+int		free_data(t_cub *data);
 
 #endif
