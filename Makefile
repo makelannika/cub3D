@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+         #
+#    By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/09/04 17:42:18 by linhnguy         ###   ########.fr        #
+#    Updated: 2024/09/05 16:39:40 by amakela          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ CFLAGS		= -Wall -Wextra -Werror -g
 
 CC			= cc
 
-CFILES		=	src/game.c src/main.c 
+CFILES		=	src/game.c				src/main.c				src/parse_elements.c	\
+				src/parse_map.c			src/utils_cleaning.c	src/utils_parsing.c		\
 
 OFILES		= $(CFILES:.c=.o)
 
