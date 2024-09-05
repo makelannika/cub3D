@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 19:48:24 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/04 18:30:55 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:35:51 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,7 +314,7 @@ int	main(int argc, char **argv)
 	// ft_printf(1, "map width: %d\n", data.map.width);
 	// for (int i = 0; i < data.map.height; i++)
 	// 	ft_printf(1, "%s\n", data.map.layout[i]);
-	// ft_printf(1, "player x: %d y: %d\n", data.map.player.x, data.map.player.y);
+	ft_printf(1, "player x: %d y: %d\n", data.map.player.x, data.map.player.y);
 	do_game(data);
 	free_data(&data);
 	return (0);
