@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/05 13:27:12 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/05 13:49:39 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int draw_wall(t_minimap *data)
 		while (data->map[i][j])
 		{
 			if (data->map[i][j] == '1')
-				draw_square(data, i - * INDEX_HEIGHT, j * INDEX_WIDTH);
+				draw_square(data, i * INDEX_HEIGHT, j * INDEX_WIDTH);
 			j++;
 		}
 		i++;
