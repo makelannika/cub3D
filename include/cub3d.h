@@ -17,7 +17,7 @@
 # include <fcntl.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 # include <stdio.h> /*delete*/
-# include "math.h"
+# include <math.h>
 
 # define PLAYER_X 137
 # define PLAYER_Y 137
