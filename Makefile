@@ -18,9 +18,10 @@ LIBFT		= $(LIBFTDIR)/libft.a
 MLXDIR		= MLX42
 MLX42		= $(MLXDIR)/build/libmlx42.a
 
-HEADERS 	= -I /include -I $(MLX42)/include
+# HEADERS 	= -I /include -I $(MLX42)/include
+HEADERS 	= -I $(MLXDIR)/include -I $(LIBFTDIR)
 
-LIBS		= $(LIBFT) $(MLX42) -lglfw -L"~/.brew/Cellar/glfw/3.4/lib/"
+LIBS		= $(LIBFT) $(MLX42) -lglfw -lm -L"~/.brew/Cellar/glfw/3.4/lib/" #-lm is for math.h
 
 CFLAGS		= -Wall -Wextra -Werror -g
 

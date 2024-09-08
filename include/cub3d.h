@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/05 18:20:51 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/08 16:45:51 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <fcntl.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 # include <stdio.h> /*delete*/
+# include <math.h>
 
 # define PLAYER_X 137
 # define PLAYER_Y 137

@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/05 18:31:31 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/08 16:45:24 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,27 +75,98 @@ int draw_wall(t_minimap *data, int start_x, int star)
 	return (0);
 }
 
-int draw_player(t_minimap *data)
-{
-	int i = 0;
+// int draw_player(t_minimap *data)
+// {
+// 	int i = 0;
 
-	i = 0;
-	mlx_put_pixel(data->background_png, (int)PLAYER_X, (int)PLAYER_Y, 0xFFFFFF);
-	while (i < 10)
-	{
-		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y + i), 0xFFFFFF);
-		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y - i), 0xFFFFFF);
-		i++;
-	}
-	return (0);
+// 	i = 0;
+// 	mlx_put_pixel(data->background_png, (int)PLAYER_X, (int)PLAYER_Y, 0xFFFFFF);
+// 	while (i < 6)
+// 	{
+// 		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y + i), 0xFFFFFF);
+// 		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y - i), 0xFFFFFF);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+void rotate_point(int *x, int *y, double angle)
+{
+    double radians = angle * M_PI / 180.0;  // Convert degrees to radians
+    int cx = PLAYER_X;
+    int cy = PLAYER_Y;
+    
+    int new_x = (int)((*x - cx) * cos(radians) - (*y - cy) * sin(radians) + cx);
+    int new_y = (int)((*x - cx) * sin(radians) + (*y - cy) * cos(radians) + cy);
+    
+    *x = new_x;
+    *y = new_y;
+}
+
+int draw_player(t_minimap *data, double angle)
+{
+    int i;
+    int x, y;
+
+    mlx_put_pixel(data->background_png, PLAYER_X, PLAYER_Y, 0xFFFFFF);
+    for (i = 0; i < 6; i++)
+    {
+        x = PLAYER_X - i;
+        y = PLAYER_Y + i;
+        rotate_point(&x, &y, angle);
+        mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
+        x = PLAYER_X - i;
+        y = PLAYER_Y - i;
+        rotate_point(&x, &y, angle);
+        mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
+    }
+    return (0);
+}
+
+void	rotate_right(t_minimap *data)
+{
+	double	degree;
+
+	degree = 15;
+	draw_player(data, degree);
+}
+
+void	rotate_left(t_minimap *data)
+{
+	double	degree;
+
+	degree = -15;
+	draw_player(data, degree);
+}
+
+void	my_keyhook(mlx_key_data_t keydata, void *game_data)
+{
+	t_minimap	*data;
+	data = (t_minimap *)game_data;
+	
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_RELEASE)
+		mlx_close_window(data->mlx);
+	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
+		rotate_right(data);
+	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
+		rotate_left(data);
+	// if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
+	// 	move_up(data);
+	// if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
+	// 	move_left(data);
+	// if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
+	// 	move_right(data);
+	// if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
+	// 	move_down(data);
 }
 
 int init_game(t_minimap *data)
 {
 	data->mlx = mlx_init(1000, 900, "Cub3D", false);
 	create_images(data);
-	draw_player(data);
+	draw_player(data, 100);
 	draw_wall(data);
+	mlx_key_hook(data->mlx, &my_keyhook, data);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 	return (0);
@@ -115,21 +186,3 @@ void do_game(t_cub data2)
 	init_game(&data);
 }
 
-// void	my_keyhook(mlx_key_data_t keydata, void *game_data)
-// {
-// 	t_data			*data;
-
-// 	data = (t_data *)game_data;
-// 	if (data->is_end == true)
-// 		return ;
-// 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_RELEASE)
-// 		mlx_close_window(data->mlx);
-// 	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
-// 		move_up(data);
-// 	if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
-// 		move_left(data);
-// 	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
-// 		move_right(data);
-// 	if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
-// 		move_down(data);
-// }
