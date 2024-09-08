@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/05 16:44:50 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/05 18:31:31 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,33 +43,34 @@ void draw_square(t_minimap *data, float y_coor, float x_coor)
 	}
 }
 
-int draw_wall(t_minimap *data)
+int draw_wall(t_minimap *data, int start_x, int star)
 {
-	int	i;
-	int j;
-	int k;
-	int a = 0;
+	int	map_y;
+	int map_x;
+	int minimap_y = 0;
+	int	minimap_x = 0;
+	int x_start;
 
-	i = data->player->y - 5;
-	j = data->player->x - 5;
-	k = j;
-	while (a < 11)
+	map_y = data->player->y - 5;
+	map_x = data->player->x - 5;
+	x_start = map_x;
+	while (minimap_y < MINIMAP_HEIGHT)
 	{
-		if (i >= 0 && !data->map[i])
+		if (map_y >= 0 && !data->map[map_y])
 			break;
-		int b = 0;
-		j = k;
-		while (b < 11)
+		minimap_x = 0;
+		map_x = x_start;
+		while (minimap_x < MINIMAP_WIDTH)
 		{
-			if ((i >= 0 && j >= 0) && !data->map[i][j])
+			if ((map_y >= 0 && map_x >= 0) && !data->map[map_y][map_x])
 				break;
-			if ((i >= 0 && j >= 0) && data->map[i][j] == '1')
-				draw_square(data, a * INDEX_HEIGHT, b * INDEX_WIDTH);
-			j++;
-			b++;
+			if ((map_y >= 0 && map_x >= 0) && data->map[map_y][map_x] == '1')
+				draw_square(data, minimap_y * INDEX_HEIGHT, minimap_x * INDEX_WIDTH);
+			map_x++;
+			minimap_x++;
 		}
-		i++;
-		a++;
+		map_y++;
+		minimap_y++;
 	}
 	return (0);
 }
@@ -88,6 +89,7 @@ int draw_player(t_minimap *data)
 	}
 	return (0);
 }
+
 int init_game(t_minimap *data)
 {
 	data->mlx = mlx_init(1000, 900, "Cub3D", false);

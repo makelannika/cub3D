@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/05 16:35:32 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/05 18:20:51 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define PLAYER_Y 137
 # define INDEX_WIDTH 25
 # define INDEX_HEIGHT 25
+# define MINIMAP_HEIGHT 11
+# define MINIMAP_WIDTH 11
 
 typedef struct s_coor
 {
