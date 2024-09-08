@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/05 16:05:24 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/05 16:44:50 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,28 @@ int draw_wall(t_minimap *data)
 	int	i;
 	int j;
 	int k;
+	int a = 0;
 
-	i = data->player->y - 4;
-	j = data->player->x - 4;
-	if (i < 0)
-		i = 0;
-	if (j < 0)
-		j = 0;
+	i = data->player->y - 5;
+	j = data->player->x - 5;
 	k = j;
-	while (data->map[i])
+	while (a < 11)
 	{
+		if (i >= 0 && !data->map[i])
+			break;
+		int b = 0;
 		j = k;
-		while (data->map[i][j])
+		while (b < 11)
 		{
-			if (data->map[i][j] == '1')
-				draw_square(data, i * INDEX_HEIGHT, j * INDEX_WIDTH);
+			if ((i >= 0 && j >= 0) && !data->map[i][j])
+				break;
+			if ((i >= 0 && j >= 0) && data->map[i][j] == '1')
+				draw_square(data, a * INDEX_HEIGHT, b * INDEX_WIDTH);
 			j++;
+			b++;
 		}
 		i++;
+		a++;
 	}
 	return (0);
 }
