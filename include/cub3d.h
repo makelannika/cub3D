@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/05 18:08:58 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/08 19:17:20 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ typedef struct s_minimap
 	mlx_texture_t	*background_tex;
 	t_coor			*player;
 }t_minimap;
+
+
 
 void	do_game(t_cub data);
 

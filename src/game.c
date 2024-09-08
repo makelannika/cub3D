@@ -6,11 +6,15 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/05 17:47:23 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/08 19:17:28 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+#include <math.h>
+#ifndef M_PI
+# define M_PI 3.14
+#endif
 
 int create_images(t_minimap *data)
 {
@@ -74,24 +78,9 @@ int draw_wall(t_minimap *data)
 	return (0);
 }
 
-// int draw_player(t_minimap *data)
-// {
-// 	int i = 0;
-
-// 	i = 0;
-// 	mlx_put_pixel(data->background_png, (int)PLAYER_X, (int)PLAYER_Y, 0xFFFFFF);
-// 	while (i < 6)
-// 	{
-// 		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y + i), 0xFFFFFF);
-// 		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y - i), 0xFFFFFF);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
 void rotate_point(int *x, int *y, double angle)
 {
-    double radians = angle * M_PI / 180.0;  // Convert degrees to radians
+    double radians = angle * M_PI / 180.0;
     int cx = PLAYER_X;
     int cy = PLAYER_Y;
     
@@ -102,23 +91,12 @@ void rotate_point(int *x, int *y, double angle)
     *y = new_y;
 }
 
-int draw_player(t_minimap *data, double angle)
+int draw_player(t_minimap *data)
 {
     int i;
-    int x, y;
-
+	
+	i = 0;
     mlx_put_pixel(data->background_png, PLAYER_X, PLAYER_Y, 0xFFFFFF);
-    for (i = 0; i < 6; i++)
-    {
-        x = PLAYER_X - i;
-        y = PLAYER_Y + i;
-        rotate_point(&x, &y, angle);
-        mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
-        x = PLAYER_X - i;
-        y = PLAYER_Y - i;
-        rotate_point(&x, &y, angle);
-        mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
-    }
     return (0);
 }
 
@@ -127,7 +105,7 @@ void	rotate_right(t_minimap *data)
 	double	degree;
 
 	degree = 15;
-	draw_player(data, degree);
+	rotate_player(data, degree);
 }
 
 void	rotate_left(t_minimap *data)
@@ -135,7 +113,7 @@ void	rotate_left(t_minimap *data)
 	double	degree;
 
 	degree = -15;
-	draw_player(data, degree);
+	rotate_player(data, degree);
 }
 
 void	my_keyhook(mlx_key_data_t keydata, void *game_data)
@@ -163,7 +141,7 @@ int init_game(t_minimap *data)
 {
 	data->mlx = mlx_init(1000, 900, "Cub3D", false);
 	create_images(data);
-	draw_player(data, 100);
+	draw_player(data);
 	draw_wall(data);
 	mlx_key_hook(data->mlx, &my_keyhook, data);
 	mlx_loop(data->mlx);
