@@ -56,6 +56,7 @@ typedef struct s_minimap
 {
 	int				map_width;
 	int				map_height;
+	double			p_angle;
 	char			**map;
 	mlx_t			*mlx;
 	mlx_image_t		*arrow_png;

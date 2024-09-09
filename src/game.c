@@ -16,7 +16,6 @@ int create_images(t_minimap *data)
 {
 	data->background_tex = mlx_load_png("assets/black_bg.png");
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
-	mlx_resize_image(data->background_png, 275, 275);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
 	// data->arrow_tex = mlx_load_png("assets/player_icon.png");
 	// data->arrow_png = mlx_texture_to_image(data->mlx, data->arrow_tex);
@@ -36,7 +35,7 @@ void draw_square(t_minimap *data, float y_coor, float x_coor)
 		j = 1;
 		while (j < INDEX_WIDTH)
 		{
-			mlx_put_pixel(data->background_png, (int)(x_coor + j), (int)(y_coor + i), 0x00FFFF);
+			mlx_put_pixel(data->background_png, (int)(x_coor + j), (int)(y_coor + i), 0x0000FFFF);
 			j++;
 		}
 		i++;
@@ -74,25 +73,10 @@ int draw_wall(t_minimap *data)
 	return (0);
 }
 
-// int draw_player(t_minimap *data)
-// {
-// 	int i = 0;
-
-// 	i = 0;
-// 	mlx_put_pixel(data->background_png, (int)PLAYER_X, (int)PLAYER_Y, 0xFFFFFF);
-// 	while (i < 6)
-// 	{
-// 		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y + i), 0xFFFFFF);
-// 		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y - i), 0xFFFFFF);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
 void rotate_point(int *x, int *y, double angle)
 {
-    double radians = angle * M_PI / 180.0;  // Convert degrees to radians
-    int cx = PLAYER_X;
+    double radians = angle * M_PI / 180.0;
+    int cx = PLAYER_X;  // Center of rotation (the player's position)
     int cy = PLAYER_Y;
     
     int new_x = (int)((*x - cx) * cos(radians) - (*y - cy) * sin(radians) + cx);
@@ -102,40 +86,41 @@ void rotate_point(int *x, int *y, double angle)
     *y = new_y;
 }
 
-int draw_player(t_minimap *data, double angle)
+int draw_player(t_minimap *data)
 {
-    int i;
-    int x, y;
-
-    mlx_put_pixel(data->background_png, PLAYER_X, PLAYER_Y, 0xFFFFFF);
-    for (i = 0; i < 6; i++)
-    {
-        x = PLAYER_X - i;
-        y = PLAYER_Y + i;
-        rotate_point(&x, &y, angle);
-        mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
-        x = PLAYER_X - i;
-        y = PLAYER_Y - i;
-        rotate_point(&x, &y, angle);
-        mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
-    }
+    // int i;
+    // int x, y;
+    mlx_put_pixel(data->background_png, PLAYER_X, PLAYER_Y, 0xFF0000FF);
+	// for (i = 0; i < 6; i++)
+    // {
+    //     x = PLAYER_X - i;
+    //     y = PLAYER_Y + i;
+    //     rotate_point(&x, &y, angle);
+    //     mlx_put_pixel(data->background_png, x, y, 0xFF0000FF);
+    //     x = PLAYER_X - i;
+    //     y = PLAYER_Y - i;
+    //     rotate_point(&x, &y, angle);
+    //     mlx_put_pixel(data->background_png, x, y, 0xFF0000FF);
+    // }
     return (0);
 }
 
 void	rotate_right(t_minimap *data)
 {
-	double	degree;
-
-	degree = 15;
-	draw_player(data, degree);
+	mlx_delete_image(data->mlx, data->background_png);
+	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
+	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
+	draw_wall(data);
+	draw_player(data);
 }
 
 void	rotate_left(t_minimap *data)
 {
-	double	degree;
-
-	degree = -15;
-	draw_player(data, degree);
+	mlx_delete_image(data->mlx, data->background_png);
+	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
+	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
+	draw_wall(data);
+	draw_player(data);
 }
 
 void	my_keyhook(mlx_key_data_t keydata, void *game_data)
@@ -163,7 +148,7 @@ int init_game(t_minimap *data)
 {
 	data->mlx = mlx_init(1000, 900, "Cub3D", false);
 	create_images(data);
-	draw_player(data, 100);
+	draw_player(data);
 	draw_wall(data);
 	mlx_key_hook(data->mlx, &my_keyhook, data);
 	mlx_loop(data->mlx);
@@ -179,6 +164,14 @@ void do_game(t_cub data2)
 	data.map_width = data2.map.width;
 	data.map_height = data2.map.height;
 	data.player = &data2.map.player;
+	if (ft_strncmp(data2.map.orientation, 'E', 1))
+		data.p_angle = 0.0;
+	else if (ft_strncmp(data2.map.orientation, 'N', 1))
+		data.p_angle = 90.0;
+	else if (ft_strncmp(data2.map.orientation, 'W', 1))
+		data.p_angle = 180.0;
+	else if (ft_strncmp(data2.map.orientation, 'S', 1))
+		data.p_angle = 270.0;
 
 	for(int i = 0; data.map[i]; i++)
 		printf("%s\n", data.map[i]);
