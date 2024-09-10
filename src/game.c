@@ -115,8 +115,7 @@ int draw_wall(t_minimap *data)
 		{
 			if ((i >= 0 && j >= 0) && !data->map[i][j])
 				break;
-			if ((i >= 0 && j >= 0) && data->map[i][j] == '1')
-			// if ((b == 0 && i >= 0 && j >= 0) && data->map[i][j] == '1')
+			if ((i >= 0 && j >= 0) && data->map[i][j] == '1') 
 				draw_square(data, a * INDEX_HEIGHT, b * INDEX_WIDTH);
 			j++;
 			b++;
