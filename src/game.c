@@ -6,15 +6,12 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/10 09:58:31 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/10 10:04:15 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 #include <math.h>
-#ifndef M_PI
-# define M_PI 3.14
-#endif
 
 int create_images(t_minimap *data)
 {
@@ -80,9 +77,8 @@ int draw_wall(t_minimap *data)
 void rotate_point(int *x, int *y, double angle)
 {
     double radians = angle * M_PI / 180.0;
+
     int cx = PLAYER_X;
-    double radians = angle * M_PI / 180.0;
-    int cx = PLAYER_X;  // Center of rotation (the player's position)
     int cy = PLAYER_Y;
     
     int new_x = (int)((*x - cx) * cos(radians) - (*y - cy) * sin(radians) + cx);
@@ -100,15 +96,7 @@ int draw_player(t_minimap *data)
     mlx_put_pixel(data->background_png, PLAYER_X, PLAYER_Y, 0xFFFFFF);
     // int i;
     // int x, y;
-    mlx_put_pixel(data->background_png, PLAYER_X, PLAYER_Y, 0xFF0000FF);
-	// for (i = 0; i < 6; i++)
-    // {
-    //     x = PLAYER_X - i;
-    //     y = PLAYER_Y + i;
-    //     rotate_point(&x, &y, angle);
-    //     mlx_put_pixel(data->background_png, x, y, 0xFF0000FF);
-    //     x = PLAYER_X - i;
-    //     y = PLAYER_Y - i;
+    mlx_put_pixel(data->background_png, PLAYER_X, PLAYER_Y, 0xFF0000FF); // Center of rotation (the player's position)
     //     rotate_point(&x, &y, angle);
     //     mlx_put_pixel(data->background_png, x, y, 0xFF0000FF);
     // }
@@ -183,13 +171,13 @@ void do_game(t_cub data2)
 	data.map_width = data2.map.width;
 	data.map_height = data2.map.height;
 	data.player = &data2.map.player;
-	if (ft_strncmp(data2.map.orientation, 'E', 1))
+	if (data2.map.orientation == 'E')
 		data.p_angle = 0.0;
-	else if (ft_strncmp(data2.map.orientation, 'N', 1))
+	else if (data2.map.orientation == 'N')
 		data.p_angle = 90.0;
-	else if (ft_strncmp(data2.map.orientation, 'W', 1))
+	else if (data2.map.orientation == 'W')
 		data.p_angle = 180.0;
-	else if (ft_strncmp(data2.map.orientation, 'S', 1))
+	else if (data2.map.orientation == 'S')
 		data.p_angle = 270.0;
 
 	for(int i = 0; data.map[i]; i++)
