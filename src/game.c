@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/10 10:14:27 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:01:19 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,71 @@ int create_images(t_minimap *data)
 	// mlx_image_to_window(data->mlx, data->arrow_png, 625, 450);
 	return (0);
 }
+// void draw_square(t_minimap *data, float y_coor, float x_coor)
+// {
+// 	int i;
+// 	int j;
+
+// 	i = 1;
+// 	while (i < INDEX_HEIGHT)
+// 	{
+// 		j = 1;
+// 		while (j < INDEX_WIDTH)
+// 		{
+// 			mlx_put_pixel(data->background_png, (int)(x_coor + j), (int)(y_coor + i), 0x0000FFFF);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
+
+// void draw_square(t_minimap *data, float y_coor, float x_coor)
+// {
+// 	int i;
+// 	int j;
+	
+// 	i = 1;
+	
+// 	int offset = 0;
+	
+// 	if (x_coor < INDEX_WIDTH)	
+// 		offset = data->offsetx;
+// 	else
+// 		offset = data->offsetx;
+// 	if (x_coor < INDEX_WIDTH)
+// 		data->offsetx = 10;
+// 	else
+// 		data->offsetx = 0;
+		
+// 	while (i < INDEX_HEIGHT)
+// 	{
+// 		j = 1;
+// 		while (j < INDEX_WIDTH - data->offsetx)
+// 		{
+// 			mlx_put_pixel(data->background_png, (int)(x_coor + j - offset), (int)(y_coor + i), 0x0000FFFF);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
 
 void draw_square(t_minimap *data, float y_coor, float x_coor)
 {
 	int i;
 	int j;
-
+	
 	i = 1;
+	
+	int offset = 0;
+	
+	if (data->offsetx && x_coor < INDEX_WIDTH)	
+		offset = data->offsetx;
 	while (i < INDEX_HEIGHT)
 	{
 		j = 1;
-		while (j < INDEX_WIDTH)
+		while (j < INDEX_WIDTH - offset)
 		{
-			mlx_put_pixel(data->background_png, (int)(x_coor + j), (int)(y_coor + i), 0x0000FFFF);
+			mlx_put_pixel(data->background_png, (int)(x_coor + j - data->offsetx), (int)(y_coor + i), 0x0000FFFF);
 			j++;
 		}
 		i++;
@@ -121,6 +173,15 @@ void	rotate_left(t_minimap *data)
 	draw_player(data);
 }
 
+void move_left(t_minimap *data)
+{
+	mlx_delete_image(data->mlx, data->background_png);
+	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
+	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
+	data->offsetx = data->offsetx + 2;
+	draw_wall(data);
+	draw_player(data);
+}
 
 void	my_keyhook(mlx_key_data_t keydata, void *game_data)
 {
@@ -135,8 +196,8 @@ void	my_keyhook(mlx_key_data_t keydata, void *game_data)
 		rotate_left(data);
 	// if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
 	// 	move_up(data);
-	// if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
-	// 	move_left(data);
+	if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
+		move_left(data);
 	// if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
 	// 	move_right(data);
 	// if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
@@ -172,6 +233,9 @@ void do_game(t_cub data2)
 		data.p_angle = 180.0;
 	else if (data2.map.orientation == 'S')
 		data.p_angle = 270.0;
+	data.offsetx = 0;
+	data.offsetx = 0;
+		
 	printf("angle is %f\n", data.p_angle);
 	for(int i = 0; data.map[i]; i++)
 		printf("%s\n", data.map[i]);
