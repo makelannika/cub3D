@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/10 10:04:15 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/10 10:14:27 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,6 @@ int draw_player(t_minimap *data)
 
 void	rotate_right(t_minimap *data)
 {
-	double	degree;
-
-	degree = 15;
-	rotate_player(data, degree);
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
@@ -118,16 +114,13 @@ void	rotate_right(t_minimap *data)
 
 void	rotate_left(t_minimap *data)
 {
-	double	degree;
-
-	degree = -15;
-	rotate_player(data, degree);
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
 	draw_wall(data);
 	draw_player(data);
 }
+
 
 void	my_keyhook(mlx_key_data_t keydata, void *game_data)
 {
@@ -179,7 +172,7 @@ void do_game(t_cub data2)
 		data.p_angle = 180.0;
 	else if (data2.map.orientation == 'S')
 		data.p_angle = 270.0;
-
+	printf("angle is %f\n", data.p_angle);
 	for(int i = 0; data.map[i]; i++)
 		printf("%s\n", data.map[i]);
 	init_game(&data);
