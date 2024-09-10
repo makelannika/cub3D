@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/10 09:58:17 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/10 09:58:31 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void rotate_point(int *x, int *y, double angle)
     *y = new_y;
 }
 
-int draw_player(t_minimap *data)
 int draw_player(t_minimap *data)
 {
     int i;

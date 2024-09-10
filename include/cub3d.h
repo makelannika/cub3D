@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/08 19:17:20 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/10 09:57:43 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,3 @@ int		count_commas(char *str);
 
 // CLEANING UTILS
 int		err(char *str, void *ptr);
-int		free_str_array(char **array);
-int		free_data(t_cub *data);
-
-#endif
