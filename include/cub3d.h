@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/08 16:45:51 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/10 18:06:34 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ typedef struct s_minimap
 {
 	int				map_width;
 	int				map_height;
+	int				offsetx;
+	int				offsety;
+	double			p_angle;
 	char			**map;
 	mlx_t			*mlx;
 	mlx_image_t		*arrow_png;
@@ -66,6 +69,8 @@ typedef struct s_minimap
 	mlx_texture_t	*background_tex;
 	t_coor			*player;
 }t_minimap;
+
+
 
 void	do_game(t_cub data);
 

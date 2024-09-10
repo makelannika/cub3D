@@ -15,6 +15,7 @@
 
 int	validate_index(t_cub *data, char **layout, int x, int y)
 {
+	// ft_printf(1, "%s\n", layout[y]);
 	if (x == 0 || y == 0 || y == data->map.height - 1
 		|| x == (int)ft_strlen(layout[y]) - 1)
 		return (err("map must be surrounded by walls", NULL));
@@ -76,14 +77,12 @@ int	copy_map(t_cub *data, int fd, char *file)
 	line = get_next_line(fd); // malloc/open check
 	while (line)
 	{
-		if (ft_strchr("1 ", *line)) {
-			if (line[ft_strlen(line) - 1] == '\n')
-				data->map.layout[i++] = ft_substr(line, 0, ft_strlen(line) - 1);
-			else
-				data->map.layout[i++] = ft_substr(line, 0, ft_strlen(line));
-			if (!data->map.layout[i - 1])
-				return (err("malloc failed", line));
-		}
+		if (line[ft_strlen(line) - 1] == '\n')
+			data->map.layout[i++] = ft_substr(line, 0, ft_strlen(line) - 1);
+		else
+			data->map.layout[i++] = ft_substr(line, 0, ft_strlen(line));
+		if (!data->map.layout[i - 1])
+			return (err("malloc failed", line));
 		free(line);
 		line = get_next_line(fd); // malloc/open check
 	}

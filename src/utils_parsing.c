@@ -12,6 +12,20 @@
 
 #include "../include/cub3d.h"
 
+int	validate_line(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_strchr(" 10NSWE\n", str[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void get_map_width(t_cub *data)
 {
 	int i;
@@ -30,6 +44,11 @@ int	get_map_height(t_cub *data, char *line, int fd)
 	while (line && ft_strchr("1 ", *line))
 	{
 		data->map.height++;
+		if (validate_line(line))
+		{
+			close(fd);
+			return (err("invalid map", line));
+		}
 		free(line);
 		line = get_next_line(fd); // malloc/open check
 	}
