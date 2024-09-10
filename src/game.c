@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/10 14:01:19 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:29:34 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,16 @@ void draw_square(t_minimap *data, float y_coor, float x_coor)
 	
 	i = 1;
 	
-	int offset = 0;
-	
-	if (data->offsetx && x_coor < INDEX_WIDTH)	
-		offset = data->offsetx;
 	while (i < INDEX_HEIGHT)
 	{
 		j = 1;
-		while (j < INDEX_WIDTH - offset)
+		while (j < INDEX_WIDTH)
 		{
-			mlx_put_pixel(data->background_png, (int)(x_coor + j - data->offsetx), (int)(y_coor + i), 0x0000FFFF);
+			int	xx = (int)(x_coor + j - data->offsetx + 13);
+			if (xx < 0)
+				xx = 0;
+			if ( xx > 0 && xx < 275 && (int)(y_coor + i) > 0 && (int)(y_coor + i) < 275)
+				mlx_put_pixel(data->background_png, xx, (int)(y_coor + i), 0x0000FFFF);
 			j++;
 		}
 		i++;
@@ -105,17 +105,18 @@ int draw_wall(t_minimap *data)
 	i = data->player->y - 5;
 	j = data->player->x - 5;
 	k = j;
-	while (a < 11)
+	while (a < 12)
 	{
 		if (i >= 0 && !data->map[i])
 			break;
 		int b = 0;
 		j = k;
-		while (b < 11)
+		while (b < 12)
 		{
 			if ((i >= 0 && j >= 0) && !data->map[i][j])
 				break;
 			if ((i >= 0 && j >= 0) && data->map[i][j] == '1')
+			// if ((b == 0 && i >= 0 && j >= 0) && data->map[i][j] == '1')
 				draw_square(data, a * INDEX_HEIGHT, b * INDEX_WIDTH);
 			j++;
 			b++;
@@ -142,17 +143,17 @@ void rotate_point(int *x, int *y, double angle)
 
 int draw_player(t_minimap *data)
 {
-    int i;
-	
+	int i = 0;
+
 	i = 0;
-    mlx_put_pixel(data->background_png, PLAYER_X, PLAYER_Y, 0xFFFFFF);
-    // int i;
-    // int x, y;
-    mlx_put_pixel(data->background_png, PLAYER_X, PLAYER_Y, 0xFF0000FF); // Center of rotation (the player's position)
-    //     rotate_point(&x, &y, angle);
-    //     mlx_put_pixel(data->background_png, x, y, 0xFF0000FF);
-    // }
-    return (0);
+	mlx_put_pixel(data->background_png, (int)PLAYER_X, (int)PLAYER_Y, 0xFFFFFF);
+	while (i < 6)
+	{
+		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y + i), 0xFFFFFF);
+		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y - i), 0xFFFFFF);
+		i++;
+	}
+	return (0);
 }
 
 void	rotate_right(t_minimap *data)
@@ -178,10 +179,47 @@ void move_left(t_minimap *data)
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	data->offsetx = data->offsetx + 2;
+	// data->player->x
+	data->offsetx = data->offsetx - 3;
+	if (data->offsetx < 0)
+	{
+		data->player->x = data->player->x - 1;
+		data->offsetx = 25 + data->offsetx;
+	}
 	draw_wall(data);
 	draw_player(data);
 }
+
+void move_right(t_minimap *data)
+{
+	mlx_delete_image(data->mlx, data->background_png);
+	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
+	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
+	// data->offsetx = data->offsetx + 12;
+	draw_wall(data);
+	draw_player(data);
+}
+
+void move_down(t_minimap *data)
+{
+	mlx_delete_image(data->mlx, data->background_png);
+	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
+	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
+	// data->offsety = data->offsety + 3;
+	draw_wall(data);
+	draw_player(data);
+}
+
+void move_up(t_minimap *data)
+{
+	mlx_delete_image(data->mlx, data->background_png);
+	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
+	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
+	// data->offsety = data->offsety - 3;
+	draw_wall(data);
+	draw_player(data);
+}
+
 
 void	my_keyhook(mlx_key_data_t keydata, void *game_data)
 {
@@ -194,14 +232,14 @@ void	my_keyhook(mlx_key_data_t keydata, void *game_data)
 		rotate_right(data);
 	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
 		rotate_left(data);
-	// if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
-	// 	move_up(data);
+	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
+		move_up(data);
 	if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
 		move_left(data);
-	// if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
-	// 	move_right(data);
-	// if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
-	// 	move_down(data);
+	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
+		move_right(data);
+	if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
+		move_down(data);
 }
 
 int init_game(t_minimap *data)
@@ -233,8 +271,8 @@ void do_game(t_cub data2)
 		data.p_angle = 180.0;
 	else if (data2.map.orientation == 'S')
 		data.p_angle = 270.0;
-	data.offsetx = 0;
-	data.offsetx = 0;
+	data.offsetx = 13;
+	data.offsety = 13;
 		
 	printf("angle is %f\n", data.p_angle);
 	for(int i = 0; data.map[i]; i++)
