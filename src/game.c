@@ -30,74 +30,59 @@ void draw_square(t_minimap *data, float y_coor, float x_coor)
 	int x;
 	int y;
 	int xx;
+	int yy =0;
+
 	
 	y = 1;
 	while (y < INDEX_HEIGHT)
 	{
+		if( yy < 0 || yy > 275){
+
+		printf("\n");
+		printf("yy is %i\n", yy);
+		}
+		yy = (int)(y_coor + y - data->offsety + 13);
 		x = 1;
 		while (x < INDEX_WIDTH)
 		{
 			xx = (int)(x_coor + x - data->offsetx + 13);
 			if (xx < 0)
 				xx = 0;
-			if (xx > 0 && xx < 275)
-				mlx_put_pixel(data->background_png, xx, (int)(y_coor + y), 0x0000FFFF);
+			if (xx > 0 && xx < 275 && yy > 0 && yy < 275)
+				mlx_put_pixel(data->background_png, xx, yy, 0x0000FFFF);
 			x++;
 		}
 		y++;
 	}
 }
 
-// void draw_square(t_minimap *data, float y_coor, float x_coor)
-// {
-// 	int x;
-// 	int y;
-// 	int xx;
-	
-// 	x = 1;
-// 	while (x < INDEX_HEIGHT)
-// 	{
-// 		y = 1;
-// 		while (y < INDEX_WIDTH)
-// 		{
-// 			xx = (int)(x_coor + y - data->offsetx + 13);
-// 			if (xx < 0)
-// 				xx = 0;
-// 			if ( xx > 0 && xx < 275)
-// 				mlx_put_pixel(data->background_png, xx, (int)(y_coor + x), 0x0000FFFF);
-// 			y++;
-// 		}
-// 		x++;
-// 	}
-// }
-
 int draw_wall(t_minimap *data)
 {
 	int	i;
 	int j;
 	int k;
-	int a = 0;
+	int y = 0;
 
 	i = data->player->y - 5;
 	j = data->player->x - 5;
 	k = j;
-	while (a < 12)
+	while (y < 12)
 	{
 		if (i >= 0 && !data->map[i])
 			break;
-		int b = 0;
+		int x = 0;
 		j = k;
-		while (b < 12)
+		while (x < 12)
 		{
 			if ((i >= 0 && j >= 0) && !data->map[i][j])
 				break;
 			if ((i >= 0 && j >= 0) && data->map[i][j] == '1') 
-				draw_square(data, a * INDEX_HEIGHT, b * INDEX_WIDTH);
+				draw_square(data, y * INDEX_HEIGHT, x * INDEX_WIDTH);
 			j++;
-			b++;
+			x++;
 		}
 		i++;
-		a++;
+		y++;
 	}
 	return (0);
 }
@@ -157,8 +142,8 @@ void move_left(t_minimap *data)
 	data->offsetx = data->offsetx - 3;
 	if (data->offsetx < 0)
 	{
-		data->player->x = data->player->x - 1;
-		data->offsetx = 25 + data->offsetx;
+		data->player->x -= 1;
+		data->offsetx += 25;
 	}
 	draw_wall(data);
 	draw_player(data);
@@ -172,8 +157,8 @@ void move_right(t_minimap *data)
 	data->offsetx = data->offsetx + 3;
 	if (data->offsetx > 25)
 	{
-		data->player->x = data->player->x + 1;
-		data->offsetx = data->offsetx - 25;
+		data->player->x += 1;
+		data->offsetx -= 25;
 	}
 	draw_wall(data);
 	draw_player(data);
@@ -186,7 +171,12 @@ void move_down(t_minimap *data)
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	// data->offsety = data->offsety + 3;
+	data->offsety = data->offsety + 3;
+	if (data->offsety > 25)
+	{
+		data->player->y += 1;
+		data->offsety -= 25;
+	}
 	draw_wall(data);
 	draw_player(data);
 }
@@ -196,11 +186,15 @@ void move_up(t_minimap *data)
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	// data->offsety = data->offsety - 3;
+	data->offsety = data->offsety - 3;
+	if (data->offsety < 25)
+	{
+		data->player->y -= 1;
+		data->offsety += 25;
+	}
 	draw_wall(data);
 	draw_player(data);
 }
-
 
 void	my_keyhook(mlx_key_data_t keydata, void *game_data)
 {
