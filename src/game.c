@@ -24,76 +24,52 @@ int create_images(t_minimap *data)
 	// mlx_image_to_window(data->mlx, data->arrow_png, 625, 450);
 	return (0);
 }
-// void draw_square(t_minimap *data, float y_coor, float x_coor)
-// {
-// 	int i;
-// 	int j;
-
-// 	i = 1;
-// 	while (i < INDEX_HEIGHT)
-// 	{
-// 		j = 1;
-// 		while (j < INDEX_WIDTH)
-// 		{
-// 			mlx_put_pixel(data->background_png, (int)(x_coor + j), (int)(y_coor + i), 0x0000FFFF);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
-
-// void draw_square(t_minimap *data, float y_coor, float x_coor)
-// {
-// 	int i;
-// 	int j;
-	
-// 	i = 1;
-	
-// 	int offset = 0;
-	
-// 	if (x_coor < INDEX_WIDTH)	
-// 		offset = data->offsetx;
-// 	else
-// 		offset = data->offsetx;
-// 	if (x_coor < INDEX_WIDTH)
-// 		data->offsetx = 10;
-// 	else
-// 		data->offsetx = 0;
-		
-// 	while (i < INDEX_HEIGHT)
-// 	{
-// 		j = 1;
-// 		while (j < INDEX_WIDTH - data->offsetx)
-// 		{
-// 			mlx_put_pixel(data->background_png, (int)(x_coor + j - offset), (int)(y_coor + i), 0x0000FFFF);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
 
 void draw_square(t_minimap *data, float y_coor, float x_coor)
 {
-	int i;
-	int j;
+	int x;
+	int y;
+	int xx;
 	
-	i = 1;
-	
-	while (i < INDEX_HEIGHT)
+	y = 1;
+	while (y < INDEX_HEIGHT)
 	{
-		j = 1;
-		while (j < INDEX_WIDTH)
+		x = 1;
+		while (x < INDEX_WIDTH)
 		{
-			int	xx = (int)(x_coor + j - data->offsetx + 13);
+			xx = (int)(x_coor + x - data->offsetx + 13);
 			if (xx < 0)
 				xx = 0;
-			if ( xx > 0 && xx < 275 && (int)(y_coor + i) > 0 && (int)(y_coor + i) < 275)
-				mlx_put_pixel(data->background_png, xx, (int)(y_coor + i), 0x0000FFFF);
-			j++;
+			if (xx > 0 && xx < 275)
+				mlx_put_pixel(data->background_png, xx, (int)(y_coor + y), 0x0000FFFF);
+			x++;
 		}
-		i++;
+		y++;
 	}
 }
+
+// void draw_square(t_minimap *data, float y_coor, float x_coor)
+// {
+// 	int x;
+// 	int y;
+// 	int xx;
+	
+// 	x = 1;
+// 	while (x < INDEX_HEIGHT)
+// 	{
+// 		y = 1;
+// 		while (y < INDEX_WIDTH)
+// 		{
+// 			xx = (int)(x_coor + y - data->offsetx + 13);
+// 			if (xx < 0)
+// 				xx = 0;
+// 			if ( xx > 0 && xx < 275)
+// 				mlx_put_pixel(data->background_png, xx, (int)(y_coor + x), 0x0000FFFF);
+// 			y++;
+// 		}
+// 		x++;
+// 	}
+// }
 
 int draw_wall(t_minimap *data)
 {
@@ -265,8 +241,6 @@ void do_game(t_cub data2)
 	t_minimap	data;
 	data = (t_minimap){0};
 	data.map = data2.map.layout;
-	data.map_width = data2.map.width;
-	data.map_height = data2.map.height;
 	data.player = &data2.map.player;
 	if (data2.map.orientation == 'E')
 		data.p_angle = 0.0;
