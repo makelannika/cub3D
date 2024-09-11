@@ -27,20 +27,14 @@ int create_images(t_minimap *data)
 
 void draw_square(t_minimap *data, float y_coor, float x_coor)
 {
-	int x;
-	int y;
-	int xx;
-	int yy =0;
-
+	int	x;
+	int	y;
+	int	xx;
+	int	yy;
 	
 	y = 1;
 	while (y < INDEX_HEIGHT)
 	{
-		if( yy < 0 || yy > 275){
-
-		printf("\n");
-		printf("yy is %i\n", yy);
-		}
 		yy = (int)(y_coor + y - data->offsety + 13);
 		x = 1;
 		while (x < INDEX_WIDTH)
@@ -101,16 +95,33 @@ void rotate_point(int *x, int *y, double angle)
     *y = new_y;
 }
 
-int draw_player(t_minimap *data)
-{
-	int i = 0;
 
-	i = 0;
-	mlx_put_pixel(data->background_png, (int)PLAYER_X, (int)PLAYER_Y, 0xFFFFFF);
-	while (i < 6)
+int draw_player(t_minimap *data, float angle)
+{
+	int	x;
+	int	y;
+	double rad;
+
+	y = -2;
+	while (y < 3)
 	{
-		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y + i), 0xFFFFFF);
-		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y - i), 0xFFFFFF);
+		x = -2;
+		while (x < 3)
+		{
+			mlx_put_pixel(data->background_png, (int)PLAYER_X + x, (int)PLAYER_Y + y, 0xFFFFFF);
+			x++;
+		}
+		y++;
+	}
+	rad = angle * M_PI / 180.0;
+	double ray_dir_x = cos(rad);
+    double ray_dir_y = sin(rad);
+	int i = 0;
+	while(i < 15)
+	{
+		x = PLAYER_X + (int)(ray_dir_x * i);
+		y = PLAYER_Y + (int)(ray_dir_y * i);
+		mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
 		i++;
 	}
 	return (0);
@@ -122,7 +133,10 @@ void	rotate_right(t_minimap *data)
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
 	draw_wall(data);
-	draw_player(data);
+	data->p_angle += 15;
+	if (data->p_angle > 360)
+		data->p_angle = 0;
+	draw_player(data, data->p_angle);
 }
 
 void	rotate_left(t_minimap *data)
@@ -131,7 +145,10 @@ void	rotate_left(t_minimap *data)
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
 	draw_wall(data);
-	draw_player(data);
+	data->p_angle -= 15;
+	if (data->p_angle > 360)
+		data->p_angle = 0;
+	draw_player(data, data->p_angle);
 }
 
 void move_left(t_minimap *data)
@@ -146,7 +163,7 @@ void move_left(t_minimap *data)
 		data->offsetx += 25;
 	}
 	draw_wall(data);
-	draw_player(data);
+	draw_player(data, data->p_angle);
 }
 
 void move_right(t_minimap *data)
@@ -161,9 +178,7 @@ void move_right(t_minimap *data)
 		data->offsetx -= 25;
 	}
 	draw_wall(data);
-	draw_player(data);
-	draw_wall(data);
-	draw_player(data);
+	draw_player(data, data->p_angle);
 }
 
 void move_down(t_minimap *data)
@@ -178,7 +193,7 @@ void move_down(t_minimap *data)
 		data->offsety -= 25;
 	}
 	draw_wall(data);
-	draw_player(data);
+	draw_player(data, data->p_angle);
 }
 
 void move_up(t_minimap *data)
@@ -193,7 +208,7 @@ void move_up(t_minimap *data)
 		data->offsety += 25;
 	}
 	draw_wall(data);
-	draw_player(data);
+	draw_player(data, data->p_angle);
 }
 
 void	my_keyhook(mlx_key_data_t keydata, void *game_data)
@@ -203,17 +218,17 @@ void	my_keyhook(mlx_key_data_t keydata, void *game_data)
 	
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_RELEASE)
 		mlx_close_window(data->mlx);
-	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
 		rotate_right(data);
-	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
 		rotate_left(data);
-	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_W))
 		move_up(data);
-	if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_A))
 		move_left(data);
-	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_D))
 		move_right(data);
-	if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_S))
 		move_down(data);
 }
 
@@ -221,8 +236,7 @@ int init_game(t_minimap *data)
 {
 	data->mlx = mlx_init(1000, 900, "Cub3D", false);
 	create_images(data);
-	draw_player(data);
-	draw_player(data);
+	draw_player(data, data->p_angle);
 	draw_wall(data);
 	mlx_key_hook(data->mlx, &my_keyhook, data);
 	mlx_loop(data->mlx);
