@@ -117,11 +117,12 @@ int draw_player(t_minimap *data, float angle)
 	double ray_dir_x = cos(rad);
     double ray_dir_y = sin(rad);
 	int i = 0;
-	while(i < 15)
+	while(i < 194)
 	{
 		x = PLAYER_X + (int)(ray_dir_x * i);
 		y = PLAYER_Y + (int)(ray_dir_y * i);
-		mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
+		if (x > 0 && x < 275 && y > 0 && y < 275)
+			mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
 		i++;
 	}
 	return (0);
