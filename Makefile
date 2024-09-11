@@ -6,7 +6,7 @@
 #    By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/08/30 17:40:54 by amakela          ###   ########.fr        #
+#    Updated: 2024/09/05 16:39:40 by amakela          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,20 +18,22 @@ LIBFT		= $(LIBFTDIR)/libft.a
 MLXDIR		= MLX42
 MLX42		= $(MLXDIR)/build/libmlx42.a
 
-HEADERS 	= -I /include -I $(MLX42)/include
+# HEADERS 	= -I /include -I $(MLX42)/include
+HEADERS 	= -I $(MLXDIR)/include -I $(LIBFTDIR)
 
-LIBS		= $(LIBFT) $(LIBMLX42) -lglfw -L"~/.brew/Cellar/glfw/3.4/lib/"
+LIBS		= $(LIBFT) $(MLX42) -lglfw -lm -L"~/.brew/Cellar/glfw/3.4/lib/" #-lm is for math.h
 
 CFLAGS		= -Wall -Wextra -Werror -g
 
 CC			= cc
 
-CFILES		=	src/main.c
+CFILES		=	src/game.c				src/main.c				src/parse_elements.c	\
+				src/parse_map.c			src/utils_cleaning.c	src/utils_parsing.c		\
 
 OFILES		= $(CFILES:.c=.o)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS) $(INCLUDE)
+	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
 	
 all: $(MLX42) $(NAME)
 

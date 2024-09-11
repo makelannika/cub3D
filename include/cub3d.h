@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/03 19:36:09 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/10 18:06:59 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,30 @@
 
 # include "../libft/include/libft.h"
 # include <fcntl.h>
+# include "../MLX42/include/MLX42/MLX42.h"
+# include <stdio.h> /*delete*/
+# include <math.h>
 
-typedef struct s_point
+# define PLAYER_X 137
+# define PLAYER_Y 137
+# define INDEX_WIDTH 25
+# define INDEX_HEIGHT 25
+# define MINIMAP_HEIGHT 11
+# define MINIMAP_WIDTH 11
+
+typedef struct s_coor
 {
 	int	x;
 	int	y;
-} t_point;
+} t_coor;
 
 typedef struct s_map
 {
 	int 	height;
+	int		width;
 	char	**layout;
 	char	orientation;
-	t_point	player;
+	t_coor	player;
 } t_map;
 
 typedef struct s_cub
@@ -40,6 +51,38 @@ typedef struct s_cub
 	int		ceiling[3];
 	int		elements_found;
 	t_map	map;
+	
 } t_cub;
+
+typedef struct s_minimap
+{
+	int				offsetx;
+	int				offsety;
+	double			p_angle;
+	char			**map;
+	mlx_t			*mlx;
+	mlx_image_t		*arrow_png;
+	mlx_image_t		*background_png;
+	mlx_texture_t	*arrow_tex;
+	mlx_texture_t	*background_tex;
+	t_coor			*player;
+}t_minimap;
+
+
+
+void	do_game(t_cub data);
+
+// PARSING
+int		check_extension(char *arg);
+int		parse_file(t_cub *data, char *file);
+int		parse_map(t_cub *data, char *line, int fd, char *file);
+int		get_map_height(t_cub *data, char *line, int fd);
+void	get_map_width(t_cub *data);
+int		count_commas(char *str);
+
+// CLEANING UTILS
+int		err(char *str, void *ptr);
+int		free_str_array(char **array);
+int		free_data(t_cub *data);
 
 #endif
