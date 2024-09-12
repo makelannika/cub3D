@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/10 18:26:43 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/12 17:42:47 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,38 @@
 
 int	validate_line(char *str)
 {
-	int i;
-
-	i = 0;
-	while (str[i])
+	while (*str)
 	{
-		if (!ft_strchr(" 10NSWE\n", str[i]))
+		if (!ft_strchr(" 10NSWE\n", *str))
 			return (1);
-		i++;
+		str++;
 	}
 	return (0);
 }
 
-void get_map_width(t_cub *data)
+void	get_map_width(t_cub3d *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (data->map.layout[i])
+	while (data->map.map[i])
 	{
-		if ((int)ft_strlen(data->map.layout[i]) > data->map.width)
-			data->map.width = ft_strlen(data->map.layout[i]);
+		if ((int)ft_strlen(data->map.map[i]) > data->map.map_width)
+			data->map.map_width = ft_strlen(data->map.map[i]);
 		i++;
 	}
 }
 
-int	get_map_height(t_cub *data, char *line, int fd)
+int	get_map_height(t_cub3d *data, char *line, int fd)
 {
 	while (line && ft_strchr("1 ", *line))
 	{
-		data->map.height++;
 		if (validate_line(line))
 		{
 			close(fd);
 			return (err("invalid map", line));
 		}
+		data->map.map_height++;
 		free(line);
 		line = get_next_line(fd); // malloc/open check
 	}
@@ -63,7 +60,8 @@ int	count_commas(char *str)
 	int	commas;
 
 	commas = 0;
-	while (*str != '\0') {
+	while (*str != '\0')
+	{
 		if (*str == ',')
 			commas++;
 		str++;
@@ -73,7 +71,7 @@ int	count_commas(char *str)
 
 int	check_extension(char *arg)
 {
-	int     len;
+	int	len;
 
 	len = ft_strlen(arg);
 	return (ft_strncmp(&arg[len - 4], ".cub", 5));

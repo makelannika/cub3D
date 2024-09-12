@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:27:06 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/05 16:27:08 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/12 16:45:37 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,12 @@ int	free_str_array(char **array)
 
 	i = 0;
 	while (array[i])
-	{
-		if (array[i])
-			free(array[i++]);
-	}
+		free(array[i++]);
 	free(array);
 	return (1);
 }
 
-int	free_data(t_cub *data)
+int	free_data(t_cub3d *data)
 {
 	if (data->no)
 		free(data->no);
@@ -45,7 +42,7 @@ int	free_data(t_cub *data)
 		free(data->we);
 	if (data->ea)
 		free(data->ea);
-	if (data->map.layout)
-		free_str_array(data->map.layout);
+	if (data->map.map)
+		free_str_array(data->map.map);
 	return (1);
 }
