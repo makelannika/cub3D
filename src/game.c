@@ -250,6 +250,8 @@ void	my_keyhook(mlx_key_data_t keydata, void *game_data)
 	
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_RELEASE)
 		mlx_close_window(data->mlx);
+	// if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+	// 	mlx_close_window(data->mlx);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
 		rotate_right(data);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
@@ -266,11 +268,15 @@ void	my_keyhook(mlx_key_data_t keydata, void *game_data)
 
 int init_game(t_minimap *data)
 {
+	
+	float a = 1/cos(90);
+	printf("a is %f\n", a);
 	data->mlx = mlx_init(1000, 900, "Cub3D", false);
 	create_images(data);
 	draw_player(data, data->p_angle);
 	draw_wall(data);
 	mlx_key_hook(data->mlx, &my_keyhook, data);
+	// mlx_loop_hook(data->mlx, &my_keyhook, data);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 	return (0);
