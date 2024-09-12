@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/12 15:37:46 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/12 17:14:57 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ int draw_wall(t_minimap *data)
 	int vertical = 0;
 	int horizontal = 0;
 
-	y = data->player->y - 5;
-	x = data->player->x - 5;
+	y = data->player.y - 5;
+	x = data->player.x - 5;
 	x_reset = x;
 	while (vertical < 12)
 	{
-		if (y >= data->height)
+		if (y >= data->map_height)
 			break;
 		x = x_reset;
 		horizontal = 0;
@@ -192,7 +192,7 @@ void move_left(t_minimap *data)
 	data->offsetx = data->offsetx - 3;
 	if (data->offsetx < 0)
 	{
-		data->player->x -= 1;
+		data->player.x -= 1;
 		data->offsetx += 25;
 	}
 	draw_wall(data);
@@ -207,7 +207,7 @@ void move_right(t_minimap *data)
 	data->offsetx = data->offsetx + 3;
 	if (data->offsetx > 25)
 	{
-		data->player->x += 1;
+		data->player.x += 1;
 		data->offsetx -= 25;
 	}
 	draw_wall(data);
@@ -222,7 +222,7 @@ void move_down(t_minimap *data)
 	data->offsety = data->offsety + 3;
 	if (data->offsety > 25)
 	{
-		data->player->y += 1;
+		data->player.y += 1;
 		data->offsety -= 25;
 	}
 	draw_wall(data);
@@ -237,7 +237,7 @@ void move_up(t_minimap *data)
 	data->offsety = data->offsety - 3;
 	if (data->offsety < 25)
 	{
-		data->player->y -= 1;
+		data->player.y -= 1;
 		data->offsety += 25;
 	}
 	draw_wall(data);
@@ -275,29 +275,5 @@ int init_game(t_minimap *data)
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 	return (0);
-}
-
-void do_game(t_cub data2)
-{
-	t_minimap	data;
-	data = (t_minimap){0};
-	data.map = data2.map.layout;
-	data.player = &data2.map.player;
-	data.height = data2.map.height;
-	if (data2.map.orientation == 'E')
-		data.p_angle = 0.0;
-	else if (data2.map.orientation == 'N')
-		data.p_angle = 90.0;
-	else if (data2.map.orientation == 'W')
-		data.p_angle = 180.0;
-	else if (data2.map.orientation == 'S')
-		data.p_angle = 270.0;
-	data.offsetx = 13;
-	data.offsety = 13;
-		
-	printf("angle is %f\n", data.p_angle);
-	for(int i = 0; data.map[i]; i++)
-		printf("%s\n", data.map[i]);
-	init_game(&data);
 }
 
