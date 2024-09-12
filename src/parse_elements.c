@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:51 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/05 16:32:42 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/11 12:03:47 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	parse_file(t_cub *data, char *file)
 		free(line);
 		line = get_next_line(fd); // malloc/open check
 	}
-	if (line && ft_strchr(" 1", *line))
+	if (line && ft_strchr(" 1", *line) && data->elements_found == 6)
 		return (parse_map(data, line, fd, file));
 	else
 		return (err("required elements not found in .cub file", line));

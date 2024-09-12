@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 19:48:24 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/08 16:45:00 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/11 12:33:40 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ int	main(int argc, char **argv)
 	t_cub	data;
 
 	data = (t_cub){0};
+	// ft_printf(1, "height: %d\nwidth: %d\n", data.map.height, data.map.width);
+	// ft_printf(1, "layout %p\norientation: %c\n", data.map.layout, data.map.orientation);
+	// ft_printf(1, "x: %d\ny: %d\n", data.map.player.x, data.map.player.y);
 	if (argc != 2 || check_extension(argv[1]))
 		return (err("program takes one .cub file as an argument", NULL));
 	if (parse_file(&data, argv[1]))
@@ -36,3 +39,13 @@ int	main(int argc, char **argv)
 	free_data(&data);
 	return (0);
 }
+
+// 111111111111111
+// 100100000000001
+// 100100000000001
+// 100100000001111
+// 1001000010010W1
+// 100100001000001
+// 1111111111111
+
+// 11

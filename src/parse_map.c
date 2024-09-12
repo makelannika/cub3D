@@ -6,17 +6,16 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/10 18:30:38 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/11 13:32:55 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-
-int	validate_index(t_cub *data, char **layout, int x, int y)
+int	validate_index(t_cub *data, char **layout, int y, int x)
 {
-	if (x == 0 || y == 0 || y == data->map.height - 1
-		|| x == (int)ft_strlen(layout[y]) - 1)
+	if (y == 0 || y == data->map.height - 1
+		|| x == 0 || x == (int)ft_strlen(layout[y]) - 1)
 		return (err("map must be surrounded by walls", NULL));
 	if (ft_strchr("NSWE", layout[y][x]))
 	{
@@ -48,7 +47,7 @@ int	validate_map(t_cub *data)
 		{
 			if (ft_strchr("0NSWE", data->map.layout[y][x]))
 			{
-				if (validate_index(data, data->map.layout, x, y))
+				if (validate_index(data, data->map.layout, y, x))
 					return (1);
 			}
 			x++;
@@ -83,19 +82,21 @@ int	copy_map(t_cub *data, int fd, char *file)
 			else
 				data->map.layout[i++] = ft_substr(line, 0, ft_strlen(line));
 			if (!data->map.layout[i - 1])
+			{
+				close (fd);
 				return (err("malloc failed", line));
+			}
 		}
 		free(line);
 		line = get_next_line(fd); // malloc/open check
 	}
 	data->map.layout[i] = NULL;
+	close(fd);
 	return (0);
 }
 
 int	parse_map(t_cub *data, char *line, int fd, char *file)
 {
-	if (data->elements_found != 6)
-		return (err("required elements not found in .cub file", line));
 	if (get_map_height(data, line, fd))
 		return (1);
 	if (copy_map(data, fd, file))

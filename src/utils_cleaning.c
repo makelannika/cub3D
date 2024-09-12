@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:27:06 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/05 16:27:08 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/11 11:58:11 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ int	free_str_array(char **array)
 
 	i = 0;
 	while (array[i])
-	{
-		if (array[i])
-			free(array[i++]);
-	}
+		free(array[i++]);
 	free(array);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/10 18:26:43 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/11 12:25:26 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 int	validate_line(char *str)
 {
-	int i;
-
-	i = 0;
-	while (str[i])
+	while (*str)
 	{
-		if (!ft_strchr(" 10NSWE\n", str[i]))
+		if (!ft_strchr(" 10NSWE\n", *str))
 			return (1);
-		i++;
+		str++;
 	}
 	return (0);
 }
@@ -43,12 +40,12 @@ int	get_map_height(t_cub *data, char *line, int fd)
 {
 	while (line && ft_strchr("1 ", *line))
 	{
-		data->map.height++;
 		if (validate_line(line))
 		{
 			close(fd);
 			return (err("invalid map", line));
 		}
+		data->map.height++;
 		free(line);
 		line = get_next_line(fd); // malloc/open check
 	}
