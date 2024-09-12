@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/10 18:05:59 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/12 17:14:57 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,31 +52,32 @@ void draw_square(t_minimap *data, float y_coor, float x_coor)
 
 int draw_wall(t_minimap *data)
 {
-	int	i;
-	int j;
-	int k;
-	int y = 0;
+	int	y;
+	int x;
+	int x_reset;
+	int vertical = 0;
+	int horizontal = 0;
 
-	i = data->player->y - 5;
-	j = data->player->x - 5;
-	k = j;
-	while (y < 12)
+	y = data->player.y - 5;
+	x = data->player.x - 5;
+	x_reset = x;
+	while (vertical < 12)
 	{
-		if (i >= 0 && !data->map[i])
+		if (y >= data->map_height)
 			break;
-		int x = 0;
-		j = k;
-		while (x < 12)
+		x = x_reset;
+		horizontal = 0;
+		while (horizontal < 12)
 		{
-			if ((i >= 0 && j >= 0) && !data->map[i][j])
+			if ((y >= 0 && x >= 0) && !data->map[y][x])
 				break;
-			if ((i >= 0 && j >= 0) && data->map[i][j] == '1') 
-				draw_square(data, y * INDEX_HEIGHT, x * INDEX_WIDTH);
-			j++;
+			if ((y >= 0 && x >= 0) && data->map[y][x] == '1') 
+				draw_square(data, vertical * INDEX_HEIGHT, horizontal * INDEX_WIDTH);
 			x++;
+			horizontal++;
 		}
-		i++;
 		y++;
+		vertical++;
 	}
 	return (0);
 }
@@ -199,7 +200,7 @@ void move_left(t_minimap *data)
 	data->offsetx = data->offsetx - 3;
 	if (data->offsetx < 0)
 	{
-		data->player->x -= 1;
+		data->player.x -= 1;
 		data->offsetx += 25;
 	}
 	draw_wall(data);
@@ -214,7 +215,7 @@ void move_right(t_minimap *data)
 	data->offsetx = data->offsetx + 3;
 	if (data->offsetx > 25)
 	{
-		data->player->x += 1;
+		data->player.x += 1;
 		data->offsetx -= 25;
 	}
 	draw_wall(data);
@@ -229,7 +230,7 @@ void move_down(t_minimap *data)
 	data->offsety = data->offsety + 3;
 	if (data->offsety > 25)
 	{
-		data->player->y += 1;
+		data->player.y += 1;
 		data->offsety -= 25;
 	}
 	draw_wall(data);
@@ -244,7 +245,7 @@ void move_up(t_minimap *data)
 	data->offsety = data->offsety - 3;
 	if (data->offsety < 25)
 	{
-		data->player->y -= 1;
+		data->player.y -= 1;
 		data->offsety += 25;
 	}
 	draw_wall(data);
@@ -288,28 +289,5 @@ int init_game(t_minimap *data)
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 	return (0);
-}
-
-void do_game(t_cub data2)
-{
-	t_minimap	data;
-	data = (t_minimap){0};
-	data.map = data2.map.layout;
-	data.player = &data2.map.player;
-	if (data2.map.orientation == 'E')
-		data.p_angle = 0.0;
-	else if (data2.map.orientation == 'N')
-		data.p_angle = 90.0;
-	else if (data2.map.orientation == 'W')
-		data.p_angle = 180.0;
-	else if (data2.map.orientation == 'S')
-		data.p_angle = 270.0;
-	data.offsetx = 13;
-	data.offsety = 13;
-		
-	printf("angle is %f\n", data.p_angle);
-	for(int i = 0; data.map[i]; i++)
-		printf("%s\n", data.map[i]);
-	init_game(&data);
 }
 

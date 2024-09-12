@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:51 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/05 16:32:42 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/12 16:02:34 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	copy_color(char *str, int *id)
 	return (0);
 }
 
-int	check_identifier(char **element, t_cub *data)
+int	check_identifier(char **element, t_cub3d *data)
 {
 	char	*copy;
 	
@@ -72,7 +72,7 @@ int	check_identifier(char **element, t_cub *data)
 	return (0);
 }
 
-int	parse_element(t_cub *data, char *line)
+int	parse_element(t_cub3d *data, char *line)
 {
 	char	**element;
 	int		len;
@@ -94,7 +94,7 @@ int	parse_element(t_cub *data, char *line)
 	return (0);
 }
 
-int	parse_file(t_cub *data, char *file)
+int	parse_file(t_cub3d *data, char *file)
 {
 	int		fd;
 	char	*line;
@@ -114,7 +114,7 @@ int	parse_file(t_cub *data, char *file)
 		free(line);
 		line = get_next_line(fd); // malloc/open check
 	}
-	if (line && ft_strchr(" 1", *line))
+	if (line && ft_strchr(" 1", *line) && data->elements_found == 6)
 		return (parse_map(data, line, fd, file));
 	else
 		return (err("required elements not found in .cub file", line));
