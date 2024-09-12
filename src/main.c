@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 	for (int i = 0; i < data.map.height; i++)
 		ft_printf(1, "%s\n", data.map.layout[i]);
 	ft_printf(1, "player x: %d y: %d\n", data.map.player.x, data.map.player.y);
-	// do_game(data);
+	do_game(data);
 	free_data(&data);
 	return (0);
 }

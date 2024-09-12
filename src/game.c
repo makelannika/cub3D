@@ -24,74 +24,29 @@ int create_images(t_minimap *data)
 	// mlx_image_to_window(data->mlx, data->arrow_png, 625, 450);
 	return (0);
 }
-// void draw_square(t_minimap *data, float y_coor, float x_coor)
-// {
-// 	int i;
-// 	int j;
-
-// 	i = 1;
-// 	while (i < INDEX_HEIGHT)
-// 	{
-// 		j = 1;
-// 		while (j < INDEX_WIDTH)
-// 		{
-// 			mlx_put_pixel(data->background_png, (int)(x_coor + j), (int)(y_coor + i), 0x0000FFFF);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
-
-// void draw_square(t_minimap *data, float y_coor, float x_coor)
-// {
-// 	int i;
-// 	int j;
-	
-// 	i = 1;
-	
-// 	int offset = 0;
-	
-// 	if (x_coor < INDEX_WIDTH)	
-// 		offset = data->offsetx;
-// 	else
-// 		offset = data->offsetx;
-// 	if (x_coor < INDEX_WIDTH)
-// 		data->offsetx = 10;
-// 	else
-// 		data->offsetx = 0;
-		
-// 	while (i < INDEX_HEIGHT)
-// 	{
-// 		j = 1;
-// 		while (j < INDEX_WIDTH - data->offsetx)
-// 		{
-// 			mlx_put_pixel(data->background_png, (int)(x_coor + j - offset), (int)(y_coor + i), 0x0000FFFF);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
 
 void draw_square(t_minimap *data, float y_coor, float x_coor)
 {
-	int i;
-	int j;
+	int	x;
+	int	y;
+	int	xx;
+	int	yy;
 	
-	i = 1;
-	
-	while (i < INDEX_HEIGHT)
+	y = 1;
+	while (y < INDEX_HEIGHT)
 	{
-		j = 1;
-		while (j < INDEX_WIDTH)
+		yy = (int)(y_coor + y - data->offsety + 13);
+		x = 1;
+		while (x < INDEX_WIDTH)
 		{
-			int	xx = (int)(x_coor + j - data->offsetx + 13);
+			xx = (int)(x_coor + x - data->offsetx + 13);
 			if (xx < 0)
 				xx = 0;
-			if ( xx > 0 && xx < 275 && (int)(y_coor + i) > 0 && (int)(y_coor + i) < 275)
-				mlx_put_pixel(data->background_png, xx, (int)(y_coor + i), 0x0000FFFF);
-			j++;
+			if (xx > 0 && xx < 275 && yy > 0 && yy < 275)
+				mlx_put_pixel(data->background_png, xx, yy, 0x0000FFFF);
+			x++;
 		}
-		i++;
+		y++;
 	}
 }
 
@@ -100,29 +55,28 @@ int draw_wall(t_minimap *data)
 	int	i;
 	int j;
 	int k;
-	int a = 0;
+	int y = 0;
 
 	i = data->player->y - 5;
 	j = data->player->x - 5;
 	k = j;
-	while (a < 12)
+	while (y < 12)
 	{
 		if (i >= 0 && !data->map[i])
 			break;
-		int b = 0;
+		int x = 0;
 		j = k;
-		while (b < 12)
+		while (x < 12)
 		{
 			if ((i >= 0 && j >= 0) && !data->map[i][j])
 				break;
-			if ((i >= 0 && j >= 0) && data->map[i][j] == '1')
-			// if ((b == 0 && i >= 0 && j >= 0) && data->map[i][j] == '1')
-				draw_square(data, a * INDEX_HEIGHT, b * INDEX_WIDTH);
+			if ((i >= 0 && j >= 0) && data->map[i][j] == '1') 
+				draw_square(data, y * INDEX_HEIGHT, x * INDEX_WIDTH);
 			j++;
-			b++;
+			x++;
 		}
 		i++;
-		a++;
+		y++;
 	}
 	return (0);
 }
@@ -141,19 +95,68 @@ void rotate_point(int *x, int *y, double angle)
     *y = new_y;
 }
 
-int draw_player(t_minimap *data)
-{
-	int i = 0;
+// void cast_1000(t_minimap *data, float player_angle)
+// {
+// 	double	rad;
+// 	int		ray;
 
-	i = 0;
-	mlx_put_pixel(data->background_png, (int)PLAYER_X, (int)PLAYER_Y, 0xFFFFFF);
-	while (i < 6)
+// 	ray = 0;
+// 	while (ray < 1000)
+//     {
+//         double current_angle = player_angle - 30 + ray * 60 / 1000;
+//         rad = current_angle * M_PI / 180.0;
+//         double ray_dir_x = cos(rad);
+//         double ray_dir_y = sin(rad);
+// 		ray++;
+// 	}
+// }
+
+void ray_cast(t_minimap *data, float player_angle)
+{
+    double	rad;
+    int		x;
+	int		y;
+    int		i;
+    int		ray;
+    
+    ray = 0;
+    while (ray < 60)
+    {
+        double current_angle = player_angle - 30 + ray;
+        rad = current_angle * M_PI / 180.0;
+        double ray_dir_x = cos(rad);
+        double ray_dir_y = sin(rad);
+        i = 0;
+        while (i < 194)
+        {
+            x = PLAYER_X + (int)(ray_dir_x * i);
+            y = PLAYER_Y + (int)(ray_dir_y * i);
+            if (x > 0 && x < 275 && y > 0 && y < 275)
+                mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
+            i++;
+        }
+        ray++;
+    }
+}
+
+
+void draw_player(t_minimap *data, float angle)
+{
+	int	x;
+	int	y;
+
+	y = -2;
+	while (y < 3)
 	{
-		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y + i), 0xFFFFFF);
-		mlx_put_pixel(data->background_png, (int)(PLAYER_X - i), (int)(PLAYER_Y - i), 0xFFFFFF);
-		i++;
+		x = -2;
+		while (x < 3)
+		{
+			mlx_put_pixel(data->background_png, (int)PLAYER_X + x, (int)PLAYER_Y + y, 0xFFFFFF);
+			x++;
+		}
+		y++;
 	}
-	return (0);
+	ray_cast(data, angle);
 }
 
 void	rotate_right(t_minimap *data)
@@ -162,7 +165,10 @@ void	rotate_right(t_minimap *data)
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
 	draw_wall(data);
-	draw_player(data);
+	data->p_angle += 15;
+	if (data->p_angle > 360)
+		data->p_angle = 0;
+	draw_player(data, data->p_angle);
 }
 
 void	rotate_left(t_minimap *data)
@@ -171,7 +177,10 @@ void	rotate_left(t_minimap *data)
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
 	draw_wall(data);
-	draw_player(data);
+	data->p_angle -= 15;
+	if (data->p_angle > 360)
+		data->p_angle = 0;
+	draw_player(data, data->p_angle);
 }
 
 void move_left(t_minimap *data)
@@ -179,15 +188,14 @@ void move_left(t_minimap *data)
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	// data->player->x
 	data->offsetx = data->offsetx - 3;
 	if (data->offsetx < 0)
 	{
-		data->player->x = data->player->x - 1;
-		data->offsetx = 25 + data->offsetx;
+		data->player->x -= 1;
+		data->offsetx += 25;
 	}
 	draw_wall(data);
-	draw_player(data);
+	draw_player(data, data->p_angle);
 }
 
 void move_right(t_minimap *data)
@@ -195,9 +203,14 @@ void move_right(t_minimap *data)
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	// data->offsetx = data->offsetx + 12;
+	data->offsetx = data->offsetx + 3;
+	if (data->offsetx > 25)
+	{
+		data->player->x += 1;
+		data->offsetx -= 25;
+	}
 	draw_wall(data);
-	draw_player(data);
+	draw_player(data, data->p_angle);
 }
 
 void move_down(t_minimap *data)
@@ -205,9 +218,14 @@ void move_down(t_minimap *data)
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	// data->offsety = data->offsety + 3;
+	data->offsety = data->offsety + 3;
+	if (data->offsety > 25)
+	{
+		data->player->y += 1;
+		data->offsety -= 25;
+	}
 	draw_wall(data);
-	draw_player(data);
+	draw_player(data, data->p_angle);
 }
 
 void move_up(t_minimap *data)
@@ -215,11 +233,15 @@ void move_up(t_minimap *data)
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	// data->offsety = data->offsety - 3;
+	data->offsety = data->offsety - 3;
+	if (data->offsety < 25)
+	{
+		data->player->y -= 1;
+		data->offsety += 25;
+	}
 	draw_wall(data);
-	draw_player(data);
+	draw_player(data, data->p_angle);
 }
-
 
 void	my_keyhook(mlx_key_data_t keydata, void *game_data)
 {
@@ -228,17 +250,17 @@ void	my_keyhook(mlx_key_data_t keydata, void *game_data)
 	
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_RELEASE)
 		mlx_close_window(data->mlx);
-	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
 		rotate_right(data);
-	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
 		rotate_left(data);
-	if (keydata.key == MLX_KEY_W && keydata.action == MLX_RELEASE)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_W))
 		move_up(data);
-	if (keydata.key == MLX_KEY_A && keydata.action == MLX_RELEASE)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_A))
 		move_left(data);
-	if (keydata.key == MLX_KEY_D && keydata.action == MLX_RELEASE)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_D))
 		move_right(data);
-	if (keydata.key == MLX_KEY_S && keydata.action == MLX_RELEASE)
+	if (mlx_is_key_down(data->mlx, MLX_KEY_S))
 		move_down(data);
 }
 
@@ -246,8 +268,7 @@ int init_game(t_minimap *data)
 {
 	data->mlx = mlx_init(1000, 900, "Cub3D", false);
 	create_images(data);
-	draw_player(data);
-	draw_player(data);
+	draw_player(data, data->p_angle);
 	draw_wall(data);
 	mlx_key_hook(data->mlx, &my_keyhook, data);
 	mlx_loop(data->mlx);
@@ -260,8 +281,6 @@ void do_game(t_cub data2)
 	t_minimap	data;
 	data = (t_minimap){0};
 	data.map = data2.map.layout;
-	data.map_width = data2.map.width;
-	data.map_height = data2.map.height;
 	data.player = &data2.map.player;
 	if (data2.map.orientation == 'E')
 		data.p_angle = 0.0;

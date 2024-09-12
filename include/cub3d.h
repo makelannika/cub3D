@@ -56,8 +56,6 @@ typedef struct s_cub
 
 typedef struct s_minimap
 {
-	int				map_width;
-	int				map_height;
 	int				offsetx;
 	int				offsety;
 	double			p_angle;
