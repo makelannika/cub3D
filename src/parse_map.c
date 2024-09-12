@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 17:43:18 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:34:55 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	copy_map(t_cub3d *data, int fd, char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (err("open failed", NULL));
-	data->map.map = malloc((sizeof(char *) * data->map.map_height + 1));
+	data->map.map = ft_calloc(data->map.map_height + 1, sizeof(char *));
 	if (!data->map.map)
 		return (err("malloc failed", NULL));
 	line = get_next_line(fd); // malloc/open check
@@ -107,7 +107,6 @@ int	copy_map(t_cub3d *data, int fd, char *file)
 		free(line);
 		line = get_next_line(fd); // malloc/open check
 	}
-	data->map.map[i] = NULL;
 	close(fd);
 	return (0);
 }
