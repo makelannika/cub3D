@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/10 18:05:59 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/12 15:37:46 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,31 +52,32 @@ void draw_square(t_minimap *data, float y_coor, float x_coor)
 
 int draw_wall(t_minimap *data)
 {
-	int	i;
-	int j;
-	int k;
-	int y = 0;
+	int	y;
+	int x;
+	int x_reset;
+	int vertical = 0;
+	int horizontal = 0;
 
-	i = data->player->y - 5;
-	j = data->player->x - 5;
-	k = j;
-	while (y < 12)
+	y = data->player->y - 5;
+	x = data->player->x - 5;
+	x_reset = x;
+	while (vertical < 12)
 	{
-		if (i >= 0 && !data->map[i])
+		if (y >= data->height)
 			break;
-		int x = 0;
-		j = k;
-		while (x < 12)
+		x = x_reset;
+		horizontal = 0;
+		while (horizontal < 12)
 		{
-			if ((i >= 0 && j >= 0) && !data->map[i][j])
+			if ((y >= 0 && x >= 0) && !data->map[y][x])
 				break;
-			if ((i >= 0 && j >= 0) && data->map[i][j] == '1') 
-				draw_square(data, y * INDEX_HEIGHT, x * INDEX_WIDTH);
-			j++;
+			if ((y >= 0 && x >= 0) && data->map[y][x] == '1') 
+				draw_square(data, vertical * INDEX_HEIGHT, horizontal * INDEX_WIDTH);
 			x++;
+			horizontal++;
 		}
-		i++;
 		y++;
+		vertical++;
 	}
 	return (0);
 }
@@ -282,6 +283,7 @@ void do_game(t_cub data2)
 	data = (t_minimap){0};
 	data.map = data2.map.layout;
 	data.player = &data2.map.player;
+	data.height = data2.map.height;
 	if (data2.map.orientation == 'E')
 		data.p_angle = 0.0;
 	else if (data2.map.orientation == 'N')
