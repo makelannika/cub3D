@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/11 13:32:55 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/12 14:19:55 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ int	validate_index(t_cub *data, char **layout, int y, int x)
 	}
 	if (!ft_strchr("01NSWE", layout[y][x - 1])
 		|| !ft_strchr("01NSWE", layout[y][x + 1])
+		|| (int)ft_strlen(layout[y - 1]) < (x + 1)
 		|| !ft_strchr("01NSWE", layout[y - 1][x])
+		|| (int)ft_strlen(layout[y + 1]) < (x + 1)
 		|| !ft_strchr("01NSWE", layout[y + 1][x]))
 		return (err("map must be surrounded by walls", NULL));
 	return (0);
