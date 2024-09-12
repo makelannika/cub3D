@@ -95,6 +95,15 @@ void rotate_point(int *x, int *y, double angle)
     *y = new_y;
 }
 
+// float	ray_cast(t_minimap *data, double rad)
+// {
+// 	double ray_dir_x = cos(rad);
+//     double ray_dir_y = sin(rad);
+
+// 	ray_dir_x = cos(rad);
+// 	ray_dir_y = sin(rad);
+// }
+
 // void cast_1000(t_minimap *data, float player_angle)
 // {
 // 	double	rad;
@@ -111,7 +120,7 @@ void rotate_point(int *x, int *y, double angle)
 // 	}
 // }
 
-void ray_cast(t_minimap *data, float player_angle)
+void fov_cast(t_minimap *data, float player_angle)
 {
     double	rad;
     int		x;
@@ -139,7 +148,6 @@ void ray_cast(t_minimap *data, float player_angle)
     }
 }
 
-
 void draw_player(t_minimap *data, float angle)
 {
 	int	x;
@@ -156,7 +164,7 @@ void draw_player(t_minimap *data, float angle)
 		}
 		y++;
 	}
-	ray_cast(data, angle);
+	fov_cast(data, angle);
 }
 
 void	rotate_right(t_minimap *data)

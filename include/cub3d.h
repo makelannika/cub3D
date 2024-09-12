@@ -65,6 +65,7 @@ typedef struct s_minimap
 	mlx_image_t		*background_png;
 	mlx_texture_t	*arrow_tex;
 	mlx_texture_t	*background_tex;
+	float			ray_len[1000];
 	t_coor			*player;
 }t_minimap;
 
