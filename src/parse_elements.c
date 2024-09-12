@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:51 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 16:02:34 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/12 17:44:11 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	validate_color(char *str)
 
 int	copy_color(char *str, int *id)
 {
-	char **rgb;
-	
+	char	**rgb;
+
 	if (count_commas(str) != 2)
 		return (err("invalid .cub file content", NULL));
 	rgb = ft_split(str, ',');
@@ -51,7 +51,7 @@ int	copy_color(char *str, int *id)
 int	check_identifier(char **element, t_cub3d *data)
 {
 	char	*copy;
-	
+
 	if (!ft_strncmp("F", element[0], 2))
 		return (copy_color(element[1], data->floor));
 	else if (!ft_strncmp("C", element[0], 2))
@@ -105,7 +105,8 @@ int	parse_file(t_cub3d *data, char *file)
 	line = get_next_line(fd); // add malloc/open check for gnl
 	while (line && *line != '1' && *line != ' ')
 	{
-		if (ft_strchr("NSWEFC", *line)) {
+		if (ft_strchr("NSWEFC", *line))
+		{
 			if (parse_element(data, line))
 				return (err(NULL, line));
 		}

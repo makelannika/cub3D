@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 17:11:25 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/12 17:43:18 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	copy_map(t_cub3d *data, int fd, char *file)
 {
 	int		i;
 	char	*line;
-	
+
 	i = 0;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)

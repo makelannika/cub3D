@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 17:14:29 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:02:21 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,21 @@ int		count_commas(char *str);
 int		err(char *str, void *ptr);
 int		free_str_array(char **array);
 int		free_data(t_cub3d *data);
+
+// MOVEMENT
+void	move_left(t_minimap *data);
+void	move_right(t_minimap *data);
+void	move_down(t_minimap *data);
+void	move_up(t_minimap *data);
+void	my_keyhook(mlx_key_data_t keydata, void *game_data);
+
+void	rotate_left(t_minimap *data);
+void	rotate_right(t_minimap *data);
+
+// DRAWING
+void	draw_player(t_minimap *data, float angle);
+int		draw_wall(t_minimap *data);
+
+void	ray_cast(t_minimap *data, float player_angle);
 
 #endif
