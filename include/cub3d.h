@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 18:11:24 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/13 23:18:15 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,22 @@ typedef struct s_minimap
 	t_coor			player;
 } t_minimap;
 
+// typedef struct s_cub3d
+// {
+// 	char		*no_txtr;
+// 	char		*so_txtr;
+// 	char		*we_txtr;
+// 	char		*ea_txtr;
+// 	int			floor[3];
+// 	int			ceiling[3];
+// 	int			elements_found;
+// 	t_minimap	map;
+// 	mlx_image_t	*no;
+// 	mlx_image_t	*so;
+// 	mlx_image_t	*we;
+// 	mlx_image_t	*ea;
+// } t_cub3d;
+
 typedef struct s_cub3d
 {
 	char		*no;
@@ -59,7 +75,6 @@ typedef struct s_cub3d
 	t_minimap	map;
 	
 } t_cub3d;
-
 
 // PARSING
 int		check_extension(char *arg);
