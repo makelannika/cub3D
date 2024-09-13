@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:59:12 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/13 23:48:34 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/14 00:22:27 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,16 @@ void	draw_square(t_minimap *data, float y_coor, float x_coor)
 	}
 }
 
-int	draw_wall(t_minimap *data)
+int	draw_minimap(t_minimap *data, int y, int x)
 {
-	int	y;
-	int	x;
-	int	x_reset;
 	int	minimap_y = 0;
 	int	minimap_x = 0;
 
-	y = data->player.y - 5;
-	x = data->player.x - 5;
-	x_reset = x;
 	while (minimap_y < 12)
 	{
 		if (y >= data->map_height)
 			break ;
-		x = x_reset;
+		x -= minimap_x;
 		minimap_x = 0;
 		while (minimap_x < 12)
 		{

@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/13 23:18:15 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/14 00:22:36 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	rotate_right(t_minimap *data);
 
 // DRAWING
 void	draw_player(t_minimap *data, float angle);
-int		draw_wall(t_minimap *data);
+int		draw_minimap(t_minimap *data, int y, int x);
 
 void	ray_cast(t_minimap *data, float player_angle);
 
