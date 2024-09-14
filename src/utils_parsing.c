@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 16:46:48 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:40:08 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	validate_line(char *str)
 	return (0);
 }
 
-void get_map_width(t_cub3d *data)
+void	get_map_width(t_cub3d *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (data->map.map[i])
@@ -60,7 +60,8 @@ int	count_commas(char *str)
 	int	commas;
 
 	commas = 0;
-	while (*str != '\0') {
+	while (*str != '\0')
+	{
 		if (*str == ',')
 			commas++;
 		str++;
@@ -70,7 +71,7 @@ int	count_commas(char *str)
 
 int	check_extension(char *arg)
 {
-	int     len;
+	int	len;
 
 	len = ft_strlen(arg);
 	return (ft_strncmp(&arg[len - 4], ".cub", 5));

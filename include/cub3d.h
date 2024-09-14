@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 17:14:29 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:11:24 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_cub3d
 	
 } t_cub3d;
 
-int init_game(t_minimap *data);
 
 // PARSING
 int		check_extension(char *arg);
@@ -69,6 +68,25 @@ int		parse_map(t_cub3d *data, char *line, int fd, char *file);
 int		get_map_height(t_cub3d *data, char *line, int fd);
 void	get_map_width(t_cub3d *data);
 int		count_commas(char *str);
+
+// GAME
+int init_game(t_minimap *data);
+
+// MOVEMENT
+void	move_left(t_minimap *data);
+void	move_right(t_minimap *data);
+void	move_down(t_minimap *data);
+void	move_up(t_minimap *data);
+void	my_keyhook(mlx_key_data_t keydata, void *game_data);
+
+void	rotate_left(t_minimap *data);
+void	rotate_right(t_minimap *data);
+
+// DRAWING
+void	draw_player(t_minimap *data, float angle);
+int		draw_wall(t_minimap *data);
+
+void	ray_cast(t_minimap *data, float player_angle);
 
 // CLEANING UTILS
 int		err(char *str, void *ptr);
