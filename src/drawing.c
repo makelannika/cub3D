@@ -85,5 +85,5 @@ void	draw_player(t_minimap *data, float angle)
 		}
 		y++;
 	}
-	ray_cast(data, angle);
+	fov_cast(data, angle);
 }

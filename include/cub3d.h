@@ -26,8 +26,10 @@
 
 typedef struct s_coor
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
+	float	pix_x;
+	float	pix_y;
 } t_coor;
 
 typedef struct s_minimap
@@ -86,7 +88,7 @@ void	rotate_right(t_minimap *data);
 void	draw_player(t_minimap *data, float angle);
 int		draw_wall(t_minimap *data);
 
-void	ray_cast(t_minimap *data, float player_angle);
+void	fov_cast(t_minimap *data, float player_angle);
 
 // CLEANING UTILS
 int		err(char *str, void *ptr);

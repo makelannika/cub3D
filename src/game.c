@@ -26,10 +26,9 @@ int	create_images(t_minimap *data)
 
 int	init_game(t_minimap *data)
 {
-	
-	float a = 1/cos(90);
-	printf("a is %f\n", a);
-	data->mlx = mlx_init(1000, 900, "Cub3D", false);
+	data->player.pix_x = data->player.x * 25 + 13;
+	data->player.pix_y = data->player.y * 25 + 13;
+	data->mlx = mlx_init(1000, 1000, "Cub3D", false);
 	create_images(data);
 	draw_player(data, data->p_angle);
 	draw_wall(data);
