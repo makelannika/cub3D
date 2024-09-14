@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:51 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/13 23:02:38 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/14 18:57:04 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,25 +77,25 @@ int	copy_color(char *str, int *id)
 
 int	check_identifier(char **element, t_cub3d *data)
 {
-	char	*copy;
+	char	*path_to_texture;
 
 	if (!ft_strncmp("F", element[0], 2))
 		return (copy_color(element[1], data->floor));
 	else if (!ft_strncmp("C", element[0], 2))
 		return (copy_color(element[1], data->ceiling));
-	copy = ft_strdup(element[1]);
-	if (!copy)
+	path_to_texture = ft_strdup(element[1]);
+	if (!path_to_texture)
 		return (err("malloc failed", NULL));
 	if (!ft_strncmp("NO", element[0], 3))
-		data->no = copy;
+		data->no = path_to_texture;
 	else if (!ft_strncmp("WE", element[0], 3))
-		data->we = copy;
+		data->we = path_to_texture;
 	else if (!ft_strncmp("EA", element[0], 3))
-		data->ea = copy;
+		data->ea = path_to_texture;
 	else if (!ft_strncmp("SO", element[0], 3))
-		data->so = copy;
+		data->so = path_to_texture;
 	else
-		return (err("invalid .cub file content", copy));
+		return (err("invalid .cub file content", path_to_texture));
 	return (0);
 }
 
@@ -129,21 +129,54 @@ int	parse_file(t_cub3d *data, char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (err("open failed", NULL));
-	line = get_next_line(fd); // add malloc/open check for gnl
+	line = get_next_line(fd);
+	if (errno)
+		return (err("get_next_line failed", NULL));
 	while (line && *line != '1' && *line != ' ')
 	{
-		if (ft_strchr("NSWEFC", *line))
+		if (*line != '\n')
 		{
 			if (parse_element(data, line))
 				return (err(NULL, line));
 		}
-		else if (*line != '\n')
-			return (err("invalid .cub file content", line));
 		free(line);
-		line = get_next_line(fd); // malloc/open check
+		line = get_next_line(fd);
+		if (errno)
+			return (err("get_next_line failed", NULL));
 	}
 	if (line && ft_strchr(" 1", *line) && data->elements_found == 6)
 		return (parse_map(data, line, fd, file));
 	else
 		return (err("required elements not found in .cub file", line));
 }
+
+// int	parse_file(t_cub3d *data, char *file)
+// {
+// 	int		fd;
+// 	char	*line;
+
+// 	fd = open(file, O_RDONLY);
+// 	if (fd == -1)
+// 		return (err("open failed", NULL));
+// 	line = get_next_line(fd);
+//	if (errno)
+//		return (err("get_next_line failed", NULL));
+// 	while (line && *line != '1' && *line != ' ')
+// 	{
+// 		if (ft_strchr("NSWEFC", *line))
+// 		{
+// 			if (parse_element(data, line))
+// 				return (err(NULL, line));
+// 		}
+// 		else if (*line != '\n')
+// 			return (err("invalid .cub file content", line));
+// 		free(line);
+// 		line = get_next_line(fd);
+//		if (errno)
+//			return (err("get_next_line failed", NULL));
+// 	}
+// 	if (line && ft_strchr(" 1", *line) && data->elements_found == 6)
+// 		return (parse_map(data, line, fd, file));
+// 	else
+// 		return (err("required elements not found in .cub file", line));
+// }
