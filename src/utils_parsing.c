@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 18:40:08 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/14 17:35:47 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,7 @@ int	check_extension(char *arg)
 	int	len;
 
 	len = ft_strlen(arg);
-	return (ft_strncmp(&arg[len - 4], ".cub", 5));
+	if (len > 4)
+		return (ft_strncmp(&arg[len - 4], ".cub", 5));
+	return (1);
 }
