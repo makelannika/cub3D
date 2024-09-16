@@ -22,11 +22,11 @@ void	draw_square(t_minimap *data, float y_coor, float x_coor)
 	y = 1;
 	while (y < INDEX_HEIGHT)
 	{
-		yy = (int)(y_coor + y - data->offsety + 13);
+		yy = (int)(y_coor + y - data->offsety);
 		x = 1;
 		while (x < INDEX_WIDTH)
 		{
-			xx = (int)(x_coor + x - data->offsetx + 13);
+			xx = (int)(x_coor + x - data->offsetx);
 			if (xx < 0)
 				xx = 0;
 			if (xx > 0 && xx < 275 && yy > 0 && yy < 275)
