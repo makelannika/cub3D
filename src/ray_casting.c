@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <float.h>
 #include "../include/cub3d.h"
 
 // void cast_1000(t_minimap *data, float player_angle)
@@ -27,7 +28,10 @@
 // 		ray++;
 // 	}
 // }
-
+static bool	is_equal(double a, double b)
+{
+	return (fabs(a - b) < 1e-9);
+}
 
 float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
 {
@@ -35,34 +39,42 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
     double wall_distance;
     double delta_dist_x = fabs(1 / ray_dir_x);
     double delta_dist_y = fabs(1 / ray_dir_y);
-	float pix_x = (data->player.pix_x + (data->offsetx)) / 25;
-	float pix_y = (data->player.pix_y + (data->offsety)) / 25;
+	float unit_x = data->player.pix_x / 25;
+	float unit_y = data->player.pix_y / 25;
 	int ray_index_x = data->player.x;
 	int	ray_index_y = data->player.y;
     int step_x, step_y;
     double side_dist_x, side_dist_y;
 
-    if (ray_dir_x < 0)
+	// printf("ray_dir_x=%f\n", ray_dir_x);
+	// printf("ray_dir_y=%f\n", ray_dir_y);
+
+	if (is_equal(ray_dir_x, 0.0))
+		side_dist_x = DBL_MAX;
+	else if (ray_dir_x < 0.0)
     {
         step_x = -1;
-        side_dist_x = (pix_x - ray_index_x) * delta_dist_x;
+        side_dist_x = (unit_x - ray_index_x) * delta_dist_x;
     }
     else
     {
         step_x = 1;
-        side_dist_x = (ray_index_x + 1.0 - pix_x) * delta_dist_x;
+        side_dist_x = (ray_index_x + 1.0 - unit_x) * delta_dist_x;
     }
-    if (ray_dir_y < 0)
+	if (is_equal(ray_dir_y, 0.0))
+		side_dist_y = DBL_MAX;
+    else if (ray_dir_y < 0)
     {
-        step_y = -1;
-        side_dist_y = (pix_y - ray_index_y) * delta_dist_y;
+        step_y = 1;
+        side_dist_y = (unit_y - ray_index_y) * delta_dist_y;
     }
     else
     {
-        step_y = 1;
-        side_dist_y = (ray_index_y + 1.0 - pix_y) * delta_dist_y;
+        step_y = -1;
+        side_dist_y = (ray_index_y + 1.0 - unit_y) * delta_dist_y;
     }
-
+	printf("unit_y is %f ray_index is %i\n", unit_y, ray_index_y);
+	printf("side_dist_x=%f, side_dist_y=%f in pixels\n", side_dist_x, side_dist_y * 25);
     int hit = 0;
     int side;
     while (hit == 0)
@@ -80,10 +92,10 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
             side = 1;
         }
 		
-		printf("y is %i x is %i char is %c\n", ray_index_y,
-		ray_index_x, data->map[ray_index_y][ray_index_x]);
         if (data->map[ray_index_y][ray_index_x] == '1')
         {
+			printf("y is %i x is %i char is %c\n", ray_index_y,
+			ray_index_x, data->map[ray_index_y][ray_index_x]);
             hit = 1;
         }
     }
@@ -95,8 +107,8 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
     {
         wall_distance = side_dist_y - delta_dist_y;
     }
-	printf("side: %i\nray index x: %i pixel x: %f stepx: %i ray dir x: %f\n", side, ray_index_x, pix_x, step_x, ray_dir_x);
-	printf("ray index y: %i pixel y: %f stepy: %i ray dir y: %f\n", ray_index_y, pix_y, step_y, ray_dir_y);
+	// printf("side: %i\nray index x: %i pixel x: %f stepx: %i ray dir x: %f\n", side, ray_index_x, unit_x, step_x, ray_dir_x);
+	// printf("ray index y: %i pixel y: %f stepy: %i ray dir y: %f\n", ray_index_y, unit_y, step_y, ray_dir_y);
 	return (wall_distance * 25);
 }
 
