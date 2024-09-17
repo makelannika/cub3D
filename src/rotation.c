@@ -32,7 +32,7 @@ void	rotate_right(t_minimap *data)
 	draw_wall(data);
 	data->p_angle -= 15;
 	if (data->p_angle < 0)
-		data->p_angle = 360;
+		data->p_angle = 345;
 	draw_player(data, data->p_angle);
 }
 
@@ -44,7 +44,7 @@ void	rotate_left(t_minimap *data)
 	draw_wall(data);
 	data->p_angle += 15;
 	if (data->p_angle > 360)
-		data->p_angle = 0;
+		data->p_angle = 15;
 	draw_player(data, data->p_angle);
 }
 
