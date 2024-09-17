@@ -52,13 +52,13 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
 		side_dist_x = DBL_MAX;
 	else if (ray_dir_x < 0.0)
     {
-        printf("ere1\n");
+        printf("Here1\n");
         step_x = -1;
         side_dist_x = (unit_x - ray_index_x) * delta_dist_x;
     }
     else
     {
-        printf("ere2\n");
+        printf("Here2\n");
         step_x = 1;
         side_dist_x = (ray_index_x + 1.0 - unit_x) * delta_dist_x;
     }
@@ -66,13 +66,13 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
 		side_dist_y = DBL_MAX;
     else if (ray_dir_y < 0)
     {
-        printf("ere3\n");
+        printf("Here3\n");
         step_y = -1;
         side_dist_y = (unit_y - ray_index_y) * delta_dist_y;
     }
     else
     {
-        printf("ere4\n");
+        printf("Here4\n");
         step_y = 1;
         side_dist_y = (ray_index_y + 1.0 - unit_y) * delta_dist_y;
     }
