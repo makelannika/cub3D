@@ -86,5 +86,4 @@ void	draw_player(t_minimap *data, float angle)
 		y++;
 	}
 	fov_cast(data, angle);
-	printf("## player pos: %i %i \n", data->player.x, data->player.y);
 }

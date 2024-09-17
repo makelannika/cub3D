@@ -46,19 +46,15 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
     int step_x, step_y;
     double side_dist_x, side_dist_y;
 
-	printf("playerPixX is %f  playerPixy is %f  offset is %i\n", data->player.pix_x, data->player.pix_y, data->offsety);
-    // printf("rayDY is %f\n", ray_dir_y);
 	if (is_equal(ray_dir_x, 0.0))
 		side_dist_x = DBL_MAX;
 	else if (ray_dir_x < 0.0)
     {
-        printf("Here1\n");
         step_x = -1;
         side_dist_x = (unit_x - ray_index_x) * delta_dist_x;
     }
     else
     {
-        printf("Here2\n");
         step_x = 1;
         side_dist_x = (ray_index_x + 1.0 - unit_x) * delta_dist_x;
     }
@@ -66,22 +62,14 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
 		side_dist_y = DBL_MAX;
     else if (ray_dir_y < 0.0)
     {
-        printf("Here3\n");
         step_y = -1;
         side_dist_y = (ray_index_y + 1.0 - unit_y) * delta_dist_y;
-        // side_dist_y = (unit_y - ray_index_y) * delta_dist_y;
     }
     else
     {
-        printf("Here4\n");
         step_y = 1;
         side_dist_y = (unit_y - ray_index_y) * delta_dist_y;
-        // side_dist_y = (ray_index_y + 1.0 - unit_y) * delta_dist_y;
     }
-	// printf("unit_y is %f ray_index is %i\n", unit_x, ray_index_x);
-	printf("unit_y is %f ray_index is %i\n", unit_y, ray_index_y);
-	// printf("side_dist_x=%f, side_dist_y=%f in pixels\n", side_dist_x, side_dist_y * 25);
-	printf("side_dist_y= %f in pixels\n", side_dist_y * 25);
     int hit = 0;
     int side;
     while (hit == 0)
@@ -98,30 +86,15 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
             ray_index_y -= step_y;
             side = 1;
         }
-		
         if (data->map[ray_index_y][ray_index_x] == '1')
-        {
-			printf("RAY is looking at x %i y %i\n", ray_index_x, ray_index_y);
             hit = 1;
-        }
     }
-   	if (side == 0) // Vertical wall hit
-    {
-        wall_distance = side_dist_x - delta_dist_x;
-    }
-    else // Horizontal wall hit
-    {
-        wall_distance = side_dist_y - delta_dist_y;
-    }
-	// printf("side: %i\nray index x: %i pixel x: %f stepx: %i ray dir x: %f\n", side, ray_index_x, unit_x, step_x, ray_dir_x);
-	// printf("ray index y: %i pixel y: %f stepy: %i ray dir y: %f\n", ray_index_y, unit_y, step_y, ray_dir_y);
-	return (wall_distance * 25);
+        if (side == 0)
+            wall_distance = side_dist_x - delta_dist_x;
+        else
+            wall_distance = side_dist_y - delta_dist_y;
+    return (wall_distance * 25);
 }
-
-// float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
-// {
-
-// }
 
 void	fov_cast(t_minimap *data, float player_angle)
 {
@@ -129,20 +102,21 @@ void	fov_cast(t_minimap *data, float player_angle)
 	int		x;
 	int		y;
 	int		i;
-	// float	ray;
+	float	ray;
 	float	distance;
 
-	// ray = 0;
-	// while (ray < 60)
-	// {
-	// 	double	current_angle = player_angle - 30 + ray;
-		rad = player_angle * M_PI / 180.0;
+	ray = 0;
+	while (ray < 60)
+	{
+		double	current_angle = player_angle - 30 + ray;
+		rad = current_angle * M_PI / 180.0;
+		// rad = player_angle * M_PI / 180.0;
 		double	ray_dir_x = cos(rad);
 		double	ray_dir_y = sin(rad);
-		printf("\nangle is %f dx is %f dy is %f\n", player_angle, ray_dir_x, ray_dir_y);
+		// printf("\nangle is %f dx is %f dy is %f\n", player_angle, ray_dir_x, ray_dir_y);
 		distance = ray_cast(data, ray_dir_x, ray_dir_y);
 		i = 0;
-		printf("distance is %f\n", distance);
+		// printf("distance is %f\n", distance);
 		while (i < distance)
 		// while (i < 194)
 		{
@@ -152,6 +126,6 @@ void	fov_cast(t_minimap *data, float player_angle)
 				mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
 			i++;
 		}
-		// ray += .06;
-	// }
+		ray += .06;
+	}
 }
