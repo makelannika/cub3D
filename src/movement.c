@@ -67,7 +67,7 @@ void	move_up(t_minimap *data)
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
 	data->offsety -= 3;
 	data->player.pix_y -= 3;
-	if (data->offsety < 1)
+	if (data->offsety < 0)
 	{
 		data->player.y -= 1;
 		data->offsety += 25;
