@@ -45,10 +45,9 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
 	int	ray_index_y = data->player.y;
     int step_x, step_y;
     double side_dist_x, side_dist_y;
-    // printf("## player pos: %i %i \n", data->player.x, data->player.y);
 
 	printf("playerPixX is %f  playerPixy is %f  offset is %i\n", data->player.pix_x, data->player.pix_y, data->offsety);
-
+    // printf("rayDY is %f\n", ray_dir_y);
 	if (is_equal(ray_dir_x, 0.0))
 		side_dist_x = DBL_MAX;
 	else if (ray_dir_x < 0.0)
@@ -68,13 +67,13 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
     else if (ray_dir_y < 0)
     {
         printf("ere3\n");
-        step_y = 1;
+        step_y = -1;
         side_dist_y = (unit_y - ray_index_y) * delta_dist_y;
     }
     else
     {
         printf("ere4\n");
-        step_y = -1;
+        step_y = 1;
         side_dist_y = (ray_index_y + 1.0 - unit_y) * delta_dist_y;
     }
 	printf("unit_y is %f ray_index is %i\n", unit_y, ray_index_y);
@@ -99,8 +98,8 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
 		
         if (data->map[ray_index_y][ray_index_x] == '1')
         {
-			printf("x is %i y is %i char is %c\n\n", ray_index_x,
-			ray_index_y, data->map[ray_index_y][ray_index_x]);
+			// printf("x is %i y is %i char is %c\n\n", ray_index_x,
+			// ray_index_y, data->map[ray_index_y][ray_index_x]);
             hit = 1;
         }
     }
@@ -138,10 +137,10 @@ void	fov_cast(t_minimap *data, float player_angle)
 		rad = player_angle * M_PI / 180.0;
 		double	ray_dir_x = cos(rad);
 		double	ray_dir_y = sin(rad);
-		printf("angle is %f dx is %f dy is %f\n", player_angle, ray_dir_x, ray_dir_y);
+		printf("\nangle is %f dx is %f dy is %f\n", player_angle, ray_dir_x, ray_dir_y);
 		distance = ray_cast(data, ray_dir_x, ray_dir_y);
 		i = 0;
-		// printf("distance is %f\n", distance);
+		printf("distance is %f\n", distance);
 		while (i < distance)
 		// while (i < 194)
 		{
