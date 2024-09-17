@@ -92,14 +92,13 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
         else
         {
             side_dist_y += delta_dist_y;
-            ray_index_y += step_y;
+            ray_index_y -= step_y;
             side = 1;
         }
 		
         if (data->map[ray_index_y][ray_index_x] == '1')
         {
-			// printf("x is %i y is %i char is %c\n\n", ray_index_x,
-			// ray_index_y, data->map[ray_index_y][ray_index_x]);
+			printf("RAY is looking at x %i y %i\n", ray_index_x, ray_index_y);
             hit = 1;
         }
     }
