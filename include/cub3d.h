@@ -18,9 +18,12 @@
 # include <fcntl.h>
 # include <stdio.h> /*delete*/
 # include <math.h>
+#include <float.h>
 
 # define PLAYER_X 137
 # define PLAYER_Y 137
+# define SCREEN_WIDTH 1000
+# define SCREEN_HEIGHT 1000
 # define INDEX_WIDTH 25
 # define INDEX_HEIGHT 25
 

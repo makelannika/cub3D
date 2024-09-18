@@ -12,18 +12,6 @@
 
 #include "../include/cub3d.h"
 
-// void	rotate_point(int *x, int *y, double angle)
-// {
-// 	double	radians = angle * M_PI / 180.0;
-// 	int		cx = PLAYER_X;
-// 	int		cy = PLAYER_Y;
-// 	int		new_x = (int)((*x - cx) * cos(radians) - (*y - cy) * sin(radians) + cx);
-// 	int		new_y = (int)((*x - cx) * sin(radians) + (*y - cy) * cos(radians) + cy);
-
-// 	*x = new_x;
-// 	*y = new_y;
-// }
-
 void	rotate_right(t_minimap *data)
 {
 	mlx_delete_image(data->mlx, data->background_png);
