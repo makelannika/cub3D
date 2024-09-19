@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/19 15:16:21 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 16:57:11 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	create_images(t_cub3d *data)
 
 int	init_game(t_cub3d *data)
 {
-	data->mlx = mlx_init(1000, 900, "Cub3D", false);
+	data->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D", false);
 	create_images(data);
 	draw_player(data, data->map.p_angle);
 	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);

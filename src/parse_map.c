@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/19 14:57:04 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 16:57:19 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	validate_index(t_cub3d *data, char **grid, int y, int x)
 		data->map.orientation = grid[y][x];
 		data->map.player.x = x;
 		data->map.player.y = y;
+		data->map.player.pix_x = x * 25 + 13;
+		data->map.player.pix_y = y * 25 + 13;
 		return (0);
 	}
 	if (!grid[y][x - 1] || !ft_strchr("01NSWE", grid[y][x - 1])
