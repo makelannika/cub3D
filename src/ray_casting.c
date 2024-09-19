@@ -80,15 +80,17 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
     return (wall_distance * 25);
 }
 
-void render_that_shit(t_minimap *data, float distance)
+void render_that_shit(t_minimap *data, float distance, int ray_index)
 {
 	int	wall_height;
 	int	start;
 	int	end;
 
-	wall_height = int(SCREEN_HEIGHT / distance);
+	wall_height = (int)(SCREEN_HEIGHT / distance);
 	start = -wall_height / 2 + SCREEN_HEIGHT / 2;
 	end = wall_height / 2 + SCREEN_HEIGHT / 2;
+
+
 }
 
 void	fov_cast(t_minimap *data, float player_angle)
@@ -100,14 +102,6 @@ void	fov_cast(t_minimap *data, float player_angle)
 	float	ray;
 	float	distance;
 
-	printf("width is %i height is %i\n", data->background_tex->width, data->background_tex->height);
-	int z = (135 * 275 + 137) * 4;
-	int t = 0;
-	while (t < 20)
-	{
-		printf("pixels is %i\n", data->background_tex->pixels[z++]);
-		t++;
-	}
 	ray = 0;
 	while (ray < 60)
 	{
@@ -123,9 +117,9 @@ void	fov_cast(t_minimap *data, float player_angle)
 			y = PLAYER_Y - (int)(ray_dir_y * i);
 			if (x > 0 && x < 275 && y > 0 && y < 275)
 				mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
-			render_that_shit(data, distance);
 			i++;
 		}
+		render_that_shit(data, distance, SCREEN_WIDTH / 60 * ray);
 		ray += .06;
 	}
 }
