@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:45 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/19 17:28:15 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 18:12:14 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ray_cast(t_cub3d *data, double ray_dir_x, double ray_dir_y)
 	int	ray_index_y = data->map.player.y;
     int step_x, step_y;
     double side_dist_x, side_dist_y;
-	printf("pix x is %f\n", data->map.player.pix_x);
+	// printf("pix x is %f\n", data->map.player.pix_x);
 	if (is_equal(ray_dir_x, 0.0))
 		side_dist_x = DBL_MAX;
 	else if (ray_dir_x < 0.0)
@@ -97,9 +97,7 @@ void	ray_cast(t_cub3d *data, double ray_dir_x, double ray_dir_y)
 // 	y = 0;
 // 	start = -wall_height / 2 + SCREEN_HEIGHT / 2;
 // 	end = wall_height / 2 + SCREEN_HEIGHT / 2;
-
-
-}
+// }
 
 void	fov_cast(t_cub3d *data, float player_angle)
 {
