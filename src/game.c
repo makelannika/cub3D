@@ -28,7 +28,9 @@ int	create_images(t_cub3d *data)
 
 int	init_game(t_cub3d *data)
 {
-	data->mlx = mlx_init(1000, 900, "Cub3D", false);
+	data->map.player.pix_x = data->map.player.x * 25 + 13;
+	data->map.player.pix_y = data->map.player.y * 25 + 13;
+	data->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D", false);
 	create_images(data);
 	draw_player(data, data->map.p_angle);
 	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);

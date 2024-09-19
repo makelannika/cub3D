@@ -1,11 +1,10 @@
-NO ./assets/grayMarble.png
+NO ./assets/blackmarble.png
 SO ./assets/grayMarble.png
-WE ./assets/grayMarble.png
-EA ./assets/grayMarble.png
+WE ./assets/WhiteMarble.png
+EA ./assets/bamboo.png
 
 F 220,100,0
 C 225,30,0
-
 
 11111
 10001

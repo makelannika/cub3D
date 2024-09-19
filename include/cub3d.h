@@ -62,6 +62,9 @@ typedef struct s_cub3d
 	int				floor[3];
 	int				ceiling[3];
 	int				elements_found;
+	double			ray_distance;
+	double			wall_hit_x;
+	double			wall_hit_y;
 	t_map			map;
 	mlx_t			*mlx;
 } t_cub3d;
