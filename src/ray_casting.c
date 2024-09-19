@@ -73,7 +73,7 @@ double	ray_cast(t_cub3d *data, double ray_dir_x, double ray_dir_y)
         if (data->map.grid[ray_index_y][ray_index_x] == '1')
             hit = 1;
     }
-	      if (side == 0)
+	    if (side == 0)
             wall_distance = side_dist_x - delta_dist_x;
         else
             wall_distance = side_dist_y - delta_dist_y;
