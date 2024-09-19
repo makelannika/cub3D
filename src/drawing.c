@@ -6,13 +6,13 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:59:12 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/19 18:36:27 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 18:50:44 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-void	draw_square(t_cub3d *data, float y_coor, float x_coor)
+void	draw_square(t_cub3d *data, int y_coor, int x_coor)
 {
 	int	x;
 	int	y;
@@ -68,16 +68,12 @@ void	draw_player(t_cub3d *data, float angle)
 	int	x;
 	int	y;
 
-	y = - 1;
+	y = -1;
 	while (y < 2)
 	{
-		x = - 1;
+		x = -1;
 		while (x < 2)
-		{
-			mlx_put_pixel(data->minimap, PLAYER_X + x, PLAYER_Y + y, 0xFFFFFF);
-			ft_printf(1, "y: %d x: %d\n", PLAYER_Y + y, PLAYER_X + x);
-			x++;
-		}
+			mlx_put_pixel(data->minimap, PLAYER_X + x++, PLAYER_Y + y, 0xFFFFFF);
 		y++;
 	}
 	fov_cast(data, angle);
