@@ -12,30 +12,102 @@
 
 #include "../include/cub3d.h"
 
-// void cast_1000(t_minimap *data, float player_angle)
-// {
-// 	double	rad;
-// 	int		ray;
+static bool	is_equal(double a, double b)
+{
+	return (fabs(a - b) < 1e-9);
+}
 
-// 	ray = 0;
-// 	while (ray < 1000)
-//     {
-//         double current_angle = player_angle - 30 + ray * 60 / 1000;
-//         rad = current_angle * M_PI / 180.0;
-//         double ray_dir_x = cos(rad);
-//         double ray_dir_y = sin(rad);
-// 		ray++;
-// 	}
-// }
+float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
+{
 
-void	ray_cast(t_minimap *data, float player_angle)
+    double wall_distance;
+    double delta_dist_x = fabs(1 / ray_dir_x);
+    double delta_dist_y = fabs(1 / ray_dir_y);
+	float unit_x = data->player.pix_x / 25;
+	float unit_y = data->player.pix_y / 25;
+	int ray_index_x = data->player.x;
+	int	ray_index_y = data->player.y;
+    int step_x, step_y;
+    double side_dist_x, side_dist_y;
+
+	if (is_equal(ray_dir_x, 0.0))
+		side_dist_x = DBL_MAX;
+	else if (ray_dir_x < 0.0)
+    {
+        step_x = -1;
+        side_dist_x = (unit_x - ray_index_x) * delta_dist_x;
+    }
+    else
+    {
+        step_x = 1;
+        side_dist_x = (ray_index_x + 1.0 - unit_x) * delta_dist_x;
+    }
+	if (is_equal(ray_dir_y, 0.0))
+		side_dist_y = DBL_MAX;
+    else if (ray_dir_y < 0.0)
+    {
+        step_y = -1;
+        side_dist_y = (ray_index_y + 1.0 - unit_y) * delta_dist_y;
+    }
+    else
+    {
+        step_y = 1;
+        side_dist_y = (unit_y - ray_index_y) * delta_dist_y;
+    }
+    int hit = 0;
+    int side;
+    while (hit == 0)
+    {
+        if (side_dist_x < side_dist_y)
+        {
+            side_dist_x += delta_dist_x;
+            ray_index_x += step_x;
+            side = 0;
+        }
+        else
+        {
+            side_dist_y += delta_dist_y;
+            ray_index_y -= step_y;
+            side = 1;
+        }
+        if (data->map[ray_index_y][ray_index_x] == '1')
+            hit = 1;
+    }
+        if (side == 0)
+            wall_distance = side_dist_x - delta_dist_x;
+        else
+            wall_distance = side_dist_y - delta_dist_y;
+    return (wall_distance * 25);
+}
+
+void render_that_shit(t_minimap *data, float distance)
+{
+	int	wall_height;
+	int	start;
+	int	end;
+
+	wall_height = int(SCREEN_HEIGHT / distance);
+	start = -wall_height / 2 + SCREEN_HEIGHT / 2;
+	end = wall_height / 2 + SCREEN_HEIGHT / 2;
+}
+
+void	fov_cast(t_minimap *data, float player_angle)
 {
 	double	rad;
 	int		x;
 	int		y;
 	int		i;
-	int		ray;
+	float	ray;
+	float	distance;
 
+	printf("width is %i height is %i\n", data->background_tex->width, data->background_tex->height);
+	int z = (135 * 275 + 137) * 4;
+	int t = 0;
+	while (t < 20)
+	{
+		printf("pixels is %i\n", data->background_tex->pixels[z++]);
+		t++;
+	}
 	ray = 0;
 	while (ray < 60)
 	{
@@ -43,15 +115,17 @@ void	ray_cast(t_minimap *data, float player_angle)
 		rad = current_angle * M_PI / 180.0;
 		double	ray_dir_x = cos(rad);
 		double	ray_dir_y = sin(rad);
+		distance = ray_cast(data, ray_dir_x, ray_dir_y);
 		i = 0;
-		while (i < 194)
+		while (i < distance)
 		{
 			x = PLAYER_X + (int)(ray_dir_x * i);
-			y = PLAYER_Y + (int)(ray_dir_y * i);
+			y = PLAYER_Y - (int)(ray_dir_y * i);
 			if (x > 0 && x < 275 && y > 0 && y < 275)
 				mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
+			render_that_shit(data, distance);
 			i++;
 		}
-		ray++;
+		ray += .06;
 	}
 }

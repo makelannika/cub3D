@@ -17,7 +17,8 @@ void	move_left(t_minimap *data)
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	data->offsetx = data->offsetx - 3;
+	data->offsetx -= 3;
+	data->player.pix_x -= 3;
 	if (data->offsetx < 0)
 	{
 		data->player.x -= 1;
@@ -32,7 +33,8 @@ void	move_right(t_minimap *data)
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	data->offsetx = data->offsetx + 3;
+	data->offsetx += 3;
+	data->player.pix_x += 3;
 	if (data->offsetx > 25)
 	{
 		data->player.x += 1;
@@ -47,7 +49,8 @@ void	move_down(t_minimap *data)
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	data->offsety = data->offsety + 3;
+	data->offsety += 3;
+	data->player.pix_y += 3;
 	if (data->offsety > 25)
 	{
 		data->player.y += 1;
@@ -62,8 +65,9 @@ void	move_up(t_minimap *data)
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	data->offsety = data->offsety - 3;
-	if (data->offsety < 25)
+	data->offsety -= 3;
+	data->player.pix_y -= 3;
+	if (data->offsety < 0)
 	{
 		data->player.y -= 1;
 		data->offsety += 25;

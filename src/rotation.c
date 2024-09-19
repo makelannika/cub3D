@@ -6,23 +6,11 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:48:37 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/14 00:23:30 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 13:19:43 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-void	rotate_point(int *x, int *y, double angle)
-{
-	double	radians = angle * M_PI / 180.0;
-	int		cx = PLAYER_X;
-	int		cy = PLAYER_Y;
-	int		new_x = (int)((*x - cx) * cos(radians) - (*y - cy) * sin(radians) + cx);
-	int		new_y = (int)((*x - cx) * sin(radians) + (*y - cy) * cos(radians) + cy);
-
-	*x = new_x;
-	*y = new_y;
-}
 
 void	rotate_right(t_minimap *data)
 {
@@ -30,9 +18,9 @@ void	rotate_right(t_minimap *data)
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
 	draw_minimap(data, data->player.y - 5, data->player.x -5);
-	data->p_angle += 15;
-	if (data->p_angle > 360)
-		data->p_angle = 0;
+	data->p_angle -= 15;
+	if (data->p_angle < 0)
+		data->p_angle = 345;
 	draw_player(data, data->p_angle);
 }
 
@@ -42,9 +30,9 @@ void	rotate_left(t_minimap *data)
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
 	draw_minimap(data, data->player.y - 5, data->player.x -5);
-	data->p_angle -= 15;
+	data->p_angle += 15;
 	if (data->p_angle > 360)
-		data->p_angle = 0;
+		data->p_angle = 15;
 	draw_player(data, data->p_angle);
 }
 
