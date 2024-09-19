@@ -80,17 +80,28 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
     return (wall_distance * 25);
 }
 
-void render_that_shit(t_minimap *data, float distance, int ray_index)
+void render_ray(t_minimap *data, int wall_height, int ray_index)
 {
-	int	wall_height;
 	int	start;
 	int	end;
+	int	x;
+	int	y;
 
-	wall_height = (int)(SCREEN_HEIGHT / distance);
+	x = 0;
+	y = 0;
+
 	start = -wall_height / 2 + SCREEN_HEIGHT / 2;
 	end = wall_height / 2 + SCREEN_HEIGHT / 2;
 
+	int floor [3] = {220, 100, 0};
+	int	ceingling [3] = {225, 30, 0};
+	mlx_texture_t	*wt;
+	mlx_image_t		*wi;
 
+	wt = mlx_load_png("assets/grayMarble.png");
+	wi = mlx_texture_to_image(data->mlx, data->background_tex);
+
+	
 }
 
 void	fov_cast(t_minimap *data, float player_angle)
@@ -119,7 +130,7 @@ void	fov_cast(t_minimap *data, float player_angle)
 				mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
 			i++;
 		}
-		render_that_shit(data, distance, SCREEN_WIDTH / 60 * ray);
+		render_ray(data, (int)(SCREEN_HEIGHT / distance), SCREEN_WIDTH / 60 * ray);
 		ray += .06;
 	}
 }
