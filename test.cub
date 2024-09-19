@@ -1,15 +1,15 @@
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+NO ./assets/grayMarble.png
+SO ./assets/grayMarble.png
+WE ./assets/grayMarble.png
+EA ./assets/grayMarble.png
 
 F 220,100,0
 C 225,30,0
 
-111111111111111
-100100000000001
-10010N000000001
-100100000001111
-100100001001001
-100100001000001
-111111111111111
+
+11111
+10001
+10001
+10N01
+10001
+11111

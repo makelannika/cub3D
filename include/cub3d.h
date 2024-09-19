@@ -19,16 +19,21 @@
 # include <stdio.h> /*delete*/
 # include <errno.h> /*ok?*/
 # include <math.h>
+#include <float.h>
 
 # define PLAYER_X 137
 # define PLAYER_Y 137
+# define SCREEN_WIDTH 1000
+# define SCREEN_HEIGHT 1000
 # define INDEX_WIDTH 25
 # define INDEX_HEIGHT 25
 
 typedef struct s_coor
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
+	float	pix_x;
+	float	pix_y;
 } t_coor;
 
 typedef struct s_minimap
@@ -101,7 +106,7 @@ void	rotate_right(t_minimap *data);
 void	draw_player(t_minimap *data, float angle);
 int		draw_minimap(t_minimap *data, int y, int x);
 
-void	ray_cast(t_minimap *data, float player_angle);
+void	fov_cast(t_minimap *data, float player_angle);
 
 // CLEANING UTILS
 int		err(char *str, void *ptr);
