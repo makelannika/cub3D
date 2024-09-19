@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/14 19:00:12 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 13:28:39 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
 # include <stdio.h> /*delete*/
+# include <errno.h> /*ok?*/
 # include <math.h>
 
 # define PLAYER_X 137
@@ -85,7 +86,7 @@ void	get_map_width(t_cub3d *data);
 int		count_commas(char *str);
 
 // GAME
-int init_game(t_minimap *data);
+int init_game(t_cub3d *data);
 
 // MOVEMENT
 void	move_left(t_minimap *data);
