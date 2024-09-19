@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/14 18:50:14 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:56:08 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	get_map_width(t_cub3d *data)
 	int	i;
 
 	i = 0;
-	while (data->map.map[i])
+	while (data->map.grid[i])
 	{
-		if ((int)ft_strlen(data->map.map[i]) > data->map.map_width)
-			data->map.map_width = ft_strlen(data->map.map[i]);
+		if ((int)ft_strlen(data->map.grid[i]) > data->map.width)
+			data->map.width = ft_strlen(data->map.grid[i]);
 		i++;
 	}
 }
@@ -45,11 +45,11 @@ int	get_map_height(t_cub3d *data, char *line, int fd)
 			close(fd);
 			return (err("forbidden character found in the map", line));
 		}
-		data->map.map_height++;
+		data->map.height++;
 		free(line);
 		line = get_next_line(fd);
-		if (errno)
-			return (err("get_next_line failed", NULL));
+		// if (errno)
+		// 	return (err("5 get_next_line failed", NULL));
 	}
 	close(fd);
 	if (line)

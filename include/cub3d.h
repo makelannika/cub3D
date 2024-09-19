@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/19 14:04:43 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 15:16:21 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include "../MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
 # include <stdio.h> /*delete*/
-# include <errno.h> /*ok?*/
 # include <math.h>
 #include <float.h>
 
@@ -36,22 +35,17 @@ typedef struct s_coor
 	float	pix_y;
 } t_coor;
 
-typedef struct s_minimap
+typedef struct s_map
 {
-	int				map_height;
-	int				map_width;
+	int				height;
+	int				width;
 	int				offsetx;
 	int				offsety;
 	double			p_angle;
-	char			**map;
+	char			**grid;
 	char			orientation;
-	mlx_t			*mlx;
-	mlx_image_t		*arrow_png;
-	mlx_image_t		*background_png;
-	mlx_texture_t	*arrow_tex;
-	mlx_texture_t	*background_tex;
 	t_coor			player;
-} t_minimap;
+} t_map;
 
 typedef struct s_cub3d
 {
@@ -59,27 +53,18 @@ typedef struct s_cub3d
 	mlx_texture_t	*so_txtr;
 	mlx_texture_t	*we_txtr;
 	mlx_texture_t	*ea_txtr;
-	int				floor[3];
-	int				ceiling[3];
-	int				elements_found;
-	t_minimap		map;
+	mlx_texture_t	*minimap_txtr;
 	mlx_image_t		*no;
 	mlx_image_t		*so;
 	mlx_image_t		*we;
 	mlx_image_t		*ea;
+	mlx_image_t		*minimap;
+	int				floor[3];
+	int				ceiling[3];
+	int				elements_found;
+	t_map			map;
+	mlx_t			*mlx;
 } t_cub3d;
-
-// typedef struct s_cub3d
-// {
-// 	char		*no;
-// 	char		*so;
-// 	char		*we;
-// 	char		*ea;
-// 	int			floor[3];
-// 	int			ceiling[3];
-// 	int			elements_found;
-// 	t_minimap	map;
-// } t_cub3d;
 
 // PARSING
 int		check_extension(char *arg);
@@ -90,23 +75,23 @@ void	get_map_width(t_cub3d *data);
 int		count_commas(char *str);
 
 // GAME
-int init_game(t_cub3d *data);
+int		init_game(t_cub3d *data);
 
 // MOVEMENT
-void	move_left(t_minimap *data);
-void	move_right(t_minimap *data);
-void	move_down(t_minimap *data);
-void	move_up(t_minimap *data);
+void	move_left(t_cub3d *data);
+void	move_right(t_cub3d *data);
+void	move_down(t_cub3d *data);
+void	move_up(t_cub3d *data);
 void	my_keyhook(mlx_key_data_t keydata, void *game_data);
 
-void	rotate_left(t_minimap *data);
-void	rotate_right(t_minimap *data);
+void	rotate_left(t_cub3d *data);
+void	rotate_right(t_cub3d *data);
 
 // DRAWING
-void	draw_player(t_minimap *data, float angle);
-int		draw_minimap(t_minimap *data, int y, int x);
+void	draw_player(t_cub3d *data, float angle);
+int		draw_minimap(t_cub3d *data, int y, int x);
 
-void	fov_cast(t_minimap *data, float player_angle);
+void	fov_cast(t_cub3d *data, float player_angle);
 
 // CLEANING UTILS
 int		err(char *str, void *ptr);

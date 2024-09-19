@@ -6,28 +6,34 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/19 13:27:16 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 15:16:21 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int	create_images(t_minimap *data)
+int	create_images(t_cub3d *data)
 {
-	data->background_tex = mlx_load_png("assets/black_bg.png");
-	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
-	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
+	data->minimap_txtr = mlx_load_png("assets/black_bg.png");
+	data->minimap = mlx_texture_to_image(data->mlx, data->minimap_txtr);
+	data->no = mlx_texture_to_image(data->mlx, data->no_txtr);
+	data->so = mlx_texture_to_image(data->mlx, data->so_txtr);
+	data->we = mlx_texture_to_image(data->mlx, data->we_txtr);
+	data->ea = mlx_texture_to_image(data->mlx, data->ea_txtr);
+	if (mlx_errno)
+		return (err("creating images failed", NULL));
+	mlx_image_to_window(data->mlx, data->minimap, 0, 0);
 	return (0);
 }
 
 int	init_game(t_cub3d *data)
 {
-	data->map.mlx = mlx_init(1000, 900, "Cub3D", false);
-	create_images(&data->map);
-	draw_player(&data->map, data->map.p_angle);
-	draw_minimap(&data->map, data->map.player.y - 5, data->map.player.x -5);
-	mlx_key_hook(data->map.mlx, &my_keyhook, &data->map);
-	mlx_loop(data->map.mlx);
-	mlx_terminate(data->map.mlx);
+	data->mlx = mlx_init(1000, 900, "Cub3D", false);
+	create_images(data);
+	draw_player(data, data->map.p_angle);
+	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
+	mlx_key_hook(data->mlx, &my_keyhook, data);
+	mlx_loop(data->mlx);
+	mlx_terminate(data->mlx);
 	return (0);
 }

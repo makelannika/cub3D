@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/14 18:51:18 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:57:04 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,22 @@ void	set_orientation(t_cub3d *data, char orientation)
 	data->map.offsety = 13;
 }
 
-int	validate_index(t_cub3d *data, char **map, int y, int x)
+int	validate_index(t_cub3d *data, char **grid, int y, int x)
 {
-	if (ft_strchr("NSWE", map[y][x]))
+	if (ft_strchr("NSWE", grid[y][x]))
 	{
 		if (data->map.orientation)
 			return (err("multiple starting positions found in the map", NULL));
-		set_orientation(data, map[y][x]);
-		data->map.orientation = map[y][x];
+		set_orientation(data, grid[y][x]);
+		data->map.orientation = grid[y][x];
 		data->map.player.x = x;
 		data->map.player.y = y;
 		return (0);
 	}
-	if (!map[y][x - 1] || !ft_strchr("01NSWE", map[y][x - 1])
-		|| !map[y][x + 1] || !ft_strchr("01NSWE", map[y][x + 1])
-		|| !map[y - 1][x] || !ft_strchr("01NSWE", map[y - 1][x])
-		|| !map[y + 1][x] || !ft_strchr("01NSWE", map[y + 1][x]))
+	if (!grid[y][x - 1] || !ft_strchr("01NSWE", grid[y][x - 1])
+		|| !grid[y][x + 1] || !ft_strchr("01NSWE", grid[y][x + 1])
+		|| !grid[y - 1][x] || !ft_strchr("01NSWE", grid[y - 1][x])
+		|| !grid[y + 1][x] || !ft_strchr("01NSWE", grid[y + 1][x]))
 		return (err("map must be surrounded by walls", NULL));
 	return (0);
 }
@@ -53,13 +53,13 @@ int	validate_map(t_cub3d *data)
 
 	x = 0;
 	y = 0;
-	while (y < data->map.map_height)
+	while (y < data->map.height)
 	{
-		while (data->map.map[y][x])
+		while (data->map.grid[y][x])
 		{
-			if (ft_strchr("0NSWE", data->map.map[y][x]))
+			if (ft_strchr("0NSWE", data->map.grid[y][x]))
 			{
-				if (validate_index(data, data->map.map, y, x))
+				if (validate_index(data, data->map.grid, y, x))
 					return (1);
 			}
 			x++;
@@ -81,21 +81,21 @@ int	copy_map(t_cub3d *data, int fd, char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (err("open failed", NULL));
-	data->map.map = ft_calloc(data->map.map_height + 1, sizeof(char *));
-	if (!data->map.map)
+	data->map.grid = ft_calloc(data->map.height + 1, sizeof(char *));
+	if (!data->map.grid)
 		return (err("malloc failed", NULL));
 	line = get_next_line(fd);
-	if (errno)
-		return (err("get_next_line failed", NULL));
+	// if (errno)
+	// 	return (err("3 get_next_line failed", NULL));
 	while (line)
 	{
 		if (ft_strchr("1 ", *line))
 		{	
 			if (line[ft_strlen(line) - 1] == '\n')
-				data->map.map[i++] = ft_substr(line, 0, ft_strlen(line) - 1);
+				data->map.grid[i++] = ft_substr(line, 0, ft_strlen(line) - 1);
 			else
-				data->map.map[i++] = ft_substr(line, 0, ft_strlen(line));
-			if (!data->map.map[i - 1])
+				data->map.grid[i++] = ft_substr(line, 0, ft_strlen(line));
+			if (!data->map.grid[i - 1])
 			{
 				close (fd);
 				return (err("malloc failed", line));
@@ -103,8 +103,8 @@ int	copy_map(t_cub3d *data, int fd, char *file)
 		}
 		free(line);
 		line = get_next_line(fd);
-		if (errno)
-			return (err("get_next_line failed", NULL));
+		// if (errno)
+		// 	return (err("4 get_next_line failed", NULL));
 	}
 	close(fd);
 	return (0);
