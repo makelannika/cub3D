@@ -100,6 +100,14 @@ void	fov_cast(t_minimap *data, float player_angle)
 	float	ray;
 	float	distance;
 
+	printf("width is %i height is %i\n", data->background_tex->width, data->background_tex->height);
+	int z = (135 * 275 + 137) * 4;
+	int t = 0;
+	while (t < 20)
+	{
+		printf("pixels is %i\n", data->background_tex->pixels[z++]);
+		t++;
+	}
 	ray = 0;
 	while (ray < 60)
 	{
