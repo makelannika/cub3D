@@ -18,9 +18,9 @@ void	rotate_right(t_cub3d *data)
 	data->minimap = mlx_texture_to_image(data->mlx, data->minimap_txtr);
 	mlx_image_to_window(data->mlx, data->minimap, 0, 0);
 	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
-	data->map.p_angle += 15;
-	if (data->map.p_angle > 360)
-		data->map.p_angle = 0;
+	data->map.p_angle -= 15;
+	if (data->map.p_angle < 0)
+		data->map.p_angle = 345;
 	draw_player(data, data->map.p_angle);
 }
 
@@ -30,7 +30,7 @@ void	rotate_left(t_cub3d *data)
 	data->minimap = mlx_texture_to_image(data->mlx, data->minimap_txtr);
 	mlx_image_to_window(data->mlx, data->minimap, 0, 0);
 	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
-	data->map.p_angle -= 15;
+	data->map.p_angle += 15;
 	if (data->map.p_angle > 360)
 		data->map.p_angle = 15;
 	draw_player(data, data->map.p_angle);
