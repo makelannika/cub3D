@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:45 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 18:06:58 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 15:16:21 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ static bool	is_equal(double a, double b)
 	return (fabs(a - b) < 1e-9);
 }
 
-float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
+float	ray_cast(t_cub3d *data, double ray_dir_x, double ray_dir_y)
 {
 
     double wall_distance;
     double delta_dist_x = fabs(1 / ray_dir_x);
     double delta_dist_y = fabs(1 / ray_dir_y);
-	float unit_x = data->player.pix_x / 25;
-	float unit_y = data->player.pix_y / 25;
-	int ray_index_x = data->player.x;
-	int	ray_index_y = data->player.y;
+	float unit_x = data->map.player.pix_x / 25;
+	float unit_y = data->map.player.pix_y / 25;
+	int ray_index_x = data->map.player.x;
+	int	ray_index_y = data->map.player.y;
     int step_x, step_y;
     double side_dist_x, side_dist_y;
 
@@ -70,7 +70,7 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
             ray_index_y -= step_y;
             side = 1;
         }
-        if (data->map[ray_index_y][ray_index_x] == '1')
+        if (data->map.grid[ray_index_y][ray_index_x] == '1')
             hit = 1;
     }
         if (side == 0)
@@ -80,8 +80,11 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
     return (wall_distance * 25);
 }
 
-void render_ray(t_minimap *data, int wall_height, int ray_index)
+void render_that_shit(t_cub3d *data, float distance, int ray_index)
 {
+    ft_printf(1, "%d\n", data->elements_found); /*just to get it to compile*/
+    ft_printf(1, "%d\n", ray_index); /*just to get it to compile*/
+	int	wall_height;
 	int	start;
 	int	end;
 	int	x;
@@ -104,7 +107,7 @@ void render_ray(t_minimap *data, int wall_height, int ray_index)
 	
 }
 
-void	fov_cast(t_minimap *data, float player_angle)
+void	fov_cast(t_cub3d *data, float player_angle)
 {
 	double	rad;
 	int		x;
@@ -127,7 +130,7 @@ void	fov_cast(t_minimap *data, float player_angle)
 			x = PLAYER_X + (int)(ray_dir_x * i);
 			y = PLAYER_Y - (int)(ray_dir_y * i);
 			if (x > 0 && x < 275 && y > 0 && y < 275)
-				mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
+				mlx_put_pixel(data->minimap, x, y, 0xFFFFFF);
 			i++;
 		}
 		render_ray(data, (int)(SCREEN_HEIGHT / distance), SCREEN_WIDTH / 60 * ray);
