@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 18:40:08 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/14 18:50:14 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ int	get_map_height(t_cub3d *data, char *line, int fd)
 		if (validate_line(line))
 		{
 			close(fd);
-			return (err("invalid map", line));
+			return (err("forbidden character found in the map", line));
 		}
 		data->map.map_height++;
 		free(line);
-		line = get_next_line(fd); // malloc/open check
+		line = get_next_line(fd);
+		if (errno)
+			return (err("get_next_line failed", NULL));
 	}
 	close(fd);
 	if (line)
@@ -74,5 +76,7 @@ int	check_extension(char *arg)
 	int	len;
 
 	len = ft_strlen(arg);
-	return (ft_strncmp(&arg[len - 4], ".cub", 5));
+	if (len > 4)
+		return (ft_strncmp(&arg[len - 4], ".cub", 5));
+	return (1);
 }

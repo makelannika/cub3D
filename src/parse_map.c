@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 18:34:55 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/14 18:51:18 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ void	set_orientation(t_cub3d *data, char orientation)
 
 int	validate_index(t_cub3d *data, char **map, int y, int x)
 {
-	if (y == 0 || y == data->map.map_height - 1
-		|| x == 0 || x == (int)ft_strlen(map[y]) - 1)
-		return (err("map must be surrounded by walls", NULL));
 	if (ft_strchr("NSWE", map[y][x]))
 	{
 		if (data->map.orientation)
@@ -41,12 +38,10 @@ int	validate_index(t_cub3d *data, char **map, int y, int x)
 		data->map.player.y = y;
 		return (0);
 	}
-	if (!ft_strchr("01NSWE", map[y][x - 1])
-		|| !ft_strchr("01NSWE", map[y][x + 1])
-		|| (int)ft_strlen(map[y - 1]) < (x + 1)
-		|| !ft_strchr("01NSWE", map[y - 1][x])
-		|| (int)ft_strlen(map[y + 1]) < (x + 1)
-		|| !ft_strchr("01NSWE", map[y + 1][x]))
+	if (!map[y][x - 1] || !ft_strchr("01NSWE", map[y][x - 1])
+		|| !map[y][x + 1] || !ft_strchr("01NSWE", map[y][x + 1])
+		|| !map[y - 1][x] || !ft_strchr("01NSWE", map[y - 1][x])
+		|| !map[y + 1][x] || !ft_strchr("01NSWE", map[y + 1][x]))
 		return (err("map must be surrounded by walls", NULL));
 	return (0);
 }
@@ -89,7 +84,9 @@ int	copy_map(t_cub3d *data, int fd, char *file)
 	data->map.map = ft_calloc(data->map.map_height + 1, sizeof(char *));
 	if (!data->map.map)
 		return (err("malloc failed", NULL));
-	line = get_next_line(fd); // malloc/open check
+	line = get_next_line(fd);
+	if (errno)
+		return (err("get_next_line failed", NULL));
 	while (line)
 	{
 		if (ft_strchr("1 ", *line))
@@ -105,7 +102,9 @@ int	copy_map(t_cub3d *data, int fd, char *file)
 			}
 		}
 		free(line);
-		line = get_next_line(fd); // malloc/open check
+		line = get_next_line(fd);
+		if (errno)
+			return (err("get_next_line failed", NULL));
 	}
 	close(fd);
 	return (0);

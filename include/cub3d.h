@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 18:11:24 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 13:28:39 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
 # include <stdio.h> /*delete*/
+# include <errno.h> /*ok?*/
 # include <math.h>
 #include <float.h>
 
@@ -52,6 +53,22 @@ typedef struct s_minimap
 	t_coor			player;
 } t_minimap;
 
+// typedef struct s_cub3d
+// {
+// 	char		*no_txtr;
+// 	char		*so_txtr;
+// 	char		*we_txtr;
+// 	char		*ea_txtr;
+// 	int			floor[3];
+// 	int			ceiling[3];
+// 	int			elements_found;
+// 	t_minimap	map;
+// 	mlx_image_t	*no;
+// 	mlx_image_t	*so;
+// 	mlx_image_t	*we;
+// 	mlx_image_t	*ea;
+// } t_cub3d;
+
 typedef struct s_cub3d
 {
 	char		*no;
@@ -65,7 +82,6 @@ typedef struct s_cub3d
 	
 } t_cub3d;
 
-
 // PARSING
 int		check_extension(char *arg);
 int		parse_file(t_cub3d *data, char *file);
@@ -75,7 +91,7 @@ void	get_map_width(t_cub3d *data);
 int		count_commas(char *str);
 
 // GAME
-int init_game(t_minimap *data);
+int init_game(t_cub3d *data);
 
 // MOVEMENT
 void	move_left(t_minimap *data);
@@ -89,7 +105,7 @@ void	rotate_right(t_minimap *data);
 
 // DRAWING
 void	draw_player(t_minimap *data, float angle);
-int		draw_wall(t_minimap *data);
+int		draw_minimap(t_minimap *data, int y, int x);
 
 void	fov_cast(t_minimap *data, float player_angle);
 

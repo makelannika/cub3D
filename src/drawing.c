@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:59:12 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 18:06:17 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/14 00:22:27 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,34 +37,28 @@ void	draw_square(t_minimap *data, float y_coor, float x_coor)
 	}
 }
 
-int	draw_wall(t_minimap *data)
+int	draw_minimap(t_minimap *data, int y, int x)
 {
-	int	y;
-	int	x;
-	int	x_reset;
-	int	vertical = 0;
-	int	horizontal = 0;
+	int	minimap_y = 0;
+	int	minimap_x = 0;
 
-	y = data->player.y - 5;
-	x = data->player.x - 5;
-	x_reset = x;
-	while (vertical < 12)
+	while (minimap_y < 12)
 	{
 		if (y >= data->map_height)
 			break ;
-		x = x_reset;
-		horizontal = 0;
-		while (horizontal < 12)
+		x -= minimap_x;
+		minimap_x = 0;
+		while (minimap_x < 12)
 		{
-			if ((y >= 0 && x >= 0) && !data->map[y][x])
+			if (y >= 0 && x >= (int)ft_strlen(data->map[y]))
 				break ;
 			if ((y >= 0 && x >= 0) && data->map[y][x] == '1')
-				draw_square(data, vertical * INDEX_HEIGHT, horizontal * INDEX_WIDTH);
+				draw_square(data, minimap_y * INDEX_HEIGHT, minimap_x * INDEX_WIDTH);
 			x++;
-			horizontal++;
+			minimap_x++;
 		}
 		y++;
-		vertical++;
+		minimap_y++;
 	}
 	return (0);
 }

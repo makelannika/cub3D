@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:48:37 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 18:05:42 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/14 00:23:30 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	rotate_right(t_minimap *data)
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	draw_wall(data);
-	data->p_angle -= 15;
-	if (data->p_angle < 0)
-		data->p_angle = 345;
+	draw_minimap(data, data->player.y - 5, data->player.x -5);
+	data->p_angle += 15;
+	if (data->p_angle > 360)
+		data->p_angle = 0;
 	draw_player(data, data->p_angle);
 }
 
@@ -29,8 +29,8 @@ void	rotate_left(t_minimap *data)
 	mlx_delete_image(data->mlx, data->background_png);
 	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
 	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	draw_wall(data);
-	data->p_angle += 15;
+	draw_minimap(data, data->player.y - 5, data->player.x -5);
+	data->p_angle -= 15;
 	if (data->p_angle > 360)
 		data->p_angle = 15;
 	draw_player(data, data->p_angle);
