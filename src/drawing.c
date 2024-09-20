@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:59:12 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/19 18:50:44 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/20 12:14:21 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	draw_square(t_cub3d *data, int y_coor, int x_coor)
 	int	yy;
 
 	y = 1;
-	while (y < INDEX_HEIGHT)
+	while (y < (INDEX_HEIGHT - 1))
 	{
 		yy = (int)(y_coor + y - data->map.offsety + 13);
 		x = 1;
-		while (x < INDEX_WIDTH)
+		while (x < (INDEX_WIDTH - 1))
 		{
 			xx = (int)(x_coor + x - data->map.offsetx + 13);
 			if (xx < 0)

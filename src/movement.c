@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:45:22 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/19 17:19:24 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/20 12:00:17 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	move_left(t_cub3d *data)
 {
+	if (data->map.offsetx < 3
+		&& data->map.grid[data->map.player.y][data->map.player.x - 1] == '1')
+		return ;
 	mlx_delete_image(data->mlx, data->minimap);
 	data->minimap = mlx_texture_to_image(data->mlx, data->minimap_txtr);
 	mlx_image_to_window(data->mlx, data->minimap, 0, 0);
@@ -30,6 +33,9 @@ void	move_left(t_cub3d *data)
 
 void	move_right(t_cub3d *data)
 {
+    if (data->map.offsetx > 22
+		&& data->map.grid[data->map.player.y][data->map.player.x + 1] == '1')
+		return ;
 	mlx_delete_image(data->mlx, data->minimap);
 	data->minimap = mlx_texture_to_image(data->mlx, data->minimap_txtr);
 	mlx_image_to_window(data->mlx, data->minimap, 0, 0);
@@ -46,6 +52,9 @@ void	move_right(t_cub3d *data)
 
 void	move_down(t_cub3d *data)
 {
+    if (data->map.offsety > 22
+		&& data->map.grid[data->map.player.y + 1][data->map.player.x] == '1')
+		return ;
 	mlx_delete_image(data->mlx, data->minimap);
 	data->minimap = mlx_texture_to_image(data->mlx, data->minimap_txtr);
 	mlx_image_to_window(data->mlx, data->minimap, 0, 0);
@@ -62,6 +71,9 @@ void	move_down(t_cub3d *data)
 
 void	move_up(t_cub3d *data)
 {
+    if (data->map.offsety < 3
+		&& data->map.grid[data->map.player.y - 1][data->map.player.x] == '1')
+		return ;
 	mlx_delete_image(data->mlx, data->minimap);
 	data->minimap = mlx_texture_to_image(data->mlx, data->minimap_txtr);
 	mlx_image_to_window(data->mlx, data->minimap, 0, 0);
