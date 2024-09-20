@@ -27,7 +27,7 @@ void	ray_cast(t_cub3d *data, double ray_dir_x, double ray_dir_y)
 	int	ray_index_y = data->map.player.y;
     int step_x, step_y;
     double side_dist_x, side_dist_y;
-	printf("pix x is %f\n", data->map.player.pix_x);
+
 	if (is_equal(ray_dir_x, 0.0))
 		side_dist_x = DBL_MAX;
 	else if (ray_dir_x < 0.0)
@@ -73,33 +73,34 @@ void	ray_cast(t_cub3d *data, double ray_dir_x, double ray_dir_y)
     }
         if (side == 0)
 		{
+			printf("here1\n");
             data->ray_distance = (side_dist_x - delta_dist_x) * 25;
-			data->wall_hit_x = ray_index_x;
-    		data->wall_hit_y = ray_index_y + (side_dist_y - delta_dist_y) * ray_dir_y;
+			data->wall_hit_x = ray_index_x * 25;
+    		data->wall_hit_y = (unit_y + (side_dist_x - delta_dist_x) * ray_dir_y) * 25;
 		}
         else
 		{
+			printf("here2\n");
             data->ray_distance = (side_dist_y - delta_dist_y) * 25;
-			data->wall_hit_y = ray_index_y;
-    		data->wall_hit_x = ray_index_x + (side_dist_x - delta_dist_x) * ray_dir_x;
+			data->wall_hit_y = ray_index_y * 25;
+    		data->wall_hit_x = (unit_x + (side_dist_y - delta_dist_y) * ray_dir_x) * 25;
 		}
 }
 
-void render_ray(t_cub3d *data, float distance, int ray_index)
-{
-	int	wall_height;
-	int	start;
-	int	end;
-	int	x;
-	int	y;
+// void render_ray(t_cub3d *data, float distance, int ray_index)
+// {
+// 	int	wall_height;
+// 	int	start;
+// 	int	end;
+// 	int	x;
+// 	int	y;
 
-	x = 0;
-	y = 0;
-	start = -wall_height / 2 + SCREEN_HEIGHT / 2;
-	end = wall_height / 2 + SCREEN_HEIGHT / 2;
+// 	x = 0;
+// 	y = 0;
+// 	start = -wall_height / 2 + SCREEN_HEIGHT / 2;
+// 	end = wall_height / 2 + SCREEN_HEIGHT / 2;
 
-
-}
+// }
 
 void	fov_cast(t_cub3d *data, float player_angle)
 {
@@ -113,6 +114,7 @@ void	fov_cast(t_cub3d *data, float player_angle)
 	while (ray < 60)
 	{
 		double	current_angle = player_angle - 30 + ray;
+		printf("current angle is %f\n", current_angle);
 		rad = current_angle * M_PI / 180.0;
 		double	ray_dir_x = cos(rad);
 		double	ray_dir_y = sin(rad);
@@ -126,6 +128,7 @@ void	fov_cast(t_cub3d *data, float player_angle)
 				mlx_put_pixel(data->minimap, x, y, 0xFFFFFF);
 			i++;
 		}
+		printf("ray is %f hit x is %f hit y is %f px is %f py is %f\n", ray, data->wall_hit_x, data->wall_hit_y, data->map.player.pix_x, data->map.player.pix_y);
 		// render_ray(data, (int)(SCREEN_HEIGHT / data->ray_distance), SCREEN_WIDTH / 60 * ray);
 		ray += .06;
 	}
