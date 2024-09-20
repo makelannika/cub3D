@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/19 15:16:21 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/14 00:22:36 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,22 @@ typedef struct s_map
 	char			orientation;
 	t_coor			player;
 } t_map;
+
+// typedef struct s_cub3d
+// {
+// 	char		*no_txtr;
+// 	char		*so_txtr;
+// 	char		*we_txtr;
+// 	char		*ea_txtr;
+// 	int			floor[3];
+// 	int			ceiling[3];
+// 	int			elements_found;
+// 	t_minimap	map;
+// 	mlx_image_t	*no;
+// 	mlx_image_t	*so;
+// 	mlx_image_t	*we;
+// 	mlx_image_t	*ea;
+// } t_cub3d;
 
 typedef struct s_cub3d
 {
@@ -93,7 +109,6 @@ void	rotate_right(t_cub3d *data);
 // DRAWING
 void	draw_player(t_cub3d *data, float angle);
 int		draw_minimap(t_cub3d *data, int y, int x);
-
 void	fov_cast(t_cub3d *data, float player_angle);
 
 // CLEANING UTILS

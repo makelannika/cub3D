@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:45 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/19 15:16:21 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 18:12:14 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,13 @@ void	ray_cast(t_cub3d *data, double ray_dir_x, double ray_dir_y)
 		}
 }
 
+// void render_ray(t_cub3d *data, float distance, int ray_index)
+// {
+// 	int	wall_height;
+// 	int	start;
+// 	int	end;
+// 	int	x;
+// 	int	y;
 // void render_ray(t_cub3d *data, float distance, int ray_index)
 // {
 // 	int	wall_height;

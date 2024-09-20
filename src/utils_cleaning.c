@@ -32,6 +32,21 @@ int	free_str_array(char **array)
 	return (1);
 }
 
+// int	free_data(t_cub3d *data)
+// {
+// 	if (data->no_txtr)
+// 		mlx_delete_texture(data->no_txtr);
+// 	if (data->so_txtr)
+// 		mlx_delete_texture(data->so_txtr);
+// 	if (data->we_txtr)
+// 		mlx_delete_texture(data->we_txtr);
+// 	if (data->ea_txtr)
+// 		mlx_delete_texture(data->ea_txtr);
+// 	if (data->map.map)
+// 		free_str_array(data->map.map);
+// 	return (1);
+// }
+
 int	free_data(t_cub3d *data)
 {
 	if (data->no_txtr)
