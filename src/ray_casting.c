@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:45 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 18:06:58 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/19 18:12:14 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,17 @@ static bool	is_equal(double a, double b)
 	return (fabs(a - b) < 1e-9);
 }
 
-float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
+void	ray_cast(t_cub3d *data, double ray_dir_x, double ray_dir_y)
 {
-
-    double wall_distance;
     double delta_dist_x = fabs(1 / ray_dir_x);
     double delta_dist_y = fabs(1 / ray_dir_y);
-	float unit_x = data->player.pix_x / 25;
-	float unit_y = data->player.pix_y / 25;
-	int ray_index_x = data->player.x;
-	int	ray_index_y = data->player.y;
+	float unit_x = data->map.player.pix_x / 25;
+	float unit_y = data->map.player.pix_y / 25;
+	int ray_index_x = data->map.player.x;
+	int	ray_index_y = data->map.player.y;
     int step_x, step_y;
     double side_dist_x, side_dist_y;
-
+	// printf("pix x is %f\n", data->map.player.pix_x);
 	if (is_equal(ray_dir_x, 0.0))
 		side_dist_x = DBL_MAX;
 	else if (ray_dir_x < 0.0)
@@ -70,44 +68,45 @@ float	ray_cast(t_minimap *data, double ray_dir_x, double ray_dir_y)
             ray_index_y -= step_y;
             side = 1;
         }
-        if (data->map[ray_index_y][ray_index_x] == '1')
+        if (data->map.grid[ray_index_y][ray_index_x] == '1')
             hit = 1;
     }
         if (side == 0)
-            wall_distance = side_dist_x - delta_dist_x;
+		{
+            data->ray_distance = (side_dist_x - delta_dist_x) * 25;
+			data->wall_hit_x = ray_index_x;
+    		data->wall_hit_y = ray_index_y + (side_dist_y - delta_dist_y) * ray_dir_y;
+		}
         else
-            wall_distance = side_dist_y - delta_dist_y;
-    return (wall_distance * 25);
+		{
+            data->ray_distance = (side_dist_y - delta_dist_y) * 25;
+			data->wall_hit_y = ray_index_y;
+    		data->wall_hit_x = ray_index_x + (side_dist_x - delta_dist_x) * ray_dir_x;
+		}
 }
 
-void render_that_shit(t_minimap *data, float distance)
-{
-	int	wall_height;
-	int	start;
-	int	end;
+// void render_ray(t_cub3d *data, float distance, int ray_index)
+// {
+// 	int	wall_height;
+// 	int	start;
+// 	int	end;
+// 	int	x;
+// 	int	y;
 
-	wall_height = int(SCREEN_HEIGHT / distance);
-	start = -wall_height / 2 + SCREEN_HEIGHT / 2;
-	end = wall_height / 2 + SCREEN_HEIGHT / 2;
-}
+// 	x = 0;
+// 	y = 0;
+// 	start = -wall_height / 2 + SCREEN_HEIGHT / 2;
+// 	end = wall_height / 2 + SCREEN_HEIGHT / 2;
+// }
 
-void	fov_cast(t_minimap *data, float player_angle)
+void	fov_cast(t_cub3d *data, float player_angle)
 {
 	double	rad;
 	int		x;
 	int		y;
 	int		i;
 	float	ray;
-	float	distance;
 
-	printf("width is %i height is %i\n", data->background_tex->width, data->background_tex->height);
-	int z = (135 * 275 + 137) * 4;
-	int t = 0;
-	while (t < 20)
-	{
-		printf("pixels is %i\n", data->background_tex->pixels[z++]);
-		t++;
-	}
 	ray = 0;
 	while (ray < 60)
 	{
@@ -115,17 +114,17 @@ void	fov_cast(t_minimap *data, float player_angle)
 		rad = current_angle * M_PI / 180.0;
 		double	ray_dir_x = cos(rad);
 		double	ray_dir_y = sin(rad);
-		distance = ray_cast(data, ray_dir_x, ray_dir_y);
+		ray_cast(data, ray_dir_x, ray_dir_y);
 		i = 0;
-		while (i < distance)
+		while (i < data->ray_distance)
 		{
 			x = PLAYER_X + (int)(ray_dir_x * i);
 			y = PLAYER_Y - (int)(ray_dir_y * i);
 			if (x > 0 && x < 275 && y > 0 && y < 275)
-				mlx_put_pixel(data->background_png, x, y, 0xFFFFFF);
-			render_that_shit(data, distance);
+				mlx_put_pixel(data->minimap, x, y, 0xFFFFFF);
 			i++;
 		}
+		// render_ray(data, (int)(SCREEN_HEIGHT / data->ray_distance), SCREEN_WIDTH / 60 * ray);
 		ray += .06;
 	}
 }
