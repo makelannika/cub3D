@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:45 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/19 18:12:14 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/23 00:00:31 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	ray_cast(t_cub3d *data, double ray_dir_x, double ray_dir_y)
         step_y = 1;
         side_dist_y = (unit_y - ray_index_y) * delta_dist_y;
     }
+    printf("side_dist_x: %f\nside_dist_y: %f\n", side_dist_x, side_dist_y);
     int hit = 0;
     int side;
     while (hit == 0)
@@ -86,36 +87,32 @@ void	ray_cast(t_cub3d *data, double ray_dir_x, double ray_dir_y)
 		{
             data->ray_distance = (side_dist_y - delta_dist_y) * 25;
 			if (data->map.player.y > ray_index_y)
-			{
 				// printf("north");
 				data->wall_hit_y = (ray_index_y + 1) * 25;
-			}
 			else
-			{
 				// printf("south");
 				data->wall_hit_y = ray_index_y * 25;
-			}
     		data->wall_hit_x = (unit_x + (side_dist_y - delta_dist_y) * ray_dir_x) * 25;
 		}
 }
 
-void render_ray(t_cub3d *data, float distance, int ray_index)
-{
-	int	wall_height;
-	int	start;
-	int	end;
-	int	x;
-	int	y;
+// void render_ray(t_cub3d *data, float distance, int ray_index)
+// {
+// 	int	wall_height;
+// 	int	start;
+// 	int	end;
+// 	int	x;
+// 	int	y;
 
-	x = 0;
-	y = 0;
-	start = -wall_height / 2 + SCREEN_HEIGHT / 2;
-	if (start < 0)
-		start = 0;
-	end = wall_height / 2 + SCREEN_HEIGHT / 2;
-	if (end >= SCREEN_HEIGHT)
-		end = SCREEN_HEIGHT - 1;
-}
+// 	x = 0;
+// 	y = 0;
+// 	start = -wall_height / 2 + SCREEN_HEIGHT / 2;
+// 	if (start < 0)
+// 		start = 0;
+// 	end = wall_height / 2 + SCREEN_HEIGHT / 2;
+// 	if (end >= SCREEN_HEIGHT)
+// 		end = SCREEN_HEIGHT - 1;
+// }
 
 void	fov_cast(t_cub3d *data, float player_angle)
 {
@@ -126,7 +123,7 @@ void	fov_cast(t_cub3d *data, float player_angle)
 	float	ray;
 
 	ray = 0;
-	while (ray < 60)
+	while (ray < 1)
 	{
 		double	current_angle = player_angle - 30 + ray;
 		printf("current angle is %f\n", current_angle);
@@ -135,6 +132,7 @@ void	fov_cast(t_cub3d *data, float player_angle)
 		double	ray_dir_y = sin(rad);
 		ray_cast(data, ray_dir_x, ray_dir_y);
 		i = 0;
+        printf("hit x: %f\nhit y: %f\n", data->wall_hit_x, data->wall_hit_y);
 		while (i < data->ray_distance)
 		{
 			x = PLAYER_X + (int)(ray_dir_x * i);

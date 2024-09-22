@@ -6,7 +6,7 @@
 #    By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/09/20 12:00:39 by amakela          ###   ########.fr        #
+#    Updated: 2024/09/23 00:05:55 by amakela          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ CC			= cc
 CFILES		=	src/game.c				src/main.c				src/parse_elements.c	\
 				src/parse_map.c			src/utils_cleaning.c	src/utils_parsing.c		\
 				src/movement.c			src/rotation.c			src/drawing.c			\
-				src/ray_casting.c
+				src/ray_casting2.c
 
 OFILES		= $(CFILES:.c=.o)
 

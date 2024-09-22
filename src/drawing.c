@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:59:12 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/22 18:37:57 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/23 00:06:08 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ void	draw_player(t_cub3d *data, float angle)
 			mlx_put_pixel(data->minimap, PLAYER_X + x++, PLAYER_Y + y, 0xFFFFFF);
 		y++;
 	}
-	fov_cast(data, angle);
+	// fov_cast(data, angle);
+	fov_cast(data, &data->ray_c, angle);
 }
