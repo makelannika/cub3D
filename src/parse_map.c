@@ -6,13 +6,13 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/19 16:57:19 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/22 19:10:53 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-void	set_orientation(t_cub3d *data, char orientation)
+void	set_orientation(t_cub3d *data, char orientation, int x, int y)
 {
 	if (orientation == 'E')
 		data->map.p_angle = 0.0;
@@ -22,22 +22,21 @@ void	set_orientation(t_cub3d *data, char orientation)
 		data->map.p_angle = 180.0;
 	else if (orientation == 'S')
 		data->map.p_angle = 270.0;
+	data->map.player.x = x;
+	data->map.player.y = y;
 	data->map.offsetx = 13;
 	data->map.offsety = 13;
+	data->map.player.pix_x = x * 25 + 13;
+	data->map.player.pix_y = y * 25 + 13;
 }
 
 int	validate_index(t_cub3d *data, char **grid, int y, int x)
 {
 	if (ft_strchr("NSWE", grid[y][x]))
 	{
-		if (data->map.orientation)
+		if (data->map.player.pix_x)
 			return (err("multiple starting positions found in the map", NULL));
-		set_orientation(data, grid[y][x]);
-		data->map.orientation = grid[y][x];
-		data->map.player.x = x;
-		data->map.player.y = y;
-		data->map.player.pix_x = x * 25 + 13;
-		data->map.player.pix_y = y * 25 + 13;
+		set_orientation(data, grid[y][x], x, y);
 		return (0);
 	}
 	if (!grid[y][x - 1] || !ft_strchr("01NSWE", grid[y][x - 1])
@@ -69,7 +68,7 @@ int	validate_map(t_cub3d *data)
 		y++;
 		x = 0;
 	}
-	if (!data->map.orientation)
+	if (!data->map.player.pix_x)
 		return (err("no starting position found in the map", NULL));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:51 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/19 15:10:37 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/22 18:50:58 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,33 +47,6 @@ int	copy_color(char *str, int *id)
 	free_str_array(rgb);
 	return (0);
 }
-
-// int	check_identifier(char **element, t_cub3d *data)
-// {
-// 	char	*copy;
-
-// 	if (!ft_strncmp("F", element[0], 2))
-// 		return (copy_color(element[1], data->floor));
-// 	else if (!ft_strncmp("C", element[0], 2))
-// 		return (copy_color(element[1], data->ceiling));
-// 	copy = ft_strdup(element[1]);
-// 	if (!copy)
-// 		return (err("malloc failed", NULL));
-// 	if (!ft_strncmp("NO", element[0], 3))
-// 		data->no_txtr = mlx_load_png(copy);
-// 	else if (!ft_strncmp("WE", element[0], 3))
-// 		data->we_txtr = mlx_load_png(copy);
-// 	else if (!ft_strncmp("EA", element[0], 3))
-// 		data->ea_txtr = mlx_load_png(copy);
-// 	else if (!ft_strncmp("SO", element[0], 3))
-// 		data->so_txtr = mlx_load_png(copy);
-// 	else
-// 		return (err("invalid .cub file content", copy));
-// 	if (mlx_errno)
-// 		return (err("loading png failed", copy));
-// 	free(copy);
-// 	return (0);
-// }
 
 int	check_identifier(char **element, t_cub3d *data)
 {
