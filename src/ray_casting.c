@@ -142,27 +142,72 @@ void	ray_cast(t_cub3d *data, t_ray *ray_c)
         vertical_hit(data->map, ray_c, data);
     else
         horizontal_hit(data->map, ray_c, data);
+	// printf("distance is %f\n", ray_c->ray_distance);
 }
 
-void	set_strip_height(int *start, int *end, int *wall_height, float distance)
+int rgba_to_hex(int r, int g, int b, int a)
 {
-	*wall_height = (int)distance; 
-	printf("wall_height is %i distance is %f\n", *wall_height, distance);
-	*start = -*wall_height / 2 + SCREEN_HEIGHT / 2;
-	if (start < 0)
-		start = 0;
-	*end = *wall_height / 2 + SCREEN_HEIGHT / 2;
-	if (*end >= SCREEN_HEIGHT)
-		*end = SCREEN_HEIGHT - 1;
+    return (r << 24) | (g << 16) | (b << 8) | a;
+}
+
+void	draw_pixel(t_cub3d *data, int y, int x, uint8_t *tmp2)
+{
+	for (int i = 0; i < 4; i++)
+		printf("pixel is %i\n", tmp2[i]);
+	int color = rgba_to_hex(tmp2[0], tmp2[1], tmp2[2],tmp2[3]);
+	mlx_put_pixel(data->mlx,y, x, color);
+}
+
+int	draw_ray(t_cub3d *data, int ray_index)
+{
+	uint8_t 	tmp2[4];
+	mlx_image_t *tmp;
+	int			y;
+	int			x;
+	int i;
+	int j;
+	int line = 0;
+
+	i = 1000/data->wall_height;
+	y = 0;
+	tmp = data->wall_to_draw;
+	while (y < 1000)
+	{
+		x = 0;
+		while (x < 4)
+		{	
+			j = y;
+			tmp2[x++] = tmp->pixels[j++];
+		}
+		draw_pixel(data, y, ray_index, tmp2);
+		y += i * 4;
+	}
+
+	return (0);
+}
+
+void	set_strip_height(t_cub3d *data, float distance)
+{
+	data->wall_height = (int)distance;
+	// data->wall_height = (int)(SCREEN_HEIGHT / distance);
+
+	if (data->wall_height > 999)
+		data->wall_height = 1000;
+	data->start = -distance / 2 + SCREEN_HEIGHT / 2;
+	if (data->start < 0)
+		data->start = 0;
+	data->end = distance/ 2 + SCREEN_HEIGHT / 2;
+	if (data->end >= SCREEN_HEIGHT)
+		data->end = SCREEN_HEIGHT - 1;
+	// printf(" start is %i end is %i\n", *start, *end);
 }
 
 void render_ray(t_cub3d *data, float distance, int ray_index)
 {
-	int	wall_height;
-	int	start;
-	int	end;
+	set_strip_height(data, distance);
+	if (draw_ray(data, ray_index))
+		return; //do some shit;
 
-	set_strip_height(&start, &end, &wall_height, distance);
 }
 
 
@@ -175,7 +220,7 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	int		i;
 
 	ray = 0;
-	// while (ray < 10)
+	int s = 0;
 	while (ray < 60)
 	{
 		// ray_c->current_angle = player_angle - 5 + ray;
@@ -193,8 +238,9 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 				mlx_put_pixel(data->minimap, x, y, 0xFFFFFF);
 			i++;
 		}
-		// render_ray(data, (int)(SCREEN_HEIGHT / ray_c->ray_distance * cos(fabs((ray - 5) * M_PI / 180.0))), SCREEN_WIDTH / 60 * ray);
-		render_ray(data, (int)(SCREEN_HEIGHT / ray_c->ray_distance * cos(fabs((ray - 30) * M_PI / 180.0))), SCREEN_WIDTH / 60 * ray);
+		// render_ray(data, (int)(SCREEN_HEIGHT / ray_c->ray_distance * cos(fabs((ray - 5) * M_PI / 180.0))), SCREEN_WIDTH / 5 * ray);
+		// render_ray(data, (int)(SCREEN_HEIGHT / ray_c->ray_distance * cos((ray - 30) * M_PI / 180.0)), SCREEN_WIDTH / 60 * ray);
+		render_ray(data, (int)(SCREEN_HEIGHT / ray_c->ray_distance), SCREEN_WIDTH / 60 * ray);
 		// ray += 1;
 		ray += .06;
 	}
