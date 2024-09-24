@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 18:24:36 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/14 19:00:44 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:30:52 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ char	*get_next_line(int fd)
 	line = 0;
 	bytes_read = 1;
 	if (fd < 0)
-		return (NULL);
+		return (NULL); /* invalid file descriptor error */
 	if (!text_read[fd])
 		text_read[fd] = (char *)ft_calloc(1, 1);
 	if (!text_read[fd])
-		return (NULL);
+		return (NULL); /* malloc error */
 	if (read(fd, 0, 0) < 0)
 	{
 		freeptr(&text_read[fd]);
-		return (NULL);
+		return (NULL); /* no read permission error */
 	}
 	bytes_read = read_file(fd, &text_read[fd], bytes_read);
 	if (bytes_read == -1)
@@ -60,7 +60,7 @@ ssize_t	read_file(int fd, char **text_read, ssize_t bytes_read)
 		*text_read = ft_strjoin(*text_read, buffer);
 		freeptr(&temp);
 		if (!*text_read)
-			return (-1);
+			return (-1); /* malloc error */
 	}
 	if ((bytes_read == -1) || (bytes_read == 0 && **text_read == '\0'))
 	{
