@@ -79,6 +79,7 @@ typedef struct s_cub3d
 	mlx_image_t		*so;
 	mlx_image_t		*we;
 	mlx_image_t		*ea;
+	mlx_image_t		*wall_to_draw;
 	mlx_image_t		*minimap;
 	int				floor[3];
 	int				ceiling[3];
