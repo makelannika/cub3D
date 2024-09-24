@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:59:12 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/14 00:22:27 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/23 00:06:08 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ void	draw_square(t_cub3d *data, int y_coor, int x_coor)
 	int	yy;
 
 	y = 1;
-	while (y < (INDEX_HEIGHT - 1))
+	while (y < INDEX_HEIGHT)
 	{
-		yy = (int)(y_coor + y - data->map.offsety + 13);
+		yy = y_coor + y - data->map.offsety + 13;
 		x = 1;
-		while (x < (INDEX_WIDTH - 1))
+		while (x < INDEX_WIDTH)
 		{
-			xx = (int)(x_coor + x - data->map.offsetx + 13);
-			if (xx < 0)
+			xx = x_coor + x - data->map.offsetx + 13;
+			if (xx < 0) /* purpose of this check? */
 				xx = 0;
-			if (xx > 0 && xx < 275 && yy > 0 && yy < 275)
+			if (xx > 0 && xx < 275 && yy > 0 && yy < 275) /* should yy & xx be >= 0? */
 				mlx_put_pixel(data->minimap, xx, yy, 0x0000FFFF);
 			x++;
 		}
@@ -76,5 +76,6 @@ void	draw_player(t_cub3d *data, float angle)
 			mlx_put_pixel(data->minimap, PLAYER_X + x++, PLAYER_Y + y, 0xFFFFFF);
 		y++;
 	}
-	fov_cast(data, angle);
+	// fov_cast(data, angle);
+	fov_cast(data, &data->ray_c, angle);
 }

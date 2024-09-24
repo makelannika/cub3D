@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/14 00:22:36 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/23 00:06:03 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,36 @@ typedef struct s_coor
 
 typedef struct s_map
 {
-	int				height;
-	int				width;
-	int				offsetx;
-	int				offsety;
-	double			p_angle;
-	char			**grid;
-	char			orientation;
-	t_coor			player;
+	int		height;
+	int		width;
+	int		offsetx;
+	int		offsety;
+	double	p_angle;
+	char	**grid;
+	t_coor	player;
 } t_map;
 
-// typedef struct s_cub3d
-// {
-// 	char		*no_txtr;
-// 	char		*so_txtr;
-// 	char		*we_txtr;
-// 	char		*ea_txtr;
-// 	int			floor[3];
-// 	int			ceiling[3];
-// 	int			elements_found;
-// 	t_minimap	map;
-// 	mlx_image_t	*no;
-// 	mlx_image_t	*so;
-// 	mlx_image_t	*we;
-// 	mlx_image_t	*ea;
-// } t_cub3d;
+typedef struct s_ray
+{
+	double	current_angle;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	double	delta_dist_x;
+    double	delta_dist_y;
+	float	unit_x;
+	float	unit_y;
+	int		ray_index_x;
+	int		ray_index_y;
+    int		step_x;
+	int		step_y;
+    double	side_dist_x;
+	double	side_dist_y;
+	double	ray_distance;
+	double	wall_hit_x;
+	double	wall_hit_y;
+	int		hit;
+	int		side;
+} t_ray;
 
 typedef struct s_cub3d
 {
@@ -82,6 +87,7 @@ typedef struct s_cub3d
 	double			wall_hit_x;
 	double			wall_hit_y;
 	t_map			map;
+	t_ray			ray_c;
 	mlx_t			*mlx;
 } t_cub3d;
 
@@ -109,7 +115,8 @@ void	rotate_right(t_cub3d *data);
 // DRAWING
 void	draw_player(t_cub3d *data, float angle);
 int		draw_minimap(t_cub3d *data, int y, int x);
-void	fov_cast(t_cub3d *data, float player_angle);
+// void	fov_cast(t_cub3d *data, float player_angle);
+void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle);
 
 // CLEANING UTILS
 int		err(char *str, void *ptr);
