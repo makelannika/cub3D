@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/23 00:06:03 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/24 16:53:44 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include <stdio.h> /*delete*/
 # include <math.h>
-#include <float.h>
+# include <float.h>
 
 # define PLAYER_X 137
 # define PLAYER_Y 137
@@ -83,9 +83,8 @@ typedef struct s_cub3d
 	int				floor[3];
 	int				ceiling[3];
 	int				elements_found;
-	double			ray_distance;
-	double			wall_hit_x;
-	double			wall_hit_y;
+	int				gnl_err;
+	int				fd;
 	t_map			map;
 	t_ray			ray_c;
 	mlx_t			*mlx;
@@ -94,8 +93,8 @@ typedef struct s_cub3d
 // PARSING
 int		check_extension(char *arg);
 int		parse_file(t_cub3d *data, char *file);
-int		parse_map(t_cub3d *data, char *line, int fd, char *file);
-int		get_map_height(t_cub3d *data, char *line, int fd);
+int		parse_map(t_cub3d *data, char *line, char *file);
+int		get_map_height(t_cub3d *data, char *line);
 void	get_map_width(t_cub3d *data);
 int		count_commas(char *str);
 

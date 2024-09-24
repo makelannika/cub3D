@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/19 14:56:08 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/24 16:30:14 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,21 @@ void	get_map_width(t_cub3d *data)
 	}
 }
 
-int	get_map_height(t_cub3d *data, char *line, int fd)
+int	get_map_height(t_cub3d *data, char *line)
 {
 	while (line && ft_strchr("1 ", *line))
 	{
 		if (validate_line(line))
-		{
-			close(fd);
 			return (err("forbidden character found in the map", line));
-		}
 		data->map.height++;
 		free(line);
-		line = get_next_line(fd);
-		// if (errno)
-		// 	return (err("5 get_next_line failed", NULL));
+		line = get_next_line(data->fd, &data->gnl_err);
+		if (data->gnl_err)
+			return (err("get_next_line failed", NULL));
 	}
-	close(fd);
 	if (line)
 		return (err("invalid .cub file content", line));
+	close(data->fd);
 	return (0);
 }
 
