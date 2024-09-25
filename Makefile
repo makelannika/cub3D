@@ -22,14 +22,14 @@ HEADERS 	= -I $(MLXDIR)/include -I $(LIBFTDIR)
 
 LIBS		= $(LIBFT) $(MLX42) -lglfw -lm -L"~/.brew/Cellar/glfw/3.4/lib/"
 
-CFLAGS		= -Wall -Wextra -g #werror
+CFLAGS		= -Wall -Wextra -g #-Werror
 
 CC			= cc
 
 CFILES		=	src/game.c				src/main.c				src/parse_elements.c	\
 				src/parse_map.c			src/utils_cleaning.c	src/utils_parsing.c		\
 				src/movement.c			src/rotation.c			src/drawing.c			\
-				src/ray_casting.c
+				src/ray_casting2.c
 
 OFILES		= $(CFILES:.c=.o)
 

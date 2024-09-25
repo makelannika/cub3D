@@ -81,6 +81,7 @@ typedef struct s_cub3d
 	mlx_image_t		*ea;
 	mlx_image_t		*wall_to_draw;
 	mlx_image_t		*minimap;
+	mlx_image_t		*background;
 	int				start;
 	int				end;
 	int				wall_height;
@@ -88,6 +89,7 @@ typedef struct s_cub3d
 	int				ceiling[3];
 	int				elements_found;
 	double			ray_distance;
+	int				*east_arr;
 	t_map			map;
 	t_ray			ray_c;
 	mlx_t			*mlx;

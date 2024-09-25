@@ -24,6 +24,8 @@ int	create_images(t_cub3d *data)
 	data->ea = mlx_texture_to_image(data->mlx, data->ea_txtr);
 	if (mlx_errno)
 		return (err("creating images failed", NULL));
+	data->background = mlx_new_image(data->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	mlx_image_to_window(data->mlx, data->background, 0, 0);
 	mlx_image_to_window(data->mlx, data->minimap, 0, 0);
 	if (mlx_errno)
 		return (err("displaying image failed", NULL));
