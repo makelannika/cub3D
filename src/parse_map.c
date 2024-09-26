@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/22 19:10:53 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/24 16:50:28 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,21 @@ int	validate_map(t_cub3d *data)
 	return (0);
 }
 
-int	copy_map(t_cub3d *data, int fd, char *file)
+int	copy_map(t_cub3d *data, char *file)
 {
 	int		i;
 	char	*line;
 
 	i = 0;
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
+	data->fd = open(file, O_RDONLY);
+	if (data->fd == -1)
 		return (err("open failed", NULL));
 	data->map.grid = ft_calloc(data->map.height + 1, sizeof(char *));
 	if (!data->map.grid)
 		return (err("malloc failed", NULL));
-	line = get_next_line(fd);
-	// if (errno)
-	// 	return (err("3 get_next_line failed", NULL));
+	line = get_next_line(data->fd, &data->gnl_err);
+	if (data->gnl_err)
+		return (err("get_next_line failed", NULL));
 	while (line)
 	{
 		if (ft_strchr("1 ", *line))
@@ -97,25 +97,21 @@ int	copy_map(t_cub3d *data, int fd, char *file)
 			else
 				data->map.grid[i++] = ft_substr(line, 0, ft_strlen(line));
 			if (!data->map.grid[i - 1])
-			{
-				close (fd);
 				return (err("malloc failed", line));
-			}
 		}
 		free(line);
-		line = get_next_line(fd);
-		// if (errno)
-		// 	return (err("4 get_next_line failed", NULL));
+		line = get_next_line(data->fd, &data->gnl_err);
+		if (data->gnl_err)
+			return (err("4 get_next_line failed", NULL));
 	}
-	close(fd);
 	return (0);
 }
 
-int	parse_map(t_cub3d *data, char *line, int fd, char *file)
+int	parse_map(t_cub3d *data, char *line, char *file)
 {
-	if (get_map_height(data, line, fd))
+	if (get_map_height(data, line))
 		return (1);
-	if (copy_map(data, fd, file))
+	if (copy_map(data, file))
 		return (1);
 	get_map_width(data);
 	if (validate_map(data))

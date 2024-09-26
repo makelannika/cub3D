@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 23:19:25 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/23 00:28:59 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/25 16:07:45 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,49 +55,49 @@ void    horizontal_hit(t_map map, t_ray *ray_c, t_cub3d *data)
  
 void    forward(t_ray *ray_c, char coor)
 {
-    if (coor == 'x')
-    {
-        ray_c->side_dist_x += ray_c->delta_dist_x;
-        ray_c->ray_index_x += ray_c->step_x;
-        ray_c->side = 0;
-    }
-    else if (coor == 'y')
-    {
-        ray_c->side_dist_y += ray_c->delta_dist_y;
-        ray_c->ray_index_y -= ray_c->step_y;
-        ray_c->side = 1;
-    }
+	if (coor == 'x')
+	{
+		ray_c->side_dist_x += ray_c->delta_dist_x;
+		ray_c->ray_index_x += ray_c->step_x;
+		ray_c->side = 0;
+	}
+	else if (coor == 'y')
+	{
+		ray_c->side_dist_y += ray_c->delta_dist_y;
+		ray_c->ray_index_y -= ray_c->step_y;
+		ray_c->side = 1;
+	}
 }
 
-void    step_pos(t_ray *ray_c, char coor)
+void	step_pos(t_ray *ray_c, char coor)
 {
-    if (coor == 'x')
-    {
-        ray_c->step_x = 1;
-        ray_c->side_dist_x = (ray_c->ray_index_x + 1.0 - ray_c->unit_x) * ray_c->delta_dist_x;
-    }
-    else if (coor == 'y')
-    {
-        ray_c->step_y = 1;
-        ray_c->side_dist_y = (ray_c->unit_y - ray_c->ray_index_y) * ray_c->delta_dist_y;
-    }
+	if (coor == 'x')
+	{
+		ray_c->step_x = 1;
+		ray_c->side_dist_x = (ray_c->ray_index_x + 1.0 - ray_c->unit_x) * ray_c->delta_dist_x;
+	}
+	else if (coor == 'y')
+	{
+		ray_c->step_y = 1;
+		ray_c->side_dist_y = (ray_c->unit_y - ray_c->ray_index_y) * ray_c->delta_dist_y;
+	}
 }
 
-void    step_neg(t_ray *ray_c, char coor)
+void	step_neg(t_ray *ray_c, char coor)
 {
-    if (coor == 'x')
-    {
-        ray_c->step_x = -1;
-        ray_c->side_dist_x = (ray_c->unit_x - ray_c->ray_index_x) * ray_c->delta_dist_x;
-    }
-    else if (coor == 'y')
-    {
-        ray_c->step_y = -1;
-        ray_c->side_dist_y = (ray_c->ray_index_y + 1.0 - ray_c->unit_y) * ray_c->delta_dist_y;
-    }
+	if (coor == 'x')
+	{
+		ray_c->step_x = -1;
+		ray_c->side_dist_x = (ray_c->unit_x - ray_c->ray_index_x) * ray_c->delta_dist_x;
+	}
+	else if (coor == 'y')
+	{
+		ray_c->step_y = -1;
+		ray_c->side_dist_y = (ray_c->ray_index_y + 1.0 - ray_c->unit_y) * ray_c->delta_dist_y;
+	}
 }
 
-void    set_side_dist(t_ray *ray_c)
+void	set_side_dist(t_ray *ray_c)
 {
 	if (is_equal(ray_c->ray_dir_x, 0.0))
 		ray_c->side_dist_x = DBL_MAX;
@@ -107,22 +107,22 @@ void    set_side_dist(t_ray *ray_c)
 			step_pos(ray_c, 'x');
 	if (is_equal(ray_c->ray_dir_y, 0.0))
 		ray_c->side_dist_y = DBL_MAX;
-    else if (ray_c->ray_dir_y < 0.0)
-        step_neg(ray_c, 'y');
-    else
-        step_pos(ray_c, 'y');
+	else if (ray_c->ray_dir_y < 0.0)
+		step_neg(ray_c, 'y');
+	else
+		step_pos(ray_c, 'y');
 }
 
-void    init_vars(t_map map, t_ray *ray_c)
+void	init_vars(t_map map, t_ray *ray_c)
 {
-    ray_c->delta_dist_x = fabs(1 / ray_c->ray_dir_x);
-    ray_c->delta_dist_y = fabs(1 / ray_c->ray_dir_y);
+	ray_c->delta_dist_x = fabs(1 / ray_c->ray_dir_x);
+	ray_c->delta_dist_y = fabs(1 / ray_c->ray_dir_y);
 	ray_c->unit_x = map.player.pix_x / 25;
 	ray_c->unit_y = map.player.pix_y / 25;
 	ray_c->ray_index_x = map.player.x;
 	ray_c->ray_index_y = map.player.y;
-    ray_c->hit = 0;
-    ray_c->side = 0;
+	ray_c->hit = 0;
+	ray_c->side = 0;
 }
 
 void	ray_cast(t_cub3d *data, t_ray *ray_c)
@@ -289,6 +289,7 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		ray_c->ray_dir_y = sin(rad);
 		ray_cast(data, ray_c);
 		i = 0;
+		printf("distance is %f\n", ray_c->ray_distance);
 		while (i < ray_c->ray_distance)
 		{
 			x = PLAYER_X + (int)(ray_c->ray_dir_x * i);
