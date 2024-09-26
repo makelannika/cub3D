@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:45 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/26 16:05:32 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 16:09:19 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,20 +288,20 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	int		i;
 	int index = 0;
 
-	ray = 0;
+	ray = 60;
 	// int s = 0;
 
 	draw_background(data);
-	while (ray < 60)
+	while (ray > 0)
 	{
 		// ray_c->current_angle = player_angle - 5 + ray;
-		ray_c->current_angle = player_angle - 30 + ray;
+		ray_c->current_angle = player_angle + 30 + ray;
 		rad = ray_c->current_angle * M_PI / 180.0;
 		ray_c->ray_dir_x = cos(rad);
 		ray_c->ray_dir_y = sin(rad);
 		ray_cast(data, ray_c);
 		i = 0;
-		while (i < data->ray_distance)
+		while (i < ray_c->ray_distance)
 		{
 			x = PLAYER_X + (int)(ray_c->ray_dir_x * i);
 			y = PLAYER_Y - (int)(ray_c->ray_dir_y * i);
@@ -317,6 +317,6 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		// render_ray(data, (int)(SCREEN_HEIGHT / ray_c->ray_distance), index);
 		// ray += 1;
 		index++;
-		ray += .06;
+		ray -= .06;
 	}
 }
