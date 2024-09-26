@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:45 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/26 16:09:19 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 21:46:34 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,139 +17,131 @@ static bool	is_equal(double a, double b)
 	return (fabs(a - b) < 1e-9);
 }
 
-void    horizontal_hit(t_map map, t_ray *ray_c, t_cub3d *data)
+void	horizontal_hit(t_map map, t_ray *ray_c, t_cub3d *data)
 {
-    ray_c->ray_distance = (ray_c->side_dist_y - ray_c->delta_dist_y) * 25;
-    if (map.player.y > ray_c->ray_index_y)
-    {
-    //     printf("north\n");
-        ray_c->wall_hit_y = (ray_c->ray_index_y + 1) * 25;
-		data->wall_to_draw = data->no_arr;
-    }
-    else
-    {
-    //     printf("south\n");
-        ray_c->wall_hit_y = ray_c->ray_index_y * 25;
-		data->wall_to_draw = data->so_arr;
-    }
-    ray_c->wall_hit_x = (ray_c->unit_x + (ray_c->side_dist_y - ray_c->delta_dist_y) * ray_c->ray_dir_x) * 25;
+	ray_c->ray_distance = (ray_c->side_dist_y - ray_c->delta_dist_y) * 25;
+	if (map.player.y > ray_c->ray_index_y)
+	{
+	//     printf("north\n");
+		ray_c->wall_hit_y = (ray_c->ray_index_y + 1) * 25;
+		data->wall_to_draw = (uint32_t *)data->no_txtr->pixels;
+	}
+	else
+	{
+	//     printf("south\n");
+		ray_c->wall_hit_y = ray_c->ray_index_y * 25;
+		data->wall_to_draw = (uint32_t *)data->so_txtr->pixels;
+	}
+	ray_c->wall_hit_x = (ray_c->unit_x + (ray_c->side_dist_y - ray_c->delta_dist_y) * ray_c->ray_dir_x) * 25;
 }
 
- void   vertical_hit(t_map map, t_ray *ray_c, t_cub3d *data)
- {
-    ray_c->ray_distance = (ray_c->side_dist_x - ray_c->delta_dist_x) * 25;
-    if (map.player.x > ray_c->ray_index_x)
-    {
-    //     printf("west\n");
-        ray_c->wall_hit_x = (ray_c->ray_index_x + 1) * 25;
-		data->wall_to_draw = data->we_arr;
-    }
-    else
-    {
-    //     printf("east\n");
-        ray_c->wall_hit_x = ray_c->ray_index_x * 25;
-		data->wall_to_draw = data->ea_arr;
-    }
-    ray_c->wall_hit_y = (ray_c->unit_y + (ray_c->side_dist_x - ray_c->delta_dist_x) * ray_c->ray_dir_y) * 25;
- }
- 
-void    forward(t_ray *ray_c, char coor)
+void	vertical_hit(t_map map, t_ray *ray_c, t_cub3d *data)
 {
-    if (coor == 'x')
-    {
-        ray_c->side_dist_x += ray_c->delta_dist_x;
-        ray_c->ray_index_x += ray_c->step_x;
-        ray_c->side = 0;
-    }
-    else if (coor == 'y')
-    {
-        ray_c->side_dist_y += ray_c->delta_dist_y;
-        ray_c->ray_index_y -= ray_c->step_y;
-        ray_c->side = 1;
-    }
+	ray_c->ray_distance = (ray_c->side_dist_x - ray_c->delta_dist_x) * 25;
+	if (map.player.x > ray_c->ray_index_x)
+	{
+	//     printf("west\n");
+		ray_c->wall_hit_x = (ray_c->ray_index_x + 1) * 25;
+		data->wall_to_draw = (uint32_t *)data->we_txtr->pixels;
+	}
+	else
+	{
+	//     printf("east\n");
+		ray_c->wall_hit_x = ray_c->ray_index_x * 25;
+		data->wall_to_draw = (uint32_t *)data->ea_txtr->pixels;
+	}
+	ray_c->wall_hit_y = (ray_c->unit_y + (ray_c->side_dist_x - ray_c->delta_dist_x) * ray_c->ray_dir_y) * 25;
 }
 
-void    step_pos(t_ray *ray_c, char coor)
+void	forward(t_ray *ray_c, char coor)
 {
-    if (coor == 'x')
-    {
-        ray_c->step_x = 1;
-        ray_c->side_dist_x = (ray_c->ray_index_x + 1.0 - ray_c->unit_x) * ray_c->delta_dist_x;
-    }
-    else if (coor == 'y')
-    {
-        ray_c->step_y = 1;
-        ray_c->side_dist_y = (ray_c->unit_y - ray_c->ray_index_y) * ray_c->delta_dist_y;
-    }
+	if (coor == 'x')
+	{
+		ray_c->side_dist_x += ray_c->delta_dist_x;
+		ray_c->ray_index_x += ray_c->step_x;
+		ray_c->side = 0;
+	}
+	else if (coor == 'y')
+	{
+		ray_c->side_dist_y += ray_c->delta_dist_y;
+		ray_c->ray_index_y -= ray_c->step_y;
+		ray_c->side = 1;
+	}
 }
 
-void    step_neg(t_ray *ray_c, char coor)
+void	step_pos(t_ray *ray_c, char coor)
 {
-    if (coor == 'x')
-    {
-        ray_c->step_x = -1;
-        ray_c->side_dist_x = (ray_c->unit_x - ray_c->ray_index_x) * ray_c->delta_dist_x;
-    }
-    else if (coor == 'y')
-    {
-        ray_c->step_y = -1;
-        ray_c->side_dist_y = (ray_c->ray_index_y + 1.0 - ray_c->unit_y) * ray_c->delta_dist_y;
-    }
+	if (coor == 'x')
+	{
+		ray_c->step_x = 1;
+		ray_c->side_dist_x = (ray_c->ray_index_x + 1.0 - ray_c->unit_x) * ray_c->delta_dist_x;
+	}
+	else if (coor == 'y')
+	{
+		ray_c->step_y = 1;
+		ray_c->side_dist_y = (ray_c->unit_y - ray_c->ray_index_y) * ray_c->delta_dist_y;
+	}
 }
 
-void    set_side_dist(t_ray *ray_c)
+void	step_neg(t_ray *ray_c, char coor)
+{
+	if (coor == 'x')
+	{
+		ray_c->step_x = -1;
+		ray_c->side_dist_x = (ray_c->unit_x - ray_c->ray_index_x) * ray_c->delta_dist_x;
+	}
+	else if (coor == 'y')
+	{
+		ray_c->step_y = -1;
+		ray_c->side_dist_y = (ray_c->ray_index_y + 1.0 - ray_c->unit_y) * ray_c->delta_dist_y;
+	}
+}
+
+void	set_side_dist(t_ray *ray_c)
 {
 	if (is_equal(ray_c->ray_dir_x, 0.0))
 		ray_c->side_dist_x = DBL_MAX;
 	else if (ray_c->ray_dir_x < 0.0)
-        step_neg(ray_c, 'x');
-		else
-			step_pos(ray_c, 'x');
+		step_neg(ray_c, 'x');
+	else
+		step_pos(ray_c, 'x');
 	if (is_equal(ray_c->ray_dir_y, 0.0))
 		ray_c->side_dist_y = DBL_MAX;
-    else if (ray_c->ray_dir_y < 0.0)
-        step_neg(ray_c, 'y');
-    else
-        step_pos(ray_c, 'y');
+	else if (ray_c->ray_dir_y < 0.0)
+		step_neg(ray_c, 'y');
+	else
+		step_pos(ray_c, 'y');
 }
 
-void    init_vars(t_map map, t_ray *ray_c)
+void	init_vars(t_map map, t_ray *ray_c)
 {
-    ray_c->delta_dist_x = fabs(1 / ray_c->ray_dir_x);
-    ray_c->delta_dist_y = fabs(1 / ray_c->ray_dir_y);
+	ray_c->delta_dist_x = fabs(1 / ray_c->ray_dir_x);
+	ray_c->delta_dist_y = fabs(1 / ray_c->ray_dir_y);
 	ray_c->unit_x = map.player.pix_x / 25;
 	ray_c->unit_y = map.player.pix_y / 25;
 	ray_c->ray_index_x = map.player.x;
 	ray_c->ray_index_y = map.player.y;
-    ray_c->hit = 0;
-    ray_c->side = 0;
+	ray_c->hit = 0;
+	ray_c->side = 0;
 }
 
 void	ray_cast(t_cub3d *data, t_ray *ray_c)
 {
-    init_vars(data->map, ray_c);
-    set_side_dist(ray_c);
-    while (!ray_c->hit)
-    {
-        if (ray_c->side_dist_x < ray_c->side_dist_y)
-            forward(ray_c, 'x');
-        else
-            forward(ray_c, 'y');
-        if (data->map.grid[ray_c->ray_index_y][ray_c->ray_index_x] == '1')
-            ray_c->hit = 1;
-    }
-    if (!ray_c->side)
-        vertical_hit(data->map, ray_c, data);
-    else
+	init_vars(data->map, ray_c);
+	set_side_dist(ray_c);
+	while (!ray_c->hit)
 	{
-		
-        horizontal_hit(data->map, ray_c, data);
+		if (ray_c->side_dist_x < ray_c->side_dist_y)
+			forward(ray_c, 'x');
+		else
+			forward(ray_c, 'y');
+		if (data->map.grid[ray_c->ray_index_y][ray_c->ray_index_x] == '1')
+			ray_c->hit = 1;
 	}
-}
-
-int rgba_to_hex(int r, int g, int b, int a)
-{
-    return (r << 24) | (g << 16) | (b << 8) | a;
+	if (!ray_c->side)
+		vertical_hit(data->map, ray_c, data);
+	else
+		horizontal_hit(data->map, ray_c, data);
 }
 
 // void	draw_pixel(t_cub3d *data, int x, uint8_t *tmp2)
@@ -186,47 +178,25 @@ int rgba_to_hex(int r, int g, int b, int a)
 	// }
 // }
 
-
-void	get_hex(t_cub3d *data)
-{
-	data->f = rgba_to_hex(data->floor[0], data->floor[1], data->floor[2], 255);
-	data->c = rgba_to_hex(data->ceiling[0], data->ceiling[1], data->ceiling[2], 255);
-	int 		i = 0;
-	int			y = 0;
-	uint8_t		*no = data->no->pixels;
-	uint8_t		*so = data->so->pixels;
-	uint8_t		*we = data->we->pixels;
-	uint8_t		*ea = data->ea->pixels;
-
-	while (y < 4000000)
-	{
-		data->no_arr[i] = rgba_to_hex(no[y], no[y + 1], no[y + 2], no[y + 3]);
-		data->so_arr[i] = rgba_to_hex(so[y], so[y + 1], so[y + 2], so[y + 3]);
-		data->we_arr[i] = rgba_to_hex(we[y], we[y + 1], we[y + 2], we[y + 3]);
-		data->ea_arr[i] = rgba_to_hex(ea[y], ea[y + 1], ea[y + 2], ea[y + 3]);
-		i++;
-		y += 4;
-	}
-}
-
 void	draw_pixel(t_cub3d *data, int x, int incr)
 {
 	if (data->start < data->end)
 	{
 	// mlx_delete_image(data->mlx, data->background);
-		mlx_put_pixel(data->background, x, data->start, data->wall_to_draw[incr]);
+		mlx_put_pixel(data->background, x, data->start, REVERSE_BYTES(data->wall_to_draw[incr]));
 		data->start++;
 	}
-	
 	// printf("## x is %i start is %i\n", x, data->start);
 }
 
 void	draw_ray(t_cub3d *data, int x)
 {
-	int i = 1000/data->wall_height;
-	int j = 0;
+	int	i;
+	int	j;
 
 	// (void)i;
+	j = 0;
+	i = 1000 / data->wall_height;
 	while (data->start < data->end)
 	{
 		draw_pixel(data, x, i * (j * 1000 + x));
@@ -262,18 +232,18 @@ void	draw_background(t_cub3d *data)
 		if (y < 500)
 		{
 			while (x < 1000)
-				mlx_put_pixel(data->background, x++, y, data->c);
+				mlx_put_pixel(data->background, x++, y, data->ceiling);
 		}
 		else
 		{
 			while (x < 1000)
-				mlx_put_pixel(data->background, x++, y, data->f);
+				mlx_put_pixel(data->background, x++, y, data->floor);
 		}
 		y++;
 	}
 }
 
-void render_ray(t_cub3d *data, int distance, int ray_index)
+void	render_ray(t_cub3d *data, int distance, int ray_index)
 {
 	set_strip_height(data, distance);
 	draw_ray(data, ray_index);
@@ -290,7 +260,6 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 
 	ray = 60;
 	// int s = 0;
-
 	draw_background(data);
 	while (ray > 0)
 	{

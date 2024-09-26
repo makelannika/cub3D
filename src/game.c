@@ -6,34 +6,51 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/26 15:30:56 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 21:52:37 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
+// void	get_wall_pixels(t_cub3d *data)
+// {
+// 	int 		i = 0;
+// 	int			y = 0;
+	
+// 	uint8_t		*no = data->no_txtr->pixels;
+// 	uint8_t		*so = data->so_txtr->pixels;
+// 	uint8_t		*we = data->we_txtr->pixels;
+// 	uint8_t		*ea = data->ea_txtr->pixels;
+
+// 	while (y < 4000000)
+// 	{
+// 		data->north[i] = rgba_to_hex(no[y], no[y + 1], no[y + 2], no[y + 3]);
+// 		data->south[i] = rgba_to_hex(so[y], so[y + 1], so[y + 2], so[y + 3]);
+// 		data->west[i] = rgba_to_hex(we[y], we[y + 1], we[y + 2], we[y + 3]);
+// 		data->east[i] = rgba_to_hex(ea[y], ea[y + 1], ea[y + 2], ea[y + 3]);
+// 		i++;
+// 		y += 4;
+// 	}
+// }
+
 int	create_images(t_cub3d *data)
 {
 	data->minimap_txtr = mlx_load_png("assets/black_bg.png");
-	if (mlx_errno)
+	if (!data->minimap_txtr)
 		return (err("loading png failed", NULL));
 	data->minimap = mlx_texture_to_image(data->mlx, data->minimap_txtr);
-	data->no = mlx_texture_to_image(data->mlx, data->no_txtr);
-	data->so = mlx_texture_to_image(data->mlx, data->so_txtr);
-	data->we = mlx_texture_to_image(data->mlx, data->we_txtr);
-	data->ea = mlx_texture_to_image(data->mlx, data->ea_txtr);
-	if (mlx_errno)
-		return (err("creating images failed", NULL));
 	data->background = mlx_new_image(data->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	mlx_image_to_window(data->mlx, data->background, 0, 0);
-	mlx_image_to_window(data->mlx, data->minimap, 0, 0);
-	if (mlx_errno)
+	if (!data->minimap || !data->background)
+		return (err("creating image failed", NULL));
+	if (mlx_image_to_window(data->mlx, data->background, 0, 0) == -1)
 		return (err("displaying image failed", NULL));
-	data->no_arr = ft_calloc(sizeof(int), 1000000);
-	data->so_arr = ft_calloc(sizeof(int), 1000000);
-	data->we_arr = ft_calloc(sizeof(int), 1000000);
-	data->ea_arr = ft_calloc(sizeof(int), 1000000);
-	get_hex(data);
+	if (mlx_image_to_window(data->mlx, data->minimap, 0, 0) == -1)
+		return (err("displaying image failed", NULL));
+	// data->north = (uint32_t *)data->no_txtr->pixels;
+	// data->south = (uint32_t *)data->so_txtr->pixels;
+	// data->west = (uint32_t *)data->we_txtr->pixels;
+	// data->east = (uint32_t *)data->ea_txtr->pixels;
+	// get_wall_pixels(data);
 	return (0);
 }
 

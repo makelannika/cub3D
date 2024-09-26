@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/24 16:30:14 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 21:11:37 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,22 @@ int	get_map_height(t_cub3d *data, char *line)
 	return (0);
 }
 
-int	count_commas(char *str)
+int	validate_colors(char *str)
 {
 	int	commas;
 
 	commas = 0;
-	while (*str != '\0')
+	while (*str)
 	{
+		if ((*str < '0' || *str > '9') && *str != ',')
+			return (1);
 		if (*str == ',')
 			commas++;
 		str++;
 	}
-	return (commas);
+	if (commas != 2)
+		return (1);
+	return (0);
 }
 
 int	check_extension(char *arg)

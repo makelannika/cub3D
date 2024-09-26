@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:45:22 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/20 12:00:17 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 21:36:05 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	move_left(t_cub3d *data)
 
 void	move_right(t_cub3d *data)
 {
-    if (data->map.offsetx > 22
+	if (data->map.offsetx > 22
 		&& data->map.grid[data->map.player.y][data->map.player.x + 1] == '1')
 		return ;
 	mlx_delete_image(data->mlx, data->minimap);
@@ -52,7 +52,7 @@ void	move_right(t_cub3d *data)
 
 void	move_down(t_cub3d *data)
 {
-    if (data->map.offsety > 22
+	if (data->map.offsety > 22
 		&& data->map.grid[data->map.player.y + 1][data->map.player.x] == '1')
 		return ;
 	mlx_delete_image(data->mlx, data->minimap);
@@ -71,7 +71,7 @@ void	move_down(t_cub3d *data)
 
 void	move_up(t_cub3d *data)
 {
-    if (data->map.offsety < 3
+	if (data->map.offsety < 3
 		&& data->map.grid[data->map.player.y - 1][data->map.player.x] == '1')
 		return ;
 	mlx_delete_image(data->mlx, data->minimap);

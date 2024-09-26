@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:59:12 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/26 16:01:36 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 21:49:58 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,11 @@ void	draw_square(t_cub3d *data, int y_coor, int x_coor)
 
 int	draw_minimap(t_cub3d *data, int y, int x)
 {
-	int	minimap_y = 0;
-	int	minimap_x = 0;
+	int	minimap_y;
+	int	minimap_x;
 
+	minimap_y = 0;
+	minimap_x = 0;
 	while (minimap_y < 12)
 	{
 		if (y >= data->map.height)
@@ -76,5 +78,6 @@ void	draw_player(t_cub3d *data, float angle)
 			mlx_put_pixel(data->minimap, PLAYER_X + x++, PLAYER_Y + y, 0xFFFFFF);
 		y++;
 	}
+	// fov_cast(data, angle);
 	fov_cast(data, &data->ray_c, angle);
 }
