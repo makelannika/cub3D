@@ -186,6 +186,8 @@ int rgba_to_hex(int r, int g, int b, int a)
 
 void	get_hex(t_cub3d *data)
 {
+	data->f = rgba_to_hex(data->floor[0], data->floor[1], data->floor[2], 255);
+	data->c = rgba_to_hex(data->ceiling[0], data->ceiling[1], data->ceiling[2], 255);
 	int 		i = 0;
 	int			y = 0;
 	uint8_t		*pixels = data->ea->pixels;
@@ -202,9 +204,11 @@ void	draw_pixel(t_cub3d *data, int x, int incr)
 {
 	if (data->start < data->end)
 	{
+	// mlx_delete_image(data->mlx, data->background);
 		mlx_put_pixel(data->background, x, data->start, data->east_arr[incr]);
 		data->start++;
 	}
+	
 	// printf("## x is %i start is %i\n", x, data->start);
 }
 
@@ -213,18 +217,19 @@ void	draw_ray(t_cub3d *data, int x)
 	int i = 1000/data->wall_height;
 	int j = 0;
 
+	(void)i;
 	while (data->start < data->end)
 	{
-		draw_pixel(data, x, j * i);
+		draw_pixel(data, x, i * (j * 1000 + x));
 		j++;
 	}
 }
 
 void	set_strip_height(t_cub3d *data, float distance)
 {
-	if (distance < 1)
-		distance = 1;
-	data->wall_height = (int)(SCREEN_HEIGHT / distance);
+	if (distance < 1e-9)
+		distance = 1e-9;
+	data->wall_height = (int)(SCREEN_HEIGHT / (distance/25));
 	// data->wall_height = 25 * SCREEN_HEIGHT / distance;
 	if (data->wall_height > 999)
 		data->wall_height = 1000;
@@ -234,7 +239,30 @@ void	set_strip_height(t_cub3d *data, float distance)
 	data->end = data->start + data->wall_height;
 	if (data->end >= SCREEN_HEIGHT)
 		data->end = SCREEN_HEIGHT - 1;
-	// printf("Wall height is %i distance is %f start is %i end is %i\n", data->wall_height, distance, data->start, data->end);
+	printf("Wall height is %i distance is %f start is %i end is %i\n", data->wall_height, distance, data->start, data->end);
+}
+
+void	draw_background(t_cub3d *data)
+{
+	int	y;
+	int x;
+
+	y = 0;
+	while (y < 1000)
+	{
+		x = 0;
+		if (y < 500)
+		{
+			while (x < 1000)
+				mlx_put_pixel(data->background, x++, y, data->c);
+		}
+		else
+		{
+			while (x < 1000)
+				mlx_put_pixel(data->background, x++, y, data->f);
+		}
+		y++;
+	}
 }
 
 void render_ray(t_cub3d *data, int distance, int ray_index)
@@ -256,6 +284,7 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	// int s = 0;
 	data->east_arr = ft_calloc(sizeof(int), 1000000);
 	get_hex(data);
+	draw_background(data);
 	while (ray < 60)
 	{
 		// ray_c->current_angle = player_angle - 5 + ray;
@@ -283,4 +312,5 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		index++;
 		ray += .06;
 	}
+	// ft_bzero(data->background->pixels, data->background->width * data->background->height);
 }

@@ -87,6 +87,8 @@ typedef struct s_cub3d
 	int				wall_height;
 	int				floor[3];
 	int				ceiling[3];
+	int				f;
+	int				c;
 	int				elements_found;
 	double			ray_distance;
 	int				*east_arr;
