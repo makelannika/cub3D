@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 23:19:25 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/26 15:38:51 by amakela          ###   ########.fr       */
+/*   Created: 2024/09/12 18:01:45 by amakela           #+#    #+#             */
+/*   Updated: 2024/09/26 16:09:19 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,18 +288,14 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	int		i;
 	int index = 0;
 
-	ray = 0;
+	ray = 60;
 	// int s = 0;
-	// data->no_arr = ft_calloc(sizeof(int), 1000000);
-	// data->so_arr = ft_calloc(sizeof(int), 1000000);
-	// data->we_arr = ft_calloc(sizeof(int), 1000000);
-	// data->ea_arr = ft_calloc(sizeof(int), 1000000);
-	// get_hex(data);
+
 	draw_background(data);
-	while (ray < 60)
+	while (ray > 0)
 	{
 		// ray_c->current_angle = player_angle - 5 + ray;
-		ray_c->current_angle = player_angle - 30 + ray;
+		ray_c->current_angle = player_angle + 30 + ray;
 		rad = ray_c->current_angle * M_PI / 180.0;
 		ray_c->ray_dir_x = cos(rad);
 		ray_c->ray_dir_y = sin(rad);
@@ -321,6 +317,6 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		// render_ray(data, (int)(SCREEN_HEIGHT / ray_c->ray_distance), index);
 		// ray += 1;
 		index++;
-		ray += .06;
+		ray -= .06;
 	}
 }

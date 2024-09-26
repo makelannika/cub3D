@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/26 15:27:47 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 16:02:34 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ typedef struct s_cub3d
 	int				f;
 	int				c;
 	int				elements_found;
+	int				gnl_err;
+	int				fd;
 	int				*no_arr;
 	int				*so_arr;
 	int				*we_arr;
