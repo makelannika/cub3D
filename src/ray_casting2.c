@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 23:19:25 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/24 15:12:12 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/25 16:07:45 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		ray_c->ray_dir_y = sin(rad);
 		ray_cast(data, ray_c);
 		i = 0;
+		printf("distance is %f\n", ray_c->ray_distance);
 		while (i < ray_c->ray_distance)
 		{
 			x = PLAYER_X + (int)(ray_c->ray_dir_x * i);

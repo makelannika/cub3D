@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:45 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/23 00:00:31 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:54:07 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,13 +126,14 @@ void	fov_cast(t_cub3d *data, float player_angle)
 	while (ray < 1)
 	{
 		double	current_angle = player_angle - 30 + ray;
-		printf("current angle is %f\n", current_angle);
+		// printf("current angle is %f\n", current_angle);
 		rad = current_angle * M_PI / 180.0;
 		double	ray_dir_x = cos(rad);
 		double	ray_dir_y = sin(rad);
 		ray_cast(data, ray_dir_x, ray_dir_y);
 		i = 0;
         printf("hit x: %f\nhit y: %f\n", data->wall_hit_x, data->wall_hit_y);
+		printf("distance is %f\n", data->ray_distance);
 		while (i < data->ray_distance)
 		{
 			x = PLAYER_X + (int)(ray_dir_x * i);
