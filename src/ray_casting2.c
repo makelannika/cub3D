@@ -204,12 +204,9 @@ void	draw_pixel(t_cub3d *data, int x, int incr)
 {
 	if (data->start < data->end)
 	{
-	// mlx_delete_image(data->mlx, data->background);
 		mlx_put_pixel(data->background, x, data->start, data->east_arr[incr]);
 		data->start++;
 	}
-	
-	// printf("## x is %i start is %i\n", x, data->start);
 }
 
 void	draw_ray(t_cub3d *data, int x)
@@ -227,10 +224,9 @@ void	draw_ray(t_cub3d *data, int x)
 
 void	set_strip_height(t_cub3d *data, float distance)
 {
-	if (distance < 1e-9)
-		distance = 1e-9;
+	if (distance < 1)
+		distance = 1;
 	data->wall_height = (int)(SCREEN_HEIGHT / (distance/25));
-	// data->wall_height = 25 * SCREEN_HEIGHT / distance;
 	if (data->wall_height > 999)
 		data->wall_height = 1000;
 	data->start = -data->wall_height / 2 + SCREEN_HEIGHT / 2;
@@ -280,15 +276,14 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	int		i;
 	int index = 0;
 
-	ray = 0;
-	// int s = 0;
+	ray = 60;
 	data->east_arr = ft_calloc(sizeof(int), 1000000);
 	get_hex(data);
 	draw_background(data);
-	while (ray < 60)
+	while (ray > 0)
 	{
 		// ray_c->current_angle = player_angle - 5 + ray;
-		ray_c->current_angle = player_angle - 30 + ray;
+		ray_c->current_angle = player_angle + 30 + ray;
 		rad = ray_c->current_angle * M_PI / 180.0;
 		ray_c->ray_dir_x = cos(rad);
 		ray_c->ray_dir_y = sin(rad);
@@ -304,13 +299,9 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		}
 		// render_ray(data, (int)(SCREEN_HEIGHT / ray_c->ray_distance * cos(fabs((ray - 5) * M_PI / 180.0))), SCREEN_WIDTH / 5 * ray);
 		// render_ray(data, (int)(SCREEN_HEIGHT / ray_c->ray_distance * cos((ray - 30) * M_PI / 180.0)), index);
-		// printf("distance is %f\n", ray_c->ray_distance);
-		// render_ray(data, ray_c->ray_distance);
 		render_ray(data, (int)(ray_c->ray_distance), index);
-		// render_ray(data, (int)(SCREEN_HEIGHT / ray_c->ray_distance), index);
 		// ray += 1;
 		index++;
-		ray += .06;
+		ray -= .06;
 	}
-	// ft_bzero(data->background->pixels, data->background->width * data->background->height);
 }
