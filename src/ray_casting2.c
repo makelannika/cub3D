@@ -150,10 +150,10 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	int		y;
 	int		i;
 
-	ray = 0;
-	while (ray < 60)
+	ray = 60;
+	while (ray < 0)
 	{
-		ray_c->current_angle = player_angle - 30 + ray;
+		ray_c->current_angle = player_angle + 30 + ray;
 		rad = ray_c->current_angle * M_PI / 180.0;
 		ray_c->ray_dir_x = cos(rad);
 		ray_c->ray_dir_y = sin(rad);
@@ -168,6 +168,6 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 				mlx_put_pixel(data->minimap, x, y, 0xFFFFFF);
 			i++;
 		}
-		ray += .06;
+		ray -= .06;
 	}
 }
