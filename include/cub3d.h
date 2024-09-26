@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/26 16:02:07 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 16:02:34 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,10 @@ typedef struct s_cub3d
 	int				elements_found;
 	int				gnl_err;
 	int				fd;
-	int		*no_arr;
+	int				*no_arr;
 	int				*so_arr;
-	int		*we_arr;
-	int		*ea_arr;
+	int				*we_arr;
+	int				*ea_arr;
 	t_map			map;
 	t_ray			ray_c;
 	mlx_t			*mlx;
