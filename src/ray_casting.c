@@ -142,7 +142,6 @@ void	ray_cast(t_cub3d *data, t_ray *ray_c)
         vertical_hit(data->map, ray_c, data);
     else
 	{
-		
         horizontal_hit(data->map, ray_c, data);
 	}
 }
@@ -211,7 +210,7 @@ void	get_hex(t_cub3d *data)
 
 void	draw_pixel(t_cub3d *data, int x, int incr)
 {
-	if (data->start < data->end)
+	if (data->start <= data->end)
 	{
 	// mlx_delete_image(data->mlx, data->background);
 		mlx_put_pixel(data->background, x, data->start, data->wall_to_draw[incr]);
@@ -227,7 +226,7 @@ void	draw_ray(t_cub3d *data, int x)
 	int j = 0;
 
 	// (void)i;
-	while (data->start < data->end)
+	while (data->start <= data->end)
 	{
 		draw_pixel(data, x, i * (j * 1000 + x));
 		j++;
@@ -297,11 +296,11 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		// ray_c->current_angle = player_angle - 5 + ray;
 		ray_c->current_angle = player_angle + 30 + ray;
 		rad = ray_c->current_angle * M_PI / 180.0;
-		// ray_c->ray_dir_x = cos(rad);
-		// ray_c->ray_dir_y = sin(rad);
+		ray_c->ray_dir_x = cos(rad);
+		ray_c->ray_dir_y = sin(rad);
 
-		ray_c->ray_dir_x = cos(rad) + ( 0* (2 * index / SCREEN_WIDTH - 1));
-		ray_c->ray_dir_y = sin(rad) + (.60 * (2 * index / SCREEN_WIDTH - 1));
+		// ray_c->ray_dir_x = cos(rad) + ( 0* (2 * index / (double)SCREEN_WIDTH - 1));
+		// ray_c->ray_dir_y = sin(rad) + (.60 * (2 * index / (double)SCREEN_WIDTH - 1));
 		ray_cast(data, ray_c);
 		i = 0;
 		while (i < ray_c->ray_distance)
