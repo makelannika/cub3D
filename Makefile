@@ -6,7 +6,7 @@
 #    By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/09/25 16:06:40 by amakela          ###   ########.fr        #
+#    Updated: 2024/09/26 16:02:55 by amakela          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,14 @@ HEADERS 	= -I $(MLXDIR)/include -I $(LIBFTDIR)
 
 LIBS		= $(LIBFT) $(MLX42) -lglfw -lm -L"~/.brew/Cellar/glfw/3.4/lib/"
 
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -Wall -Wextra -g #-Werror
 
 CC			= cc
 
 CFILES		=	src/game.c				src/main.c				src/parse_elements.c	\
 				src/parse_map.c			src/utils_cleaning.c	src/utils_parsing.c		\
 				src/movement.c			src/rotation.c			src/drawing.c			\
-				src/ray_casting2.c
+				src/ray_casting.c
 
 OFILES		= $(CFILES:.c=.o)
 

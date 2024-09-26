@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 23:19:25 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/25 16:07:45 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 16:05:55 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,3 +171,4 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		ray += .06;
 	}
 }
+
