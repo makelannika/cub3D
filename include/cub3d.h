@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/23 00:06:03 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 15:27:47 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_cub3d
 	mlx_image_t		*so;
 	mlx_image_t		*we;
 	mlx_image_t		*ea;
-	mlx_image_t		*wall_to_draw;
+	int				*wall_to_draw;
 	mlx_image_t		*minimap;
 	mlx_image_t		*background;
 	int				start;
@@ -90,8 +90,10 @@ typedef struct s_cub3d
 	int				f;
 	int				c;
 	int				elements_found;
-	double			ray_distance;
-	int				*east_arr;
+	int				*no_arr;
+	int				*so_arr;
+	int				*we_arr;
+	int				*ea_arr;
 	t_map			map;
 	t_ray			ray_c;
 	mlx_t			*mlx;
@@ -121,8 +123,8 @@ void	rotate_right(t_cub3d *data);
 // DRAWING
 void	draw_player(t_cub3d *data, float angle);
 int		draw_minimap(t_cub3d *data, int y, int x);
-// void	fov_cast(t_cub3d *data, float player_angle);
 void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle);
+void	get_hex(t_cub3d *data);
 
 // CLEANING UTILS
 int		err(char *str, void *ptr);

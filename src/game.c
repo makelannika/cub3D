@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/22 21:02:30 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 15:30:56 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ int	create_images(t_cub3d *data)
 	mlx_image_to_window(data->mlx, data->minimap, 0, 0);
 	if (mlx_errno)
 		return (err("displaying image failed", NULL));
+	data->no_arr = ft_calloc(sizeof(int), 1000000);
+	data->so_arr = ft_calloc(sizeof(int), 1000000);
+	data->we_arr = ft_calloc(sizeof(int), 1000000);
+	data->ea_arr = ft_calloc(sizeof(int), 1000000);
+	get_hex(data);
 	return (0);
 }
 
