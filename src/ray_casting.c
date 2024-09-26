@@ -297,8 +297,11 @@ void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		// ray_c->current_angle = player_angle - 5 + ray;
 		ray_c->current_angle = player_angle + 30 + ray;
 		rad = ray_c->current_angle * M_PI / 180.0;
-		ray_c->ray_dir_x = cos(rad);
-		ray_c->ray_dir_y = sin(rad);
+		// ray_c->ray_dir_x = cos(rad);
+		// ray_c->ray_dir_y = sin(rad);
+
+		ray_c->ray_dir_x = cos(rad) + ( 0* (2 * index / SCREEN_WIDTH - 1));
+		ray_c->ray_dir_y = sin(rad) + (.60 * (2 * index / SCREEN_WIDTH - 1));
 		ray_cast(data, ray_c);
 		i = 0;
 		while (i < ray_c->ray_distance)
