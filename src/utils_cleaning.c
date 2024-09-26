@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:27:06 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/22 21:02:09 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/24 16:11:54 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	free_data(t_cub3d *data)
 		free_str_array(data->map.grid);
 	if (data->mlx)
 		mlx_terminate(data->mlx);
+	if (data->fd > 0)
+		close(data->fd);
 	return (1);
 }
-
