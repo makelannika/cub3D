@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/26 20:49:56 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 16:52:34 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 # define SCREEN_HEIGHT 1000
 # define INDEX_WIDTH 25
 # define INDEX_HEIGHT 25
-
-#define REVERSE_BYTES(x) (((x & 0xFF) << 24) | ((x & 0xFF00) << 8) | ((x & 0xFF0000) >> 8) | ((x >> 24) & 0xFF))
 
 typedef struct s_coor
 {
@@ -80,6 +78,7 @@ typedef struct s_cub3d
 	mlx_image_t		*minimap;
 	mlx_image_t		*background;
 	uint32_t		*wall_to_draw;
+	// uint8_t			*wall_to_draw;
 	int				start;
 	int				end;
 	int				wall_height;
@@ -88,10 +87,6 @@ typedef struct s_cub3d
 	int				elements_found;
 	int				gnl_err;
 	int				fd;
-	int				*north;
-	int				*south;
-	int				*west;
-	int				*east;
 	t_map			map;
 	t_ray			ray_c;
 	mlx_t			*mlx;
@@ -101,10 +96,11 @@ typedef struct s_cub3d
 int		check_extension(char *arg);
 int		parse_file(t_cub3d *data, char *file);
 int		parse_map(t_cub3d *data, char *line, char *file);
-int		get_map_height(t_cub3d *data, char *line);
-void	get_map_width(t_cub3d *data);
-int		validate_colors(char *str);
 int		rgba_to_hex(int r, int g, int b, int a);
+int		reverse_bytes(int p);
+int		copy_color(t_cub3d *data, char *str, char identifier);
+int		validate_index(t_cub3d *data, char **grid, int y, int x);
+int		validate_line(char *str);
 
 // GAME
 int		init_game(t_cub3d *data);
@@ -123,7 +119,6 @@ void	rotate_right(t_cub3d *data);
 void	draw_player(t_cub3d *data, float angle);
 int		draw_minimap(t_cub3d *data, int y, int x);
 void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle);
-void	get_hex(t_cub3d *data);
 
 // CLEANING UTILS
 int		err(char *str, void *ptr);

@@ -6,11 +6,56 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/26 21:11:37 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 16:37:06 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+int	check_extension(char *arg)
+{
+	int	len;
+
+	len = ft_strlen(arg);
+	if (len > 4)
+		return (ft_strncmp(&arg[len - 4], ".cub", 5));
+	return (1);
+}
+
+void	set_orientation(t_cub3d *data, char orientation, int x, int y)
+{
+	if (orientation == 'E')
+		data->map.p_angle = 0.0;
+	else if (orientation == 'N')
+		data->map.p_angle = 90.0;
+	else if (orientation == 'W')
+		data->map.p_angle = 180.0;
+	else if (orientation == 'S')
+		data->map.p_angle = 270.0;
+	data->map.player.x = x;
+	data->map.player.y = y;
+	data->map.offsetx = 13;
+	data->map.offsety = 13;
+	data->map.player.pix_x = x * 25 + 13;
+	data->map.player.pix_y = y * 25 + 13;
+}
+
+int	validate_index(t_cub3d *data, char **grid, int y, int x)
+{
+	if (ft_strchr("NSWE", grid[y][x]))
+	{
+		if (data->map.player.pix_x)
+			return (err("multiple starting positions found in the map", NULL));
+		set_orientation(data, grid[y][x], x, y);
+		return (0);
+	}
+	if (!grid[y][x - 1] || !ft_strchr("01NSWE", grid[y][x - 1])
+		|| !grid[y][x + 1] || !ft_strchr("01NSWE", grid[y][x + 1])
+		|| !grid[y - 1][x] || !ft_strchr("01NSWE", grid[y - 1][x])
+		|| !grid[y + 1][x] || !ft_strchr("01NSWE", grid[y + 1][x]))
+		return (err("map must be surrounded by walls", NULL));
+	return (0);
+}
 
 int	validate_line(char *str)
 {
@@ -21,63 +66,4 @@ int	validate_line(char *str)
 		str++;
 	}
 	return (0);
-}
-
-void	get_map_width(t_cub3d *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->map.grid[i])
-	{
-		if ((int)ft_strlen(data->map.grid[i]) > data->map.width)
-			data->map.width = ft_strlen(data->map.grid[i]);
-		i++;
-	}
-}
-
-int	get_map_height(t_cub3d *data, char *line)
-{
-	while (line && ft_strchr("1 ", *line))
-	{
-		if (validate_line(line))
-			return (err("forbidden character found in the map", line));
-		data->map.height++;
-		free(line);
-		line = get_next_line(data->fd, &data->gnl_err);
-		if (data->gnl_err)
-			return (err("get_next_line failed", NULL));
-	}
-	if (line)
-		return (err("invalid .cub file content", line));
-	close(data->fd);
-	return (0);
-}
-
-int	validate_colors(char *str)
-{
-	int	commas;
-
-	commas = 0;
-	while (*str)
-	{
-		if ((*str < '0' || *str > '9') && *str != ',')
-			return (1);
-		if (*str == ',')
-			commas++;
-		str++;
-	}
-	if (commas != 2)
-		return (1);
-	return (0);
-}
-
-int	check_extension(char *arg)
-{
-	int	len;
-
-	len = ft_strlen(arg);
-	if (len > 4)
-		return (ft_strncmp(&arg[len - 4], ".cub", 5));
-	return (1);
 }

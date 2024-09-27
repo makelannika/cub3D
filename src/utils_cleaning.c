@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:27:06 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/26 19:10:55 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 14:53:28 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ int	free_str_array(char **array)
 
 int	free_data(t_cub3d *data)
 {
-	if (data->no_txtr)
-		mlx_delete_texture(data->no_txtr);
-	if (data->so_txtr)
-		mlx_delete_texture(data->so_txtr);
-	if (data->we_txtr)
-		mlx_delete_texture(data->we_txtr);
-	if (data->ea_txtr)
-		mlx_delete_texture(data->ea_txtr);
+	// if (data->no_txtr)
+	// 	mlx_delete_texture(data->no_txtr);
+	// if (data->so_txtr)
+	// 	mlx_delete_texture(data->so_txtr);
+	// if (data->we_txtr)
+	// 	mlx_delete_texture(data->we_txtr);
+	// if (data->ea_txtr)
+	// 	mlx_delete_texture(data->ea_txtr);
 	if (data->map.grid)
 		free_str_array(data->map.grid);
 	if (data->mlx)

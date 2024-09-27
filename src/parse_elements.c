@@ -6,60 +6,17 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:51 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/26 21:37:37 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 16:29:36 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int	rgba_to_hex(int r, int g, int b, int a)
-{
-	return ((r << 24) | (g << 16) | (b << 8) | a);
-}
-
-int	get_color(char *str)
-{
-	int	color;
-
-	color = ft_atoi(str);
-	if (color < 0 || color > 255)
-		return (-1);
-	return (color);
-}
-
-int	copy_color(t_cub3d *data, char *str, char identifier)
-{
-	char	**rgb;
-	int		red;
-	int		green;
-	int		blue;
-
-	if (validate_colors(str))
-		return (err("invalid floor/ceiling color", NULL));
-	rgb = ft_split(str, ',');
-	if (!rgb)
-		return (err("malloc failed", NULL));
-	red = get_color(rgb[0]);
-	green = get_color(rgb[1]);
-	blue = get_color(rgb[2]);
-	if (red == -1 || green == -1 || blue == -1)
-	{
-		free_str_array(rgb);
-		return (err("invalid floor/ceiling color", NULL));
-	}
-	if (identifier == 'F')
-		data->floor = rgba_to_hex(red, green, blue, 255);
-	else
-		data->ceiling = rgba_to_hex(red, green, blue, 255);
-	free_str_array(rgb);
-	return (0);
-}
-
 int	check_identifier(char **element, t_cub3d *data)
 {
 	if (!ft_strncmp("F", element[0], 2))
 		return (copy_color(data, element[1], 'F'));
-	else if (!ft_strncmp("C", element[0], 2))
+	if (!ft_strncmp("C", element[0], 2))
 		return (copy_color(data, element[1], 'C'));
 	if (!ft_strncmp("NO", element[0], 3))
 		data->no_txtr = mlx_load_png(element[1]);

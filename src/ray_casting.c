@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:45 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/26 21:46:34 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 16:51:49 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,14 @@ void	horizontal_hit(t_map map, t_ray *ray_c, t_cub3d *data)
 	//     printf("north\n");
 		ray_c->wall_hit_y = (ray_c->ray_index_y + 1) * 25;
 		data->wall_to_draw = (uint32_t *)data->no_txtr->pixels;
+		// data->wall_to_draw = data->no_txtr->pixels;
 	}
 	else
 	{
 	//     printf("south\n");
 		ray_c->wall_hit_y = ray_c->ray_index_y * 25;
 		data->wall_to_draw = (uint32_t *)data->so_txtr->pixels;
+		// data->wall_to_draw = data->so_txtr->pixels;
 	}
 	ray_c->wall_hit_x = (ray_c->unit_x + (ray_c->side_dist_y - ray_c->delta_dist_y) * ray_c->ray_dir_x) * 25;
 }
@@ -43,12 +45,14 @@ void	vertical_hit(t_map map, t_ray *ray_c, t_cub3d *data)
 	//     printf("west\n");
 		ray_c->wall_hit_x = (ray_c->ray_index_x + 1) * 25;
 		data->wall_to_draw = (uint32_t *)data->we_txtr->pixels;
+		// data->wall_to_draw = data->we_txtr->pixels;
 	}
 	else
 	{
 	//     printf("east\n");
 		ray_c->wall_hit_x = ray_c->ray_index_x * 25;
 		data->wall_to_draw = (uint32_t *)data->ea_txtr->pixels;
+		// data->wall_to_draw = data->ea_txtr->pixels;
 	}
 	ray_c->wall_hit_y = (ray_c->unit_y + (ray_c->side_dist_x - ray_c->delta_dist_x) * ray_c->ray_dir_y) * 25;
 }
@@ -157,36 +161,39 @@ void	ray_cast(t_cub3d *data, t_ray *ray_c)
 
 // void	draw_ray(t_cub3d *data, int ray_index)
 // {
-	// uint8_t 	tmp2[4];
-	// uint8_t 	*tmp;
-	// int			y;
-	// int			x;
-	// int			i;
-	// int			j;
+// 	uint8_t 	tmp2[4];
+// 	uint8_t 	*tmp;
+// 	int			y;
+// 	int			x;
+// 	int			i;
+// 	int			j;
 
-	// i = 1000/data->wall_height;
-	// y = 0;
-	// tmp = data->wall_to_draw->pixels;
-	// while (y < 1000)
-	// {
-	// 	x = 0;
-	// 	j = y;
-	// 	while (x < 4)
-	// 		tmp2[x++] = tmp[j++];
-	// 	draw_pixel(data, ray_index, tmp2);
-	// 	y += i * 4;
-	// }
+// 	i = 1000/data->wall_height;
+// 	y = 0;
+// 	tmp = data->wall_to_draw->pixels;
+// 	while (y < 1000)
+// 	{
+// 		x = 0;
+// 		j = y;
+// 		while (x < 4)
+// 			tmp2[x++] = tmp[j++];
+// 		draw_pixel(data, ray_index, tmp2);
+// 		y += i * 4;
+// 	}
 // }
 
 void	draw_pixel(t_cub3d *data, int x, int incr)
 {
+	int pixel = reverse_bytes(data->wall_to_draw[incr]); /* with casting */
+	// int	pixel = rgba_to_hex(data->wall_to_draw[incr * 4], /* without casting */
+	// 					data->wall_to_draw[incr * 4 + 1],
+	// 					data->wall_to_draw[incr * 4 + 2],
+	// 					data->wall_to_draw[incr * 4 + 3]);
 	if (data->start < data->end)
 	{
-	// mlx_delete_image(data->mlx, data->background);
-		mlx_put_pixel(data->background, x, data->start, REVERSE_BYTES(data->wall_to_draw[incr]));
+		mlx_put_pixel(data->background, x, data->start, pixel);
 		data->start++;
 	}
-	// printf("## x is %i start is %i\n", x, data->start);
 }
 
 void	draw_ray(t_cub3d *data, int x)
