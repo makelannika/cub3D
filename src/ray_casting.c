@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:45 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 16:57:42 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 17:17:51 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ void	horizontal_hit(t_map map, t_ray *ray_c, t_cub3d *data)
 	{
 	//     printf("north\n");
 		ray_c->wall_hit_y = (ray_c->ray_index_y + 1) * 25;
-		data->wall_to_draw = (uint32_t *)data->no_txtr->pixels;
-		// data->wall_to_draw = data->no_txtr->pixels;
+		data->wall_to_draw = (uint32_t *)data->north->pixels;
+		// data->wall_to_draw = data->north->pixels;
 	}
 	else
 	{
 	//     printf("south\n");
 		ray_c->wall_hit_y = ray_c->ray_index_y * 25;
-		data->wall_to_draw = (uint32_t *)data->so_txtr->pixels;
-		// data->wall_to_draw = data->so_txtr->pixels;
+		data->wall_to_draw = (uint32_t *)data->south->pixels;
+		// data->wall_to_draw = data->south->pixels;
 	}
 	ray_c->wall_hit_x = (ray_c->unit_x + (ray_c->side_dist_y - ray_c->delta_dist_y) * ray_c->ray_dir_x) * 25;
 }
@@ -44,15 +44,15 @@ void	vertical_hit(t_map map, t_ray *ray_c, t_cub3d *data)
 	{
 	//     printf("west\n");
 		ray_c->wall_hit_x = (ray_c->ray_index_x + 1) * 25;
-		data->wall_to_draw = (uint32_t *)data->we_txtr->pixels;
-		// data->wall_to_draw = data->we_txtr->pixels;
+		data->wall_to_draw = (uint32_t *)data->west->pixels;
+		// data->wall_to_draw = data->west->pixels;
 	}
 	else
 	{
 	//     printf("east\n");
 		ray_c->wall_hit_x = ray_c->ray_index_x * 25;
-		data->wall_to_draw = (uint32_t *)data->ea_txtr->pixels;
-		// data->wall_to_draw = data->ea_txtr->pixels;
+		data->wall_to_draw = (uint32_t *)data->east->pixels;
+		// data->wall_to_draw = data->east->pixels;
 	}
 	ray_c->wall_hit_y = (ray_c->unit_y + (ray_c->side_dist_x - ray_c->delta_dist_x) * ray_c->ray_dir_y) * 25;
 }

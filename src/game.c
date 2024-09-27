@@ -6,14 +6,26 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/27 15:51:27 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 17:28:40 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
+int	check_png_sizes(t_cub3d *data)
+{
+	if (data->north->width != 1000 || data->north->height != 1000
+		|| data->south->width != 1000 || data->south->height != 1000
+		|| data->west->width != 1000 || data->west->height != 1000
+		|| data->east->width != 1000 || data->east->height != 1000)
+		return (1);
+	return (0);
+}
+
 int	create_images(t_cub3d *data)
 {
+	if (check_png_sizes(data))
+		return (err("invalid png size", NULL));
 	data->minimap_txtr = mlx_load_png("assets/black_bg.png");
 	if (!data->minimap_txtr)
 		return (err("loading png failed", NULL));

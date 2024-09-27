@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 16:52:34 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 17:15:42 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ typedef struct s_ray
 
 typedef struct s_cub3d
 {
-	mlx_texture_t	*no_txtr;
-	mlx_texture_t	*so_txtr;
-	mlx_texture_t	*we_txtr;
-	mlx_texture_t	*ea_txtr;
+	mlx_texture_t	*north;
+	mlx_texture_t	*south;
+	mlx_texture_t	*west;
+	mlx_texture_t	*east;
 	mlx_texture_t	*minimap_txtr;
 	mlx_image_t		*minimap;
 	mlx_image_t		*background;

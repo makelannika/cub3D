@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:51 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 16:29:36 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 17:17:51 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	check_identifier(char **element, t_cub3d *data)
 	if (!ft_strncmp("C", element[0], 2))
 		return (copy_color(data, element[1], 'C'));
 	if (!ft_strncmp("NO", element[0], 3))
-		data->no_txtr = mlx_load_png(element[1]);
+		data->north = mlx_load_png(element[1]);
 	else if (!ft_strncmp("SO", element[0], 3))
-		data->so_txtr = mlx_load_png(element[1]);
+		data->south = mlx_load_png(element[1]);
 	else if (!ft_strncmp("WE", element[0], 3))
-		data->we_txtr = mlx_load_png(element[1]);
+		data->west = mlx_load_png(element[1]);
 	else if (!ft_strncmp("EA", element[0], 3))
-		data->ea_txtr = mlx_load_png(element[1]);
+		data->east = mlx_load_png(element[1]);
 	else
 		return (err("invalid .cub file content", NULL));
 	if (mlx_errno)
