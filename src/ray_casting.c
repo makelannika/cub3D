@@ -278,47 +278,100 @@ void render_ray(t_cub3d *data, int distance, int ray_index)
 	draw_ray(data, ray_index);
 }
 
-void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
+// void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
+// {
+// 	double	rad;
+// 	float	ray;
+// 	int		x;
+// 	int		y;
+// 	int		i;
+// 	int index = 0;
+
+// 	ray = 60;
+// 	double dir_x = cos(rad);
+//     double dir_y = sin(rad);
+// 	double plane_x = -dir_y * 0.6;
+//     double plane_y = dir_x * 0.6;
+// 	double camera_x = 2 * index / (double)SCREEN_WIDTH - 1;
+
+// 	draw_background(data);
+// 	while (ray > 0)
+// 	{
+// 		ray_c->current_angle = player_angle + 30 + ray;
+// 		rad = ray_c->current_angle * M_PI / 180.0;
+// 		ray_c->ray_dir_x = cos(rad);
+// 		ray_c->ray_dir_y = sin(rad);
+
+//         rad = player_angle * M_PI / 180.0;
+
+// 		ray_cast(data, ray_c);
+// 		i = 0;
+// 		while (i < ray_c->ray_distance)
+// 		{
+// 			x = PLAYER_X + (int)(ray_c->ray_dir_x * i);
+// 			y = PLAYER_Y - (int)(ray_c->ray_dir_y * i);
+// 			if (x > 0 && x < 275 && y > 0 && y < 275)
+// 				mlx_put_pixel(data->minimap, x, y, 0xFFFFFF);
+// 			i++;
+// 		}
+// 		render_ray(data, (int)(ray_c->ray_distance), index);
+// 		index++;
+// 		ray -= .06;
+// 	}
+// }
+
+// void	cast_fov(t_cub3d *data, t_ray *ray_c, float player_angle)
+// {
+// 	float	ray;
+// 	double	rad;
+// 	double	ray_dir_x;
+// 	double	ray_dir_y;
+// 	ray = 60;
+// 	while (ray > 0)
+// 	{
+// 		ray_c->current_angle = player_angle + 30 + ray;
+// 		rad = ray_c->current_angle * M_PI / 180.0;
+// 		ray_dir_x = cos(rad);
+// 		ray_dir_y = sin(rad);
+
+//         rad = player_angle * M_PI / 180.0;
+
+// 		int i = 0;
+// 		while (i < ray_c->ray_distance)
+// 		{
+// 			int x = PLAYER_X + (int)(ray_dir_x * i);
+// 			int y = PLAYER_Y - (int)(ray_dir_y * i);
+// 			if (x > 0 && x < 275 && y > 0 && y < 275)
+// 				mlx_put_pixel(data->minimap, x, y, 0xFFFFFF);
+// 			i++;
+// 		}
+// 		ray -= .06;
+// 	}
+// }
+
+void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 {
-	double	rad;
-	float	ray;
-	int		x;
-	int		y;
-	int		i;
-	int index = 0;
+    int index = 0;
+    double rad = player_angle * M_PI / 180.0;
+    double dir_x = cos(rad);
+    double dir_y = sin(rad);
+    double plane_x = dir_y * 0.6;
+    double plane_y = dir_x * 0;
+    draw_background(data);
 
-	ray = 60;
-	// int s = 0;
-
-	draw_background(data);
-	while (ray > 0)
-	{
-		// ray_c->current_angle = player_angle - 5 + ray;
-		ray_c->current_angle = player_angle + 30 + ray;
-		rad = ray_c->current_angle * M_PI / 180.0;
-		ray_c->ray_dir_x = cos(rad);
-		ray_c->ray_dir_y = sin(rad);
-
-		// ray_c->ray_dir_x = cos(rad) + ( 0* (2 * index / (double)SCREEN_WIDTH - 1));
-		// ray_c->ray_dir_y = sin(rad) + (.60 * (2 * index / (double)SCREEN_WIDTH - 1));
-		ray_cast(data, ray_c);
-		i = 0;
-		while (i < ray_c->ray_distance)
-		{
-			x = PLAYER_X + (int)(ray_c->ray_dir_x * i);
-			y = PLAYER_Y - (int)(ray_c->ray_dir_y * i);
-			if (x > 0 && x < 275 && y > 0 && y < 275)
-				mlx_put_pixel(data->minimap, x, y, 0xFFFFFF);
-			i++;
-		}
-		// render_ray(data, (int)(SCREEN_HEIGHT / ray_c->ray_distance * cos(fabs((ray - 5) * M_PI / 180.0))), SCREEN_WIDTH / 5 * ray);
-		// render_ray(data, (int)(SCREEN_HEIGHT / ray_c->ray_distance * cos((ray - 30) * M_PI / 180.0)), index);
-		// printf("distance is %f\n", ray_c->ray_distance);
-		// render_ray(data, ray_c->ray_distance);
-		render_ray(data, (int)(ray_c->ray_distance), index);
-		// render_ray(data, (int)(SCREEN_HEIGHT / ray_c->ray_distance), index);
-		// ray += 1;
-		index++;
-		ray -= .06;
-	}
+    for (index = 0; index < SCREEN_WIDTH; index++)
+    {
+        double camera_x = 2.0 * index / (double)SCREEN_WIDTH - 1.0;
+        ray_c->ray_dir_x = dir_x + plane_x * camera_x;
+        ray_c->ray_dir_y = dir_y + plane_y * camera_x;
+        ray_cast(data, ray_c);
+        // int i = 0;
+        // while (i < ray_c->ray_distance)
+        // {
+        //     cast_fov(data, ray_c, player_angle);
+        // }
+        render_ray(data, (int)(ray_c->ray_distance), index);
+    }
 }
+
+// double corrected_distance = ray_c->ray_distance * cos(atan2(ray_c->ray_dir_y, ray_c->ray_dir_x) - rad);
