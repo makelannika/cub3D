@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 19:29:56 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 20:57:24 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,11 @@ void	rotate_left(t_cub3d *data);
 void	reset_minimap(t_cub3d * data);
 void	my_keyhook(mlx_key_data_t keydata, void *game_data);
 
-void	rotate_left(t_cub3d *data);
-void	rotate_right(t_cub3d *data);
-
 // DRAWING
+void	draw_minimap(t_cub3d *data, int y, int x);
 void	draw_player(t_cub3d *data, float angle);
-int		draw_minimap(t_cub3d *data, int y, int x);
+void	draw_background(t_cub3d *data);
+void	draw_pixel(t_cub3d *data, int x, int incr);
 void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle);
 
 // CLEANING UTILS

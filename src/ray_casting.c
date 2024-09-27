@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:01:45 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 17:17:51 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 20:16:12 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,20 +182,6 @@ void	ray_cast(t_cub3d *data, t_ray *ray_c)
 // 	}
 // }
 
-void	draw_pixel(t_cub3d *data, int x, int incr)
-{
-	int pixel = reverse_bytes(data->wall_to_draw[incr]); /* with casting */
-	// int	pixel = rgba_to_hex(data->wall_to_draw[incr * 4], /* without casting */
-	// 					data->wall_to_draw[incr * 4 + 1],
-	// 					data->wall_to_draw[incr * 4 + 2],
-	// 					data->wall_to_draw[incr * 4 + 3]);
-	if (data->start <= data->end)
-	{
-		mlx_put_pixel(data->background, x, data->start, pixel);
-		data->start++;
-	}
-}
-
 void	draw_ray(t_cub3d *data, int x)
 {
 	int	i;
@@ -225,29 +211,6 @@ void	set_strip_height(t_cub3d *data, float distance)
 	if (data->end >= SCREEN_HEIGHT)
 		data->end = SCREEN_HEIGHT - 1;
 // 	printf("Wall height is %i distance is %f start is %i end is %i\n", data->wall_height, distance, data->start, data->end);
-}
-
-void	draw_background(t_cub3d *data)
-{
-	int	y;
-	int x;
-
-	y = 0;
-	while (y < 1000)
-	{
-		x = 0;
-		if (y < 500)
-		{
-			while (x < 1000)
-				mlx_put_pixel(data->background, x++, y, data->ceiling);
-		}
-		else
-		{
-			while (x < 1000)
-				mlx_put_pixel(data->background, x++, y, data->floor);
-		}
-		y++;
-	}
 }
 
 void	render_ray(t_cub3d *data, int distance, int ray_index)

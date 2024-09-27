@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:59:12 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 18:32:47 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 20:15:40 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	draw_square(t_cub3d *data, int y_coor, int x_coor)
 	}
 }
 
-int	draw_minimap(t_cub3d *data, int y, int x)
+void	draw_minimap(t_cub3d *data, int y, int x)
 {
 	int	minimap_y;
 	int	minimap_x;
@@ -60,7 +60,6 @@ int	draw_minimap(t_cub3d *data, int y, int x)
 		y++;
 		minimap_y++;
 	}
-	return (0);
 }
 
 void	draw_player(t_cub3d *data, float angle)
@@ -77,4 +76,40 @@ void	draw_player(t_cub3d *data, float angle)
 		y++;
 	}
 	fov_cast(data, &data->ray_c, angle);
+}
+
+void	draw_background(t_cub3d *data)
+{
+	int	y;
+	int x;
+
+	y = 0;
+	while (y < 500)
+	{
+		x = 0;
+		while (x < 1000)
+			mlx_put_pixel(data->background, x++, y, data->ceiling);
+		y++;
+	}
+	while (y < 1000)
+	{
+		x = 0;
+		while (x < 1000)
+			mlx_put_pixel(data->background, x++, y, data->floor);
+		y++;
+	}
+}
+
+void	draw_pixel(t_cub3d *data, int x, int incr)
+{
+	int pixel = reverse_bytes(data->wall_to_draw[incr]); /* with casting */
+	// int	pixel = rgba_to_hex(data->wall_to_draw[incr * 4], /* without casting */
+	// 					data->wall_to_draw[incr * 4 + 1],
+	// 					data->wall_to_draw[incr * 4 + 2],
+	// 					data->wall_to_draw[incr * 4 + 3]);
+	if (data->start <= data->end)
+	{
+		mlx_put_pixel(data->background, x, data->start, pixel);
+		data->start++;
+	}
 }
