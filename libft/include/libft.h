@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 15:44:38 by amakela           #+#    #+#             */
-/*   Updated: 2024/07/24 18:18:24 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/24 14:40:58 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ int		ft_printf(int fd, const char *format, ...);
 int		ft_printhex(int fd, unsigned long nbr, char specifier, int *count);
 int		ft_printnbr(int fd, long nbr, int *count);
 int		ft_printstr(int fd, char *str);
-char	*get_next_line(int fd);
+char	*set_err(int *flag);
+char	*get_next_line(int fd, int *flag);
 long	ft_atol(const char *str);
 
 #endif

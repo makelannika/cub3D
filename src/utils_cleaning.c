@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:27:06 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 16:45:37 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/24 16:11:54 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,19 @@ int	free_str_array(char **array)
 
 int	free_data(t_cub3d *data)
 {
-	if (data->no)
-		free(data->no);
-	if (data->so)
-		free(data->so);
-	if (data->we)
-		free(data->we);
-	if (data->ea)
-		free(data->ea);
-	if (data->map.map)
-		free_str_array(data->map.map);
+	if (data->no_txtr)
+		mlx_delete_texture(data->no_txtr);
+	if (data->so_txtr)
+		mlx_delete_texture(data->so_txtr);
+	if (data->we_txtr)
+		mlx_delete_texture(data->we_txtr);
+	if (data->ea_txtr)
+		mlx_delete_texture(data->ea_txtr);
+	if (data->map.grid)
+		free_str_array(data->map.grid);
+	if (data->mlx)
+		mlx_terminate(data->mlx);
+	if (data->fd > 0)
+		close(data->fd);
 	return (1);
 }

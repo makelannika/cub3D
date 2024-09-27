@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:51 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 17:44:11 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/24 16:53:53 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,18 @@ int	check_identifier(char **element, t_cub3d *data)
 	if (!copy)
 		return (err("malloc failed", NULL));
 	if (!ft_strncmp("NO", element[0], 3))
-		data->no = copy;
+		data->no_txtr = mlx_load_png(copy);
 	else if (!ft_strncmp("WE", element[0], 3))
-		data->we = copy;
+		data->we_txtr = mlx_load_png(copy);
 	else if (!ft_strncmp("EA", element[0], 3))
-		data->ea = copy;
+		data->ea_txtr = mlx_load_png(copy);
 	else if (!ft_strncmp("SO", element[0], 3))
-		data->so = copy;
+		data->so_txtr = mlx_load_png(copy);
 	else
 		return (err("invalid .cub file content", copy));
+	if (mlx_errno)
+		return (err("loading png failed", copy));
+	free(copy);
 	return (0);
 }
 
@@ -96,27 +99,28 @@ int	parse_element(t_cub3d *data, char *line)
 
 int	parse_file(t_cub3d *data, char *file)
 {
-	int		fd;
 	char	*line;
 
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
+	data->fd = open(file, O_RDONLY);
+	if (data->fd == -1)
 		return (err("open failed", NULL));
-	line = get_next_line(fd); // add malloc/open check for gnl
+	line = get_next_line(data->fd, &data->gnl_err);
+	if (data->gnl_err)
+		return (err("get_next_line failed", NULL));
 	while (line && *line != '1' && *line != ' ')
 	{
-		if (ft_strchr("NSWEFC", *line))
+		if (*line != '\n')
 		{
 			if (parse_element(data, line))
 				return (err(NULL, line));
 		}
-		else if (*line != '\n')
-			return (err("invalid .cub file content", line));
 		free(line);
-		line = get_next_line(fd); // malloc/open check
+		line = get_next_line(data->fd, &data->gnl_err);
+		if (data->gnl_err)
+			return (err("get_next_line failed", NULL));
 	}
-	if (line && ft_strchr(" 1", *line) && data->elements_found == 6)
-		return (parse_map(data, line, fd, file));
+	if (line && data->elements_found == 6)
+		return (parse_map(data, line, file));
 	else
 		return (err("required elements not found in .cub file", line));
 }

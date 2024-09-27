@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 18:40:08 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/24 16:30:14 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,29 @@ void	get_map_width(t_cub3d *data)
 	int	i;
 
 	i = 0;
-	while (data->map.map[i])
+	while (data->map.grid[i])
 	{
-		if ((int)ft_strlen(data->map.map[i]) > data->map.map_width)
-			data->map.map_width = ft_strlen(data->map.map[i]);
+		if ((int)ft_strlen(data->map.grid[i]) > data->map.width)
+			data->map.width = ft_strlen(data->map.grid[i]);
 		i++;
 	}
 }
 
-int	get_map_height(t_cub3d *data, char *line, int fd)
+int	get_map_height(t_cub3d *data, char *line)
 {
 	while (line && ft_strchr("1 ", *line))
 	{
 		if (validate_line(line))
-		{
-			close(fd);
-			return (err("invalid map", line));
-		}
-		data->map.map_height++;
+			return (err("forbidden character found in the map", line));
+		data->map.height++;
 		free(line);
-		line = get_next_line(fd); // malloc/open check
+		line = get_next_line(data->fd, &data->gnl_err);
+		if (data->gnl_err)
+			return (err("get_next_line failed", NULL));
 	}
-	close(fd);
 	if (line)
 		return (err("invalid .cub file content", line));
+	close(data->fd);
 	return (0);
 }
 
@@ -74,5 +73,7 @@ int	check_extension(char *arg)
 	int	len;
 
 	len = ft_strlen(arg);
-	return (ft_strncmp(&arg[len - 4], ".cub", 5));
+	if (len > 4)
+		return (ft_strncmp(&arg[len - 4], ".cub", 5));
+	return (1);
 }

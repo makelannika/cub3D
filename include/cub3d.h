@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 18:11:24 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 16:02:34 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@
 # include <fcntl.h>
 # include <stdio.h> /*delete*/
 # include <math.h>
+# include <float.h>
 
 # define PLAYER_X 137
 # define PLAYER_Y 137
+# define SCREEN_WIDTH 1000
+# define SCREEN_HEIGHT 1000
 # define INDEX_WIDTH 25
 # define INDEX_HEIGHT 25
 
@@ -32,63 +35,98 @@ typedef struct s_coor
 	float	pix_y;
 } t_coor;
 
-typedef struct s_minimap
+typedef struct s_map
 {
-	int				map_height;
-	int				map_width;
-	int				offsetx;
-	int				offsety;
-	double			p_angle;
-	char			**map;
-	char			orientation;
-	mlx_t			*mlx;
-	mlx_image_t		*arrow_png;
-	mlx_image_t		*background_png;
-	mlx_texture_t	*arrow_tex;
-	mlx_texture_t	*background_tex;
-	t_coor			player;
-} t_minimap;
+	int		height;
+	int		width;
+	int		offsetx;
+	int		offsety;
+	double	p_angle;
+	char	**grid;
+	t_coor	player;
+} t_map;
+
+typedef struct s_ray
+{
+	double	current_angle;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	double	delta_dist_x;
+    double	delta_dist_y;
+	float	unit_x;
+	float	unit_y;
+	int		ray_index_x;
+	int		ray_index_y;
+    int		step_x;
+	int		step_y;
+    double	side_dist_x;
+	double	side_dist_y;
+	double	ray_distance;
+	double	wall_hit_x;
+	double	wall_hit_y;
+	int		hit;
+	int		side;
+} t_ray;
 
 typedef struct s_cub3d
 {
-	char		*no;
-	char		*so;
-	char		*we;
-	char		*ea;
-	int			floor[3];
-	int			ceiling[3];
-	int			elements_found;
-	t_minimap	map;
-	
+	mlx_texture_t	*no_txtr;
+	mlx_texture_t	*so_txtr;
+	mlx_texture_t	*we_txtr;
+	mlx_texture_t	*ea_txtr;
+	mlx_texture_t	*minimap_txtr;
+	mlx_image_t		*no;
+	mlx_image_t		*so;
+	mlx_image_t		*we;
+	mlx_image_t		*ea;
+	int				*wall_to_draw;
+	mlx_image_t		*minimap;
+	mlx_image_t		*background;
+	int				start;
+	int				end;
+	int				wall_height;
+	int				floor[3];
+	int				ceiling[3];
+	int				f;
+	int				c;
+	int				elements_found;
+	int				gnl_err;
+	int				fd;
+	int				*no_arr;
+	int				*so_arr;
+	int				*we_arr;
+	int				*ea_arr;
+	t_map			map;
+	t_ray			ray_c;
+	mlx_t			*mlx;
 } t_cub3d;
-
 
 // PARSING
 int		check_extension(char *arg);
 int		parse_file(t_cub3d *data, char *file);
-int		parse_map(t_cub3d *data, char *line, int fd, char *file);
-int		get_map_height(t_cub3d *data, char *line, int fd);
+int		parse_map(t_cub3d *data, char *line, char *file);
+int		get_map_height(t_cub3d *data, char *line);
 void	get_map_width(t_cub3d *data);
 int		count_commas(char *str);
 
 // GAME
-int init_game(t_minimap *data);
+int		init_game(t_cub3d *data);
 
 // MOVEMENT
-void	move_left(t_minimap *data);
-void	move_right(t_minimap *data);
-void	move_down(t_minimap *data);
-void	move_up(t_minimap *data);
+void	move_left(t_cub3d *data);
+void	move_right(t_cub3d *data);
+void	move_down(t_cub3d *data);
+void	move_up(t_cub3d *data);
 void	my_keyhook(mlx_key_data_t keydata, void *game_data);
 
-void	rotate_left(t_minimap *data);
-void	rotate_right(t_minimap *data);
+void	rotate_left(t_cub3d *data);
+void	rotate_right(t_cub3d *data);
 
 // DRAWING
-void	draw_player(t_minimap *data, float angle);
-int		draw_wall(t_minimap *data);
-
-void	fov_cast(t_minimap *data, float player_angle);
+void	draw_player(t_cub3d *data, float angle);
+int		draw_minimap(t_cub3d *data, int y, int x);
+void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle);
+void	get_hex(t_cub3d *data);
 
 // CLEANING UTILS
 int		err(char *str, void *ptr);

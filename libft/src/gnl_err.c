@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   gnl_err.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/26 19:48:24 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/22 19:19:23 by amakela          ###   ########.fr       */
+/*   Created: 2024/09/24 14:26:13 by amakela           #+#    #+#             */
+/*   Updated: 2024/09/24 14:45:08 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../include/libft.h"
 
-int	main(int argc, char **argv)
+char	*set_err(int *flag)
 {
-	t_cub3d	data;
-
-	data = (t_cub3d){0};
-	if (argc != 2 || check_extension(argv[1]))
-		return (err("program takes one .cub file as an argument", NULL));
-	if (parse_file(&data, argv[1]))
-		return (free_data(&data));
-	if (init_game(&data))
-		return (free_data(&data));
-	free_data(&data);
-	return (0);
+	ft_printf(1, "in set_err\n");
+	*flag = 1;
+	return (NULL);
 }

@@ -6,13 +6,13 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:59:12 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/12 18:06:17 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 16:01:36 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-void	draw_square(t_minimap *data, float y_coor, float x_coor)
+void	draw_square(t_cub3d *data, int y_coor, int x_coor)
 {
 	int	x;
 	int	y;
@@ -22,68 +22,59 @@ void	draw_square(t_minimap *data, float y_coor, float x_coor)
 	y = 1;
 	while (y < INDEX_HEIGHT)
 	{
-		yy = (int)(y_coor + y - data->offsety + 13);
+		yy = y_coor + y - data->map.offsety + 13;
 		x = 1;
 		while (x < INDEX_WIDTH)
 		{
-			xx = (int)(x_coor + x - data->offsetx + 13);
-			if (xx < 0)
+			xx = x_coor + x - data->map.offsetx + 13;
+			if (xx < 0) /* purpose of this check? */
 				xx = 0;
-			if (xx > 0 && xx < 275 && yy > 0 && yy < 275)
-				mlx_put_pixel(data->background_png, xx, yy, 0x0000FFFF);
+			if (xx > 0 && xx < 275 && yy > 0 && yy < 275) /* should yy & xx be >= 0? */
+				mlx_put_pixel(data->minimap, xx, yy, 0x0000FFFF);
 			x++;
 		}
 		y++;
 	}
 }
 
-int	draw_wall(t_minimap *data)
+int	draw_minimap(t_cub3d *data, int y, int x)
 {
-	int	y;
-	int	x;
-	int	x_reset;
-	int	vertical = 0;
-	int	horizontal = 0;
+	int	minimap_y = 0;
+	int	minimap_x = 0;
 
-	y = data->player.y - 5;
-	x = data->player.x - 5;
-	x_reset = x;
-	while (vertical < 12)
+	while (minimap_y < 12)
 	{
-		if (y >= data->map_height)
+		if (y >= data->map.height)
 			break ;
-		x = x_reset;
-		horizontal = 0;
-		while (horizontal < 12)
+		x -= minimap_x;
+		minimap_x = 0;
+		while (minimap_x < 12)
 		{
-			if ((y >= 0 && x >= 0) && !data->map[y][x])
+			if (y >= 0 && x >= (int)ft_strlen(data->map.grid[y]))
 				break ;
-			if ((y >= 0 && x >= 0) && data->map[y][x] == '1')
-				draw_square(data, vertical * INDEX_HEIGHT, horizontal * INDEX_WIDTH);
+			if ((y >= 0 && x >= 0) && data->map.grid[y][x] == '1')
+				draw_square(data, minimap_y * INDEX_HEIGHT, minimap_x * INDEX_WIDTH);
 			x++;
-			horizontal++;
+			minimap_x++;
 		}
 		y++;
-		vertical++;
+		minimap_y++;
 	}
 	return (0);
 }
 
-void	draw_player(t_minimap *data, float angle)
+void	draw_player(t_cub3d *data, float angle)
 {
 	int	x;
 	int	y;
 
-	y = -2;
-	while (y < 3)
+	y = -1;
+	while (y < 2)
 	{
-		x = -2;
-		while (x < 3)
-		{
-			mlx_put_pixel(data->background_png, (int)PLAYER_X + x, (int)PLAYER_Y + y, 0xFFFFFF);
-			x++;
-		}
+		x = -1;
+		while (x < 2)
+			mlx_put_pixel(data->minimap, PLAYER_X + x++, PLAYER_Y + y, 0xFFFFFF);
 		y++;
 	}
-	fov_cast(data, angle);
+	fov_cast(data, &data->ray_c, angle);
 }

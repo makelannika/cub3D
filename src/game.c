@@ -6,35 +6,47 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/12 18:02:05 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/26 15:30:56 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int	create_images(t_minimap *data)
+int	create_images(t_cub3d *data)
 {
-	data->background_tex = mlx_load_png("assets/black_bg.png");
-	data->background_png = mlx_texture_to_image(data->mlx, data->background_tex);
-	mlx_image_to_window(data->mlx, data->background_png, 0, 0);
-	// data->arrow_tex = mlx_load_png("assets/player_icon.png");
-	// data->arrow_png = mlx_texture_to_image(data->mlx, data->arrow_tex);
-	// mlx_resize_image(data->arrow_png, 20, 20);
-	// mlx_image_to_window(data->mlx, data->arrow_png, 625, 450);
+	data->minimap_txtr = mlx_load_png("assets/black_bg.png");
+	if (mlx_errno)
+		return (err("loading png failed", NULL));
+	data->minimap = mlx_texture_to_image(data->mlx, data->minimap_txtr);
+	data->no = mlx_texture_to_image(data->mlx, data->no_txtr);
+	data->so = mlx_texture_to_image(data->mlx, data->so_txtr);
+	data->we = mlx_texture_to_image(data->mlx, data->we_txtr);
+	data->ea = mlx_texture_to_image(data->mlx, data->ea_txtr);
+	if (mlx_errno)
+		return (err("creating images failed", NULL));
+	data->background = mlx_new_image(data->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	mlx_image_to_window(data->mlx, data->background, 0, 0);
+	mlx_image_to_window(data->mlx, data->minimap, 0, 0);
+	if (mlx_errno)
+		return (err("displaying image failed", NULL));
+	data->no_arr = ft_calloc(sizeof(int), 1000000);
+	data->so_arr = ft_calloc(sizeof(int), 1000000);
+	data->we_arr = ft_calloc(sizeof(int), 1000000);
+	data->ea_arr = ft_calloc(sizeof(int), 1000000);
+	get_hex(data);
 	return (0);
 }
 
-int	init_game(t_minimap *data)
+int	init_game(t_cub3d *data)
 {
-	data->player.pix_x = data->player.x * 25 + 13;
-	data->player.pix_y = data->player.y * 25 + 13;
-	data->mlx = mlx_init(500, 500, "Cub3D", false);
-	create_images(data);
-	draw_player(data, data->p_angle);
-	draw_wall(data);
+	data->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D", false);
+	if (!data->mlx)
+		return (err("initializing mlx failed", NULL));
+	if (create_images(data))
+		return (1);
+	draw_player(data, data->map.p_angle);
+	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
 	mlx_key_hook(data->mlx, &my_keyhook, data);
-	// mlx_loop_hook(data->mlx, &my_keyhook, data);
 	mlx_loop(data->mlx);
-	mlx_terminate(data->mlx);
 	return (0);
 }
