@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:59:12 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/26 21:49:58 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 18:32:47 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ void	draw_square(t_cub3d *data, int y_coor, int x_coor)
 		while (x < INDEX_WIDTH)
 		{
 			xx = x_coor + x - data->map.offsetx + 13;
-			if (xx < 0) /* purpose of this check? */
-				xx = 0;
-			if (xx > 0 && xx < 275 && yy > 0 && yy < 275) /* should yy & xx be >= 0? */
+			if (xx >= 0 && xx < 275 && yy >= 0 && yy < 275)
 				mlx_put_pixel(data->minimap, xx, yy, 0x0000FFFF);
 			x++;
 		}
@@ -78,6 +76,5 @@ void	draw_player(t_cub3d *data, float angle)
 			mlx_put_pixel(data->minimap, PLAYER_X + x++, PLAYER_Y + y, 0xFFFFFF);
 		y++;
 	}
-	// fov_cast(data, angle);
 	fov_cast(data, &data->ray_c, angle);
 }

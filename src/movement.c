@@ -6,26 +6,11 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:45:22 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 19:27:08 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 19:34:55 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-void	reset_minimap(t_cub3d * data)
-{
-	int	y;
-	int	x;
-
-	y = 0;
-	while (y < 275)
-	{
-		x = 0;
-		while (x < 275)
-			mlx_put_pixel(data->minimap, x++, y, 255);
-		y++;
-	}
-}
 
 void	move_left(t_cub3d *data)
 {

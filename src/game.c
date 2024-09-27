@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/27 17:28:40 by amakela          ###   ########.fr       */
+/*   Updated: 2024/09/27 19:43:40 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	create_images(t_cub3d *data)
 {
 	if (check_png_sizes(data))
 		return (err("invalid png size", NULL));
-	data->minimap_txtr = mlx_load_png("assets/black_bg.png");
+	data->minimap_txtr = mlx_load_png("assets/minimap.png");
 	if (!data->minimap_txtr)
 		return (err("loading png failed", NULL));
 	data->minimap = mlx_texture_to_image(data->mlx, data->minimap_txtr);
