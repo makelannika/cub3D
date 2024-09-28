@@ -74,8 +74,6 @@ typedef struct s_cub3d
 	mlx_texture_t	*south;
 	mlx_texture_t	*west;
 	mlx_texture_t	*east;
-	// mlx_texture_t	*minimap_txtr;
-	// mlx_image_t		*minimap;
 	mlx_image_t		*background;
 	uint32_t		*wall_to_draw;
 	// uint8_t			*wall_to_draw;
