@@ -96,6 +96,7 @@ typedef struct s_cub3d
 int		check_extension(char *arg);
 int		parse_file(t_cub3d *data, char *file);
 int		parse_map(t_cub3d *data, char *line, char *file);
+int		create_grid(t_cub3d *data, char *file);
 int		rgba_to_hex(int r, int g, int b, int a);
 int		reverse_bytes(int p);
 int		copy_color(t_cub3d *data, char *str, char identifier);

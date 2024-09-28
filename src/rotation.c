@@ -12,7 +12,7 @@
 
 #include "../include/cub3d.h"
 
-void	reset_minimap(t_cub3d * data)
+void	reset_minimap(t_cub3d *data)
 {
 	int	y;
 	int	x;
