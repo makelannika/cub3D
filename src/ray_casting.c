@@ -187,12 +187,13 @@ void	draw_ray(t_cub3d *data, int x)
 	int	i;
 	int	j;
 
-	// (void)i;
 	j = 0;
 	i = 1000 / data->wall_height;
 	while (data->start <= data->end)
 	{
-		draw_pixel(data, x, i * (j * 1000 + x));
+		if (!(data->start < 275 && x < 275))
+			draw_pixel(data, x, i * (j * 1000 + x));
+		data->start++;
 		j++;
 	}
 }
@@ -201,7 +202,7 @@ void	set_strip_height(t_cub3d *data, float distance)
 {
 	if (distance < 1)
 		distance = 1;
-	data->wall_height = (int)(SCREEN_HEIGHT / (distance/25));
+	data->wall_height = (int)(SCREEN_HEIGHT / (distance / 25));
 	if (data->wall_height > 999)
 		data->wall_height = 1000;
 	data->start = -data->wall_height / 2 + SCREEN_HEIGHT / 2;
@@ -299,6 +300,8 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
     double plane_x = dir_y * 0.6;
     double plane_y = dir_x * 0;
     draw_background(data);
+	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
+	draw_player(data);
 
     for (index = 0; index < SCREEN_WIDTH; index++)
     {

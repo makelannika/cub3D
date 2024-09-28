@@ -22,27 +22,23 @@ void	reset_minimap(t_cub3d * data)
 	{
 		x = 0;
 		while (x < 275)
-			mlx_put_pixel(data->minimap, x++, y, 255);
+			mlx_put_pixel(data->background, x++, y, 255);
 		y++;
 	}
 }
 
 void	rotate_right(t_cub3d *data)
 {
-	reset_minimap(data);
-	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
 	data->map.p_angle -= 15;
 	if (data->map.p_angle < 0)
 		data->map.p_angle = 345;
-	draw_player(data, data->map.p_angle);
+	fov_cast(data, &data->ray_c, data->map.p_angle);
 }
 
 void	rotate_left(t_cub3d *data)
 {
-	reset_minimap(data);
-	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
 	data->map.p_angle += 15;
 	if (data->map.p_angle > 360)
 		data->map.p_angle = 15;
-	draw_player(data, data->map.p_angle);
+	fov_cast(data, &data->ray_c, data->map.p_angle);
 }

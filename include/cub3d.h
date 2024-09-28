@@ -74,8 +74,8 @@ typedef struct s_cub3d
 	mlx_texture_t	*south;
 	mlx_texture_t	*west;
 	mlx_texture_t	*east;
-	mlx_texture_t	*minimap_txtr;
-	mlx_image_t		*minimap;
+	// mlx_texture_t	*minimap_txtr;
+	// mlx_image_t		*minimap;
 	mlx_image_t		*background;
 	uint32_t		*wall_to_draw;
 	// uint8_t			*wall_to_draw;
@@ -113,7 +113,7 @@ void	my_keyhook(mlx_key_data_t keydata, void *game_data);
 
 // DRAWING
 void	draw_minimap(t_cub3d *data, int y, int x);
-void	draw_player(t_cub3d *data, float angle);
+void	draw_player(t_cub3d *data);
 void	draw_background(t_cub3d *data);
 void	draw_pixel(t_cub3d *data, int x, int incr);
 void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle);

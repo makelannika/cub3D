@@ -24,9 +24,7 @@ void	move_left(t_cub3d *data)
 		data->map.player.x -= 1;
 		data->map.offsetx += 25;
 	}
-	reset_minimap(data);
-	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
-	draw_player(data, data->map.p_angle);
+	fov_cast(data, &data->ray_c, data->map.p_angle);
 }
 
 void	move_right(t_cub3d *data)
@@ -41,9 +39,7 @@ void	move_right(t_cub3d *data)
 		data->map.player.x += 1;
 		data->map.offsetx -= 25;
 	}
-	reset_minimap(data);
-	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
-	draw_player(data, data->map.p_angle);
+	fov_cast(data, &data->ray_c, data->map.p_angle);
 }
 
 void	move_down(t_cub3d *data)
@@ -58,9 +54,7 @@ void	move_down(t_cub3d *data)
 		data->map.player.y += 1;
 		data->map.offsety -= 25;
 	}
-	reset_minimap(data);
-	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
-	draw_player(data, data->map.p_angle);
+	fov_cast(data, &data->ray_c, data->map.p_angle);
 }
 
 void	move_up(t_cub3d *data)
@@ -75,9 +69,7 @@ void	move_up(t_cub3d *data)
 		data->map.player.y -= 1;
 		data->map.offsety += 25;
 	}
-	reset_minimap(data);
-	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
-	draw_player(data, data->map.p_angle);
+	fov_cast(data, &data->ray_c, data->map.p_angle);
 }
 
 void	my_keyhook(mlx_key_data_t keydata, void *game_data)

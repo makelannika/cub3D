@@ -28,7 +28,7 @@ void	draw_square(t_cub3d *data, int y_coor, int x_coor)
 		{
 			xx = x_coor + x - data->map.offsetx + 13;
 			if (xx >= 0 && xx < 275 && yy >= 0 && yy < 275)
-				mlx_put_pixel(data->minimap, xx, yy, 0x0000FFFF);
+				mlx_put_pixel(data->background, xx, yy, 0x0000FFFF);
 			x++;
 		}
 		y++;
@@ -62,7 +62,7 @@ void	draw_minimap(t_cub3d *data, int y, int x)
 	}
 }
 
-void	draw_player(t_cub3d *data, float angle)
+void	draw_player(t_cub3d *data)
 {
 	int	x;
 	int	y;
@@ -72,10 +72,9 @@ void	draw_player(t_cub3d *data, float angle)
 	{
 		x = -1;
 		while (x < 2)
-			mlx_put_pixel(data->minimap, PLAYER_X + x++, PLAYER_Y + y, 0xFFFFFF);
+			mlx_put_pixel(data->background, PLAYER_X + x++, PLAYER_Y + y, 0xFFFFFF);
 		y++;
 	}
-	fov_cast(data, &data->ray_c, angle);
 }
 
 void	draw_background(t_cub3d *data)
@@ -84,18 +83,18 @@ void	draw_background(t_cub3d *data)
 	int x;
 
 	y = 0;
-	while (y < 500)
-	{
-		x = 0;
-		while (x < 1000)
-			mlx_put_pixel(data->background, x++, y, data->ceiling);
-		y++;
-	}
 	while (y < 1000)
 	{
 		x = 0;
 		while (x < 1000)
-			mlx_put_pixel(data->background, x++, y, data->floor);
+		{
+			if (y < 275 && x < 275)
+				mlx_put_pixel(data->background, x++, y, 255);
+			else if (y < 500)
+				mlx_put_pixel(data->background, x++, y, data->ceiling);
+			else
+				mlx_put_pixel(data->background, x++, y, data->floor);
+		}
 		y++;
 	}
 }
@@ -108,8 +107,5 @@ void	draw_pixel(t_cub3d *data, int x, int incr)
 	// 					data->wall_to_draw[incr * 4 + 2],
 	// 					data->wall_to_draw[incr * 4 + 3]);
 	if (data->start <= data->end)
-	{
 		mlx_put_pixel(data->background, x, data->start, pixel);
-		data->start++;
-	}
 }
