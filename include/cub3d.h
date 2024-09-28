@@ -48,6 +48,7 @@ typedef struct s_map
 
 typedef struct s_ray
 {
+	double	camera_x;
 	double	current_angle;
 	double	ray_dir_x;
 	double	ray_dir_y;
