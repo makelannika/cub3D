@@ -109,6 +109,6 @@ void	draw_pixel(t_cub3d *data, int x, int incr)
 	// 					data->wall_to_draw[incr * 4 + 1],
 	// 					data->wall_to_draw[incr * 4 + 2],
 	// 					data->wall_to_draw[incr * 4 + 3]);
-	if (data->start <= data->end)
-		mlx_put_pixel(data->background, x, data->start, pixel);
+	if (data->ray_c.start <= data->ray_c.end)
+		mlx_put_pixel(data->background, x, data->ray_c.start, pixel);
 }

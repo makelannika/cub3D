@@ -151,12 +151,12 @@ void	ray_cast(t_cub3d *data, t_ray *ray_c)
 // void	draw_pixel(t_cub3d *data, int x, uint8_t *tmp2)
 // {
 // 	int color = rgba_to_hex(tmp2[0], tmp2[1], tmp2[2], tmp2[3]);
-// 	if (data->start < data->end)
+// 	if (data->ray_c.start < data->ray_c.end)
 // 	{
-// 		mlx_put_pixel(data->background, x, data->start, color);
-// 		data->start++;
+// 		mlx_put_pixel(data->background, x, data->ray_c.start, color);
+// 		data->ray_c.start++;
 // 	}
-// 	printf("## x is %i start is %i\n", x, data->start);
+// 	printf("## x is %i start is %i\n", x, data->ray_c.start);
 // }
 
 // void	draw_ray(t_cub3d *data, int ray_index)
@@ -168,7 +168,7 @@ void	ray_cast(t_cub3d *data, t_ray *ray_c)
 // 	int			i;
 // 	int			j;
 
-// 	i = 1000/data->wall_height;
+// 	i = 1000/data->ray_c.wall_height;
 // 	y = 0;
 // 	tmp = data->wall_to_draw->pixels;
 // 	while (y < 1000)
@@ -188,12 +188,12 @@ void	draw_ray(t_cub3d *data, int x)
 	int	j;
 
 	j = 0;
-	i = 1000 / data->wall_height;
-	while (data->start <= data->end)
+	i = 1000 / data->ray_c.wall_height;
+	while (data->ray_c.start <= data->ray_c.end)
 	{
-		if (!(data->start < 275 && x < 275))
+		if (!(data->ray_c.start < 275 && x < 275))
 			draw_pixel(data, x, i * (j * 1000 + x));
-		data->start++;
+		data->ray_c.start++;
 		j++;
 	}
 }
@@ -202,16 +202,16 @@ void	set_strip_height(t_cub3d *data, float distance)
 {
 	if (distance < 1)
 		distance = 1;
-	data->wall_height = (int)(SCREEN_HEIGHT / (distance / 25));
-	if (data->wall_height > 999)
-		data->wall_height = 1000;
-	data->start = -data->wall_height / 2 + SCREEN_HEIGHT / 2;
-	if (data->start < 0)
-		data->start = 0;
-	data->end = data->start + data->wall_height;
-	if (data->end >= SCREEN_HEIGHT)
-		data->end = SCREEN_HEIGHT - 1;
-// 	printf("Wall height is %i distance is %f start is %i end is %i\n", data->wall_height, distance, data->start, data->end);
+	data->ray_c.wall_height = (int)(SCREEN_HEIGHT / (distance / 25));
+	if (data->ray_c.wall_height > 999)
+		data->ray_c.wall_height = 1000;
+	data->ray_c.start = -data->ray_c.wall_height / 2 + SCREEN_HEIGHT / 2;
+	if (data->ray_c.start < 0)
+		data->ray_c.start = 0;
+	data->ray_c.end = data->ray_c.start + data->ray_c.wall_height;
+	if (data->ray_c.end >= SCREEN_HEIGHT)
+		data->ray_c.end = SCREEN_HEIGHT - 1;
+// 	printf("Wall height is %i distance is %f start is %i end is %i\n", data->ray_c.wall_height, distance, data->ray_c.start, data->ray_c.end);
 }
 
 void	render_ray(t_cub3d *data, int distance, int ray_index)

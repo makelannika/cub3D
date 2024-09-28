@@ -66,6 +66,9 @@ typedef struct s_ray
 	double	wall_hit_y;
 	int		hit;
 	int		side;
+	int		start;
+	int		end;
+	int		wall_height;
 } t_ray;
 
 typedef struct s_cub3d
@@ -76,10 +79,6 @@ typedef struct s_cub3d
 	mlx_texture_t	*east;
 	mlx_image_t		*background;
 	uint32_t		*wall_to_draw;
-	// uint8_t			*wall_to_draw;
-	int				start;
-	int				end;
-	int				wall_height;
 	int				floor;
 	int				ceiling;
 	int				elements_found;
@@ -90,7 +89,7 @@ typedef struct s_cub3d
 	mlx_t			*mlx;
 } t_cub3d;
 
-// PARSING
+/*******PARSING*******/
 int		check_extension(char *arg);
 int		parse_file(t_cub3d *data, char *file);
 int		parse_map(t_cub3d *data, char *line, char *file);
@@ -101,23 +100,23 @@ int		copy_color(t_cub3d *data, char *str, char identifier);
 int		validate_index(t_cub3d *data, char **grid, int y, int x);
 int		validate_line(char *str);
 
-// GAME
+/*******GAME**********/ 
 int		init_game(t_cub3d *data);
 
-// MOVEMENT
+/*******MOVEMENT******/
 void	rotate_right(t_cub3d *data);
 void	rotate_left(t_cub3d *data);
 void	reset_minimap(t_cub3d * data);
 void	my_keyhook(mlx_key_data_t keydata, void *game_data);
 
-// DRAWING
+/*******DRAWING*******/
 void	draw_minimap(t_cub3d *data, int y, int x);
 void	draw_player(t_cub3d *data);
 void	draw_background(t_cub3d *data);
 void	draw_pixel(t_cub3d *data, int x, int incr);
 void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle);
 
-// CLEANING UTILS
+/*******CLEANING******/
 int		err(char *str, void *ptr);
 int		free_str_array(char **array);
 int		free_data(t_cub3d *data);
