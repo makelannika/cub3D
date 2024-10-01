@@ -35,6 +35,13 @@ void	rotate_right(t_cub3d *data)
 	if (data->map.p_angle < 0)
 		data->map.p_angle = 345;
 	draw_player(data, data->map.p_angle);
+
+	// double oldDirX = data->ray_c.dir_x;
+	// data->ray_c.dir_x = data->ray_c.dir_x * cos(-rotSpeed) - dirY * sin(-rotSpeed);
+	// dirY = oldDirX * sin(-rotSpeed) + dirY * cos(-rotSpeed);
+	// double oldPlaneX = planeX;
+	// planeX = planeX * cos(-rotSpeed) - planeY * sin(-rotSpeed);
+	// planeY = oldPlaneX * sin(-rotSpeed) + planeY * cos(-rotSpeed);
 }
 
 void	rotate_left(t_cub3d *data)
@@ -42,7 +49,7 @@ void	rotate_left(t_cub3d *data)
 	reset_minimap(data);
 	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
 	data->map.p_angle += 15;
-	if (data->map.p_angle > 360)
+	if (data->map.p_angle > 365)
 		data->map.p_angle = 15;
 	draw_player(data, data->map.p_angle);
 }
