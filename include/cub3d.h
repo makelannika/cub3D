@@ -19,6 +19,7 @@
 # include <stdio.h> /*delete*/
 # include <math.h>
 # include <float.h>
+# include <sys/time.h>
 
 # define PLAYER_X 137
 # define PLAYER_Y 137
@@ -82,6 +83,7 @@ typedef struct s_cub3d
 	mlx_image_t		*background;
 	uint32_t		*wall_to_draw;
 	// uint8_t			*wall_to_draw;
+	double			frametime;
 	int				start;
 	int				end;
 	int				wall_height;
