@@ -38,7 +38,7 @@ void	rotate_right(t_cub3d *data)
 void	rotate_left(t_cub3d *data)
 {
 	data->map.p_angle += 15;
-	if (data->map.p_angle > 360)
+	if (data->map.p_angle > 365)
 		data->map.p_angle = 15;
 	fov_cast(data, &data->ray_c, data->map.p_angle);
 }

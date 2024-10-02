@@ -19,6 +19,7 @@
 # include <stdio.h> /*delete*/
 # include <math.h>
 # include <float.h>
+# include <sys/time.h>
 
 # define PLAYER_X 137
 # define PLAYER_Y 137
@@ -48,13 +49,14 @@ typedef struct s_map
 
 typedef struct s_ray
 {
+	double	camera_x;
 	double	current_angle;
 	double	ray_dir_x;
 	double	ray_dir_y;
 	double	delta_dist_x;
     double	delta_dist_y;
-	float	unit_x;
-	float	unit_y;
+	double	unit_x;
+	double	unit_y;
 	int		ray_index_x;
 	int		ray_index_y;
     int		step_x;
@@ -64,6 +66,8 @@ typedef struct s_ray
 	double	ray_distance;
 	double	wall_hit_x;
 	double	wall_hit_y;
+	double	dir_x;
+	double	dir_y;
 	int		hit;
 	int		side;
 	int		start;
@@ -79,6 +83,7 @@ typedef struct s_cub3d
 	mlx_texture_t	*east;
 	mlx_image_t		*background;
 	uint32_t		*wall_to_draw;
+	double			frametime;
 	int				floor;
 	int				ceiling;
 	int				elements_found;
