@@ -49,7 +49,7 @@ void	rotate_left(t_cub3d *data)
 	reset_minimap(data);
 	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
 	data->map.p_angle += 15;
-	if (data->map.p_angle > 365)
+	if (data->map.p_angle > 360)
 		data->map.p_angle = 15;
 	draw_player(data, data->map.p_angle);
 }
