@@ -67,3 +67,14 @@ int	validate_line(char *str)
 	}
 	return (0);
 }
+
+int	create_grid(t_cub3d *data, char *file)
+{
+	data->fd = open(file, O_RDONLY);
+	if (data->fd == -1)
+		return (err("open failed", NULL));
+	data->map.grid = ft_calloc(data->map.height + 1, sizeof(char *));
+	if (!data->map.grid)
+		return (err("malloc failed", NULL));
+	return (0);
+}

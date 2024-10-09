@@ -157,14 +157,19 @@ void	ray_cast(t_cub3d *data, t_ray *ray_c)
 		horizontal_hit(data->map, ray_c, data);
 }
 
+
 void	draw_ray(t_cub3d *data, int x)
 {
+	int	i;
 	int	j;
 
 	j = 0;
-	while (data->start <= data->end)
+	i = 1000 / data->ray_c.wall_height;
+	while (data->ray_c.start <= data->ray_c.end)
 	{
-		draw_pixel(data, x, (j * 1000 + x));
+		if (!(data->ray_c.start < 275 && x < 275))
+			draw_pixel(data, x, i * (j * 1000 + x));
+		data->ray_c.start++;
 		j++;
 	}
 }
@@ -173,14 +178,18 @@ void	set_strip_height(t_cub3d *data, float distance)
 {
 	if (distance < 1)
 		distance = 1;
-	data->wall_height = (int)(SCREEN_HEIGHT / (distance/25));
-	data->start = -data->wall_height / 2 + SCREEN_HEIGHT / 2;
-	if (data->start < 0)
-		data->start = 0;
-	data->end = data->start + data->wall_height;
-	if (data->end >= SCREEN_HEIGHT)
-		data->end = SCREEN_HEIGHT - 1;
+	data->ray_c.wall_height = (int)(SCREEN_HEIGHT / (distance / 25));
+	// if (data->ray_c.wall_height > 999)
+	// 	data->ray_c.wall_height = 1000;
+	data->ray_c.start = -data->ray_c.wall_height / 2 + SCREEN_HEIGHT / 2;
+	if (data->ray_c.start < 0)
+		data->ray_c.start = 0;
+	data->ray_c.end = data->ray_c.start + data->ray_c.wall_height;
+	if (data->ray_c.end >= SCREEN_HEIGHT)
+		data->ray_c.end = SCREEN_HEIGHT - 1;
+// 	printf("Wall height is %i distance is %f start is %i end is %i\n", data->ray_c.wall_height, distance, data->ray_c.start, data->ray_c.end);
 }
+
 
 void get_time(t_cub3d *data)
 {
@@ -212,6 +221,8 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	plane_x = -dir_y * .6;
 	plane_y = dir_x * .6;
     draw_background(data);
+	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
+	draw_player(data);
 	// printf("player angle is %f\n", player_angle);
 	// printf("dir %f, %f - plane %f, %f\n", ray_c->dir_x, ray_c->dir_y, plane_x, plane_y);
     for (index = 0; index < SCREEN_WIDTH; index++)
@@ -274,3 +285,32 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 // 		ray -= .06;
 // 	}
 // }
+
+// void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
+// {
+//     int index = 0;
+//     double rad = player_angle * M_PI / 180.0;
+//     double dir_x = cos(rad);
+//     double dir_y = sin(rad);
+//     double plane_x = dir_y * 0.6;
+//     double plane_y = dir_x * 0;
+//     draw_background(data);
+// 	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
+// 	draw_player(data);
+
+//     for (index = 0; index < SCREEN_WIDTH; index++)
+//     {
+//         double camera_x = 2.0 * index / (double)SCREEN_WIDTH - 1.0;
+//         ray_c->ray_dir_x = dir_x + plane_x * camera_x;
+//         ray_c->ray_dir_y = dir_y + plane_y * camera_x;
+//         ray_cast(data, ray_c);
+//         // int i = 0;
+//         // while (i < ray_c->ray_distance)
+//         // {
+//         //     cast_fov(data, ray_c, player_angle);
+//         // }
+//         render_ray(data, (int)(ray_c->ray_distance), index);
+//     }
+// }
+
+// double corrected_distance = ray_c->ray_distance * cos(atan2(ray_c->ray_dir_y, ray_c->ray_dir_x) - rad);

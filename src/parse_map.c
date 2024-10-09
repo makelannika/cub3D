@@ -51,18 +51,12 @@ void	get_map_width(t_cub3d *data)
 	}
 }
 
-int	copy_map(t_cub3d *data, char *file)
+int	copy_map(t_cub3d *data)
 {
 	int		i;
 	char	*line;
 
 	i = 0;
-	data->fd = open(file, O_RDONLY);
-	if (data->fd == -1)
-		return (err("open failed", NULL));
-	data->map.grid = ft_calloc(data->map.height + 1, sizeof(char *));
-	if (!data->map.grid)
-		return (err("malloc failed", NULL));
 	line = get_next_line(data->fd, &data->gnl_err);
 	if (data->gnl_err)
 		return (err("get_next_line failed", NULL));
@@ -107,7 +101,9 @@ int	parse_map(t_cub3d *data, char *line, char *file)
 {
 	if (get_map_height(data, line))
 		return (1);
-	if (copy_map(data, file))
+	if (create_grid(data, file))
+		return (1);
+	if (copy_map(data))
 		return (1);
 	get_map_width(data);
 	if (validate_map(data))
