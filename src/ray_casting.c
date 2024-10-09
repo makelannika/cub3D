@@ -160,15 +160,15 @@ void	ray_cast(t_cub3d *data, t_ray *ray_c)
 
 void	draw_ray(t_cub3d *data, int x)
 {
-	int	i;
+	// int	i;
 	int	j;
 
 	j = 0;
-	i = 1000 / data->ray_c.wall_height;
+	// i = 1000 / data->ray_c.wall_height;
 	while (data->ray_c.start <= data->ray_c.end)
 	{
 		if (!(data->ray_c.start < 275 && x < 275))
-			draw_pixel(data, x, i * (j * 1000 + x));
+			draw_pixel(data, x, (j * 1000 + x));
 		data->ray_c.start++;
 		j++;
 	}
@@ -191,12 +191,12 @@ void	set_strip_height(t_cub3d *data, float distance)
 }
 
 
-void get_time(t_cub3d *data)
-{
-	struct timeeval *start;
-	gettimeofday(&start, NULL);
+// void get_time(t_cub3d *data)
+// {
+// 	struct timeeval *start;
+// 	gettimeofday(&start, NULL);
 
-}
+// }
 
 void	render_ray(t_cub3d *data, float distance, int ray_index)
 {
@@ -216,6 +216,8 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
     double rad = player_angle * M_PI / 180.0;
 	data->ray_c.dir_x = cos(rad);
 	data->ray_c.dir_y = sin(rad);
+	data->dir_x = cos(rad);
+	data->dir_y = sin(rad);
     double dir_x = cos(rad);
     double dir_y = -sin(rad);
 	plane_x = -dir_y * .6;
@@ -240,7 +242,7 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 			x = PLAYER_X + (int)(nose_x * i);
 			y = PLAYER_Y - (int)(nose_y * i);
 			if (x > 0 && x < 275 && y > 0 && y < 275)
-				mlx_put_pixel(data->minimap, x, y, 0xFFFFFF);
+				mlx_put_pixel(data->background, x, y, 0xFFFFFF);
 			i++;
         }
         render_ray(data, (ray_c->ray_distance), index);
