@@ -200,8 +200,7 @@ void	set_strip_height(t_cub3d *data, float distance)
 
 void	render_ray(t_cub3d *data, float distance, int ray_index)
 {
-	
-	struct timeeval *end;
+
 
 	set_strip_height(data, distance);
 	draw_ray(data, ray_index);
