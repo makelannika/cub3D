@@ -157,19 +157,17 @@ void	ray_cast(t_cub3d *data, t_ray *ray_c)
 		horizontal_hit(data->map, ray_c, data);
 }
 
-
 void	draw_ray(t_cub3d *data, int x)
 {
-	// int	i;
+	int	i;
 	int	j;
 
 	j = 0;
-	// i = 1000 / data->ray_c.wall_height;
-	while (data->ray_c.start <= data->ray_c.end)
+	i = 1000 / data->ray_c.wall_height;
+	while (data->ray_c.start < data->ray_c.end)
 	{
 		if (!(data->ray_c.start < 275 && x < 275))
-
-			draw_pixel(data, x, (j * (1000 * 1) + x));
+			draw_pixel(data, x, (j * (1000 * i) + x));
 		data->ray_c.start++;
 		j++;
 	}
@@ -201,8 +199,7 @@ void	set_strip_height(t_cub3d *data, float distance)
 
 void	render_ray(t_cub3d *data, float distance, int ray_index)
 {
-
-
+	
 	set_strip_height(data, distance);
 	draw_ray(data, ray_index);
 	
