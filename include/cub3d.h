@@ -84,6 +84,8 @@ typedef struct s_cub3d
 	mlx_image_t		*background;
 	uint32_t		*wall_to_draw;
 	double			frametime;
+	double			dir_x;
+	double			dir_y;
 	int				floor;
 	int				ceiling;
 	int				elements_found;

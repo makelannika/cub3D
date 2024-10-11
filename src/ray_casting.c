@@ -160,11 +160,11 @@ void	ray_cast(t_cub3d *data, t_ray *ray_c)
 
 void	draw_ray(t_cub3d *data, int x)
 {
-	int	i;
+	// int	i;
 	int	j;
 
 	j = 0;
-	i = 1000 / data->ray_c.wall_height;
+	// i = 1000 / data->ray_c.wall_height;
 	while (data->ray_c.start <= data->ray_c.end)
 	{
 		if (!(data->ray_c.start < 275 && x < 275))
@@ -201,8 +201,7 @@ void	set_strip_height(t_cub3d *data, float distance)
 
 void	render_ray(t_cub3d *data, float distance, int ray_index)
 {
-	
-	// struct timeeval *end;
+
 
 	set_strip_height(data, distance);
 	draw_ray(data, ray_index);
@@ -217,6 +216,8 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
     double rad = player_angle * M_PI / 180.0;
 	data->ray_c.dir_x = cos(rad);
 	data->ray_c.dir_y = sin(rad);
+	data->dir_x = cos(rad);
+	data->dir_y = sin(rad);
     double dir_x = cos(rad);
     double dir_y = -sin(rad);
 	plane_x = -dir_y * .6;
