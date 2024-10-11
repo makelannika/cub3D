@@ -111,7 +111,7 @@ void	move_backward(t_cub3d *data)
 	// 	return ;
 	// data->map.offsety += 3;
 	// data->map.player.pix_y += 3;
-	data->map.offsety -= data->dir_y * 3;
+	data->map.offsety += data->dir_y * 3;
 	data->map.player.pix_y += data->dir_y * 3;
 	if (data->map.offsety < 0)
 	{

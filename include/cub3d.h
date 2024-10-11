@@ -65,6 +65,8 @@ typedef struct s_ray
 	double	side_dist_y;
 	double	ray_distance;
 	double	wall_hit;
+	int		wall_hit_x;
+	int		wall_hit_y;
 	int		text_x;
 	double	dir_x;
 	double	dir_y;
