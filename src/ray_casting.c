@@ -26,18 +26,21 @@ void	horizontal_hit(t_map map, t_ray *ray_c, t_cub3d *data)
 	{
 		// printf("player y is %i ray index y is %i\n", map.player.y, ray_c->ray_index_y);
 	    // printf("north\n");
-		ray_c->wall_hit_y = (ray_c->ray_index_y + 1);
 		data->wall_to_draw = (uint32_t *)data->south->pixels;
 		// data->wall_to_draw = data->north->pixels;
 	}
 	else
 	{
 	    // printf("south\n");
-		ray_c->wall_hit_y = ray_c->ray_index_y;
 		data->wall_to_draw = (uint32_t *)data->north->pixels;
 		// data->wall_to_draw = data->south->pixels;
 	}
-	ray_c->wall_hit_x = (ray_c->unit_x + (ray_c->side_dist_y - ray_c->delta_dist_y) * ray_c->ray_dir_x);
+	ray_c->wall_hit = data->map.player.x + ray_c->ray_distance * data->ray_c.dir_x;
+	ray_c->wall_hit -= floor(ray_c->wall_hit);
+	ray_c->text_x = ray_c->wall_hit * 1000.00;
+	if (ray_c->ray_dir_y < 0)
+		ray_c->text_x = 1000 - ray_c->text_x - 1;
+	
 }
 
 void	vertical_hit(t_map map, t_ray *ray_c, t_cub3d *data)
@@ -48,18 +51,20 @@ void	vertical_hit(t_map map, t_ray *ray_c, t_cub3d *data)
 	if (map.player.x > ray_c->ray_index_x)
 	{
 	    // printf("west\n");
-		ray_c->wall_hit_x = (ray_c->ray_index_x + 1);
 		data->wall_to_draw = (uint32_t *)data->east->pixels;
 		// data->wall_to_draw = data->west->pixels;
 	}
 	else
 	{
 	    // printf("east\n");
-		ray_c->wall_hit_x = ray_c->ray_index_x;
 		data->wall_to_draw = (uint32_t *)data->west->pixels;
 		// data->wall_to_draw = data->east->pixels;
 	}
-	ray_c->wall_hit_y = (ray_c->unit_y + (ray_c->side_dist_x - ray_c->delta_dist_x) * ray_c->ray_dir_y);
+	ray_c->wall_hit = data->map.player.y + ray_c->ray_distance * data->ray_c.dir_y;
+	ray_c->wall_hit -= floor(ray_c->wall_hit);
+	ray_c->text_x = ray_c->wall_hit * 1000.00;
+	if (ray_c->ray_dir_x > 0)
+		ray_c->text_x = 1000 - ray_c->text_x - 1;
 }
 
 void	forward(t_ray *ray_c, char coor)
@@ -168,7 +173,8 @@ void	draw_ray(t_cub3d *data, int ray_index)
 	while (data->ray_c.start < data->ray_c.end)
 	{
 		if (!(data->ray_c.start < 275 && ray_index < 275))
-			draw_pixel(data, ray_index, (j * (i * 1000) + ray_index));
+			draw_pixel(data, ray_index, (j * (i * 1000) + data->ray_c.text_x));
+			// draw_pixel(data, ray_index, (j * (i * 1000) + ray_index));
 		data->ray_c.start++;
 		j++;
 	}
@@ -200,8 +206,6 @@ void	set_strip_height(t_cub3d *data, float distance)
 
 void	render_ray(t_cub3d *data, float distance, int ray_index)
 {
-
-	printf("hit x is %f\n", data->ray_c.wall_hit_x);
 	set_strip_height(data, distance);
 	draw_ray(data, ray_index);
 	
