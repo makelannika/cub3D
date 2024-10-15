@@ -1,7 +1,7 @@
-NO ./assets/blackmarble.png
-SO ./assets/grayMarble.png
-WE ./assets/bamboo.png
-EA ./assets/brickwall.png
+NO ./assets/N.png
+SO ./assets/S.png
+WE ./assets/W.png
+EA ./assets/E.png
 
 F 220,100,0
 C 225,30,0
