@@ -10,22 +10,31 @@ double degree_to_rad(float player_angle)
 
 void	draw_ray(t_cub3d *data, int ray_index)
 {
-	int	i;
-	int	j;
+	double	i;
+	// float	counter;
+	double	tex_pos;
 
-	j = 0;
-	// printf("wall height is %f start is %i end is %i ray_index is %i text x is %i\n"
-	// , data->ray_c.wall_height, data->ray_c.start, data->ray_c.end, ray_index, data->ray_c.text_x);
-	// i = 1000 / data->ray_c.wall_height;
-	printf("texX = %d\n", data->ray_c.text_x);
+	i = 1.0 * 1000.0 / data->ray_c.wall_height;
+	tex_pos = (data->ray_c.start - 1000 / 2 + data->ray_c.wall_height / 2) * i;
+	// tex_pos = (data->ray_c.start - (-data->ray_c.wall_height / 2 + SCREEN_HEIGHT / 2)) * i;
+
+	// counter = 0;
+	// if (i < 1)
+	// 	i = 1;
+	// printf("texX = %d\n", data->ray_c.text_x);
+	// printf("wall height = %d i = %f\n", data->ray_c.wall_height, i);
 	while (data->ray_c.start < data->ray_c.end)
 	{
 		// printf("text_x is %i\n", data->ray_c.text_x);
+		// printf("ray index is %i\n", ray_index);
+		int texY = (int)tex_pos & (1000 - 1);
+		tex_pos += i;
+		// printf("texY = %d\n", texY);
 		if (!(data->ray_c.start < 275 && ray_index < 275))
-			draw_pixel(data, ray_index, (j * 1000 + data->ray_c.text_x));
-			// draw_pixel(data, ray_index, (j * (i * 1000) + ray_index));
+			draw_pixel(data, ray_index, (1000 * texY + data->ray_c.text_x));
+			// draw_pixel(data, ray_index, ((int)counter * 1000) + data->ray_c.text_x);
 		data->ray_c.start++;
-		j++;
+		// counter += i;
 	}
 }
 
@@ -76,10 +85,10 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		// printf("ray dir x is %f ray dir y is %f\n", rayDirX, rayDirY);
 		mapX = (int)posX;
 		mapY = (int)posY;
-		// double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
-      	// double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
-		deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
-      	deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
+		double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
+      	double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
+		// deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
+      	// deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
 		if (rayDirX < 0)
 		{
 			// printf("step\n");
@@ -136,6 +145,8 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		}
 		// printf("wall dist is %f\n", perpWallDist);
 		int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
+		// if (lineHeight > 1000)
+		// 	lineHeight = 1000;
 		int drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2;
 		if (drawStart < 0) 
 			drawStart = 0;
@@ -151,7 +162,7 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		}
 		else
 		{
-			printf("posx = %f perpdist = %f raydirx = %f\n", posX, perpWallDist, rayDirX);
+			// printf("posx = %f perpdist = %f raydirx = %f\n", posX, perpWallDist, rayDirX);
 			wallX = posX + perpWallDist * rayDirX;
 		}
 		wallX -= floor((wallX));
@@ -167,8 +178,9 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		data->ray_c.end = drawEnd;
 		data->ray_c.text_x = texX;
 		data->wall_to_draw = (uint32_t *)data->south->pixels;
-		printf("wallX = %f\n", wallX);
+		// printf("wallX = %f\n", wallX);
 		draw_ray(data, indexX);
 		indexX++;
+		// printf("lineHeight = %d\n", lineHeight);
 	}
 }
