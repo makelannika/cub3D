@@ -29,7 +29,7 @@ CC			= cc
 CFILES		=	src/game.c				src/main.c				src/parse_elements.c	\
 				src/parse_map.c			src/utils_cleaning.c	src/utils_parsing.c		\
 				src/movement.c			src/rotation.c			src/utils_colors.c		\
-				src/ray_casting.c		src/drawing.c
+				src/ray2.c		src/drawing.c
 
 OFILES		= $(CFILES:.c=.o)
 
