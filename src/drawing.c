@@ -103,12 +103,12 @@ void	draw_background(t_cub3d *data)
 void	draw_pixel(t_cub3d *data, int x, int incr)
 {
 	int	pixel;
-
+	// printf("incr = %d\n", incr);
 	pixel = reverse_bytes(data->wall_to_draw[incr]); /* with casting */
 	// int	pixel = rgba_to_hex(data->wall_to_draw[incr * 4], /* without casting */
 	// 					data->wall_to_draw[incr * 4 + 1],
 	// 					data->wall_to_draw[incr * 4 + 2],
 	// 					data->wall_to_draw[incr * 4 + 3]);
-	if (data->ray_c.start < data->ray_c.end)
+	// if (data->ray_c.start <= data->ray_c.end)
 		mlx_put_pixel(data->background, x, data->ray_c.start, pixel);
 }
