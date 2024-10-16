@@ -70,6 +70,8 @@ typedef struct s_ray
 	int		text_x;
 	double	dir_x;
 	double	dir_y;
+	double	pos_x;
+	double	pos_y;
 	int		hit;
 	int		side;
 	int		start;
@@ -128,5 +130,6 @@ int		err(char *str, void *ptr);
 int		free_str_array(char **array);
 int		free_data(t_cub3d *data);
 
+double	degree_to_rad(float player_angle);
 
 #endif

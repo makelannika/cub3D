@@ -121,7 +121,6 @@ void	step_neg(t_ray *ray_c, char coor)
 
 void	set_side_dist(t_ray *ray_c)
 {
-	printf("dir x is %lf\n dir y is %lf\n", ray_c->ray_dir_x, ray_c->ray_dir_y);
 	if (is_equal(ray_c->ray_dir_x, 0.0))
 	{
 		ray_c->side_dist_x = DBL_MAX;
@@ -146,9 +145,10 @@ void	init_vars(t_map map, t_ray *ray_c)
 {
 	ray_c->delta_dist_x = fabs(1 / ray_c->ray_dir_x);
 	ray_c->delta_dist_y = fabs(1 / ray_c->ray_dir_y);
-	ray_c->unit_x = (map.player.pix_x / 25);
-	ray_c->unit_y = (map.player.pix_y / 25);
-	ray_c->ray_index_x = map.player.x;
+	ray_c->unit_x = (map.player.pix_x + 5);
+	ray_c->unit_y = (map.player.pix_y + 5);
+	// ray_c->unit_x = (map.player.pix_x / 25);
+	// ray_c->unit_y = (map.player.pix_y / 25);
 	ray_c->ray_index_y = map.player.y;
 	ray_c->hit = 0;
 	ray_c->side = 0;
@@ -174,21 +174,51 @@ void	ray_cast(t_cub3d *data, t_ray *ray_c)
 }
 
 
+// void	draw_ray(t_cub3d *data, int ray_index)
+// {
+// 	int	i;
+// 	int	j;
+
+// 	j = 0;
+// 	i = 1000 / data->ray_c.wall_height;
+// 	while (data->ray_c.start < data->ray_c.end)
+// 	{
+// 		// printf("text_x is %i\n", data->ray_c.text_x);
+// 		if (!(data->ray_c.start < 275 && ray_index < 275))
+// 			draw_pixel(data, ray_index, (j * (i * 1000) + data->ray_c.text_x));
+// 			// draw_pixel(data, ray_index, (j * (i * 1000) + ray_index));
+// 		data->ray_c.start++;
+// 		j++;
+// 	}
+// }
+
 void	draw_ray(t_cub3d *data, int ray_index)
 {
-	int	i;
-	int	j;
+	double	i;
+	// float	counter;
+	double	tex_pos;
 
-	j = 0;
-	i = 1000 / data->ray_c.wall_height;
+	i = 1.0 * 1000.0 / data->ray_c.wall_height;
+	tex_pos = (data->ray_c.start - 1000 / 2 + data->ray_c.wall_height / 2) * i;
+	// tex_pos = (data->ray_c.start - (-data->ray_c.wall_height / 2 + SCREEN_HEIGHT / 2)) * i;
+
+	// counter = 0;
+	// if (i < 1)
+	// 	i = 1;
+	// printf("texX = %d\n", data->ray_c.text_x);
+	// printf("wall height = %d i = %f\n", data->ray_c.wall_height, i);
 	while (data->ray_c.start < data->ray_c.end)
 	{
 		// printf("text_x is %i\n", data->ray_c.text_x);
+		// printf("ray index is %i\n", ray_index);
+		int texY = (int)tex_pos & (1000 - 1);
+		tex_pos += i;
+		// printf("texY = %d\n", texY);
 		if (!(data->ray_c.start < 275 && ray_index < 275))
-			draw_pixel(data, ray_index, (j * (i * 1000) + data->ray_c.text_x));
-			// draw_pixel(data, ray_index, (j * (i * 1000) + ray_index));
+			draw_pixel(data, ray_index, (1000 * texY + data->ray_c.text_x));
+			// draw_pixel(data, ray_index, ((int)counter * 1000) + data->ray_c.text_x);
 		data->ray_c.start++;
-		j++;
+		// counter += i;
 	}
 }
 
@@ -209,14 +239,6 @@ void	set_strip_height(t_cub3d *data, float distance)
 // 	printf("Wall height is %i distance is %f start is %i end is %i\n", data->ray_c.wall_height, distance, data->ray_c.start, data->ray_c.end);
 }
 
-
-// void get_time(t_cub3d *data)
-// {
-// 	struct timeeval *start;
-// 	gettimeofday(&start, NULL);
-
-// }
-
 void	render_ray(t_cub3d *data, float distance, int ray_index)
 {
 	set_strip_height(data, distance);
@@ -235,8 +257,6 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
     double dir_y = -sin(rad);
 	plane_x = -dir_y * .6;
 	plane_y = dir_x * .6;
-	// plane_x = -dir_y * .6;
-	// plane_y = dir_x * .6;
     draw_background(data);
 	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
 	draw_player(data);

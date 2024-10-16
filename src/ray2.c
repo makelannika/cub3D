@@ -40,8 +40,6 @@ void	draw_ray(t_cub3d *data, int ray_index)
 
 void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 {
-	double	posX;
-	double	posY;
 	double	rad;
 	double	dirX;
 	double	dirY;
@@ -65,11 +63,12 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	int		hit = 0;
 	int		side = 0;
 
-	posX = data->map.player.x + .5;
-	posY= data->map.player.y + .5;
+	data->ray_c.pos_x = data->map.player.x + .5;
+	data->ray_c.pos_y = data->map.player.y + .5;
 	rad = degree_to_rad(player_angle);
 	dirX = cos(rad);
 	dirY = sin(rad);
+	printf("player x is %i posx is %f dirX is %f \n", data->map.player.x, data->ray_c.pos_x, dirX);
 	planeX = 0.0;
 	planeY = 0.66;
 	indexX = 0;
@@ -83,8 +82,8 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		rayDirX = dirX + planeX * cameraX;
 		rayDirY = dirY + planeY * cameraX;
 		// printf("ray dir x is %f ray dir y is %f\n", rayDirX, rayDirY);
-		mapX = (int)posX;
-		mapY = (int)posY;
+		mapX = (int)data->ray_c.pos_x;
+		mapY = (int)data->ray_c.pos_y;
 		double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
       	double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
 		// deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
@@ -93,25 +92,25 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		{
 			// printf("step\n");
 			stepX = -1;
-			sideDistX = (posX - mapX) * deltaDistX;
+			sideDistX = (data->ray_c.pos_x - mapX) * deltaDistX;
 		}
 		else
 		{
 			// printf("step1\n");
 			stepX = 1;
-			sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+			sideDistX = (mapX + 1.0 - data->ray_c.pos_x) * deltaDistX;
 		}
 		if (rayDirY < 0)
 		{
 			// printf("step2\n");
 			stepY = -1;
-			sideDistY = (posY - mapY) * deltaDistY;
+			sideDistY = (data->ray_c.pos_y - mapY) * deltaDistY;
 		}
 		else
 		{
 			// printf("step3\n");
 			stepY = 1;
-			sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+			sideDistY = (mapY + 1.0 - data->ray_c.pos_y) * deltaDistY;
 		}
 		while (hit == 0)
 		{
@@ -158,12 +157,12 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		if (side == 0)
 		{
 			// printf("here 1\n");
-			wallX = posY + perpWallDist * rayDirY;
+			wallX = data->ray_c.pos_y + perpWallDist * rayDirY;
 		}
 		else
 		{
 			// printf("posx = %f perpdist = %f raydirx = %f\n", posX, perpWallDist, rayDirX);
-			wallX = posX + perpWallDist * rayDirX;
+			wallX = data->ray_c.pos_x + perpWallDist * rayDirX;
 		}
 		wallX -= floor((wallX));
 
