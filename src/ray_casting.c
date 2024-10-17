@@ -29,13 +29,13 @@ void	horizontal_hit(t_map map, t_ray *ray_c, t_cub3d *data)
 		// printf("player y is %i ray index y is %i\n", map.player.y, ray_c->ray_index_y);
 	    // printf("north\n");
 		data->wall_to_draw = (uint32_t *)data->south->pixels;
-		// data->wall_to_draw = data->north->pixels;
+		// data->wall_to_draw = data->south->pixels;
 	}
 	else
 	{
 	    // printf("south\n");
 		data->wall_to_draw = (uint32_t *)data->north->pixels;
-		// data->wall_to_draw = data->south->pixels;
+		// data->wall_to_draw = data->north->pixels;
 	}
 	ray_c->wall_hit = data->map.player.x + ray_c->ray_distance * data->ray_c.dir_x;
 	ray_c->wall_hit -= floor(ray_c->wall_hit);
@@ -55,13 +55,13 @@ void	vertical_hit(t_map map, t_ray *ray_c, t_cub3d *data)
 	{
 	    // printf("west\n");
 		data->wall_to_draw = (uint32_t *)data->east->pixels;
-		// data->wall_to_draw = data->west->pixels;
+		// data->wall_to_draw = data->east->pixels;
 	}
 	else
 	{
 	    // printf("east\n");
 		data->wall_to_draw = (uint32_t *)data->west->pixels;
-		// data->wall_to_draw = data->east->pixels;
+		// data->wall_to_draw = data->west->pixels;
 	}
 	ray_c->wall_hit = data->map.player.y + ray_c->ray_distance * data->ray_c.dir_y;
 	ray_c->wall_hit -= floor(ray_c->wall_hit);

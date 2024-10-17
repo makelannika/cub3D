@@ -36,7 +36,6 @@ int	create_images(t_cub3d *data)
 
 int	init_game(t_cub3d *data)
 {
-	int i= 0;
 	data->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D", false);
 	if (!data->mlx)
 		return (err("initializing mlx failed", NULL));

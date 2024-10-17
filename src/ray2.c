@@ -14,7 +14,7 @@ void	draw_ray(t_cub3d *data, int ray_index)
 	// float	counter;
 	double	tex_pos;
 
-	i = 1.0 * 1000.0 / data->ray_c.wall_height;
+	i = 1.0 * 1000 / data->ray_c.wall_height;
 	tex_pos = (data->ray_c.start - 1000 / 2 + data->ray_c.wall_height / 2) * i;
 	// tex_pos = (data->ray_c.start - (-data->ray_c.wall_height / 2 + SCREEN_HEIGHT / 2)) * i;
 
@@ -41,20 +41,20 @@ void	draw_ray(t_cub3d *data, int ray_index)
 void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 {
 	double	rad;
-	double	dirX;
-	double	dirY;
+	// double	dirX;
+	// double	dirY;
 	double	planeX;
 	double	planeY;
-	double	time = 0;
-	double	oldtime = 0;
+	// double	time = 0;
+	// double	oldtime = 0;
 	double	cameraX;
 	double	rayDirX;
 	double	rayDirY;
 	double	sideDistX;
 	double	sideDistY;
-	double	deltaDistX;
-	double	deltaDistY;
 	double	perpWallDist;
+	// double deltaDistX;
+	// double deltaDistY;
 	int		indexX;
 	int		mapX;
 	int		mapY;
@@ -66,8 +66,10 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	data->ray_c.pos_x = data->map.player.x + .5;
 	data->ray_c.pos_y = data->map.player.y + .5;
 	rad = degree_to_rad(player_angle);
-	dirX = cos(rad);
-	dirY = sin(rad);
+	// dirX = cos(rad);
+	// dirY = sin(rad);
+	ray_c->dir_x = cos(rad);
+	ray_c->dir_y = sin(rad);
 	// printf("player x is %i posx is %f dirX is %f \n", data->map.player.x, data->ray_c.pos_x, dirX);
 	planeX = 0.0;
 	planeY = 0.66;
@@ -80,8 +82,8 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		hit = 0;
 		cameraX = 2 * indexX / (double)SCREEN_WIDTH - 1;
 		// printf("camera x is %f\n", cameraX);
-		rayDirX = dirX + planeX * cameraX;
-		rayDirY = dirY + planeY * cameraX;
+		rayDirX = ray_c->dir_x + planeX * cameraX;
+		rayDirY = ray_c->dir_y + planeY * cameraX;
 		// printf("ray dir x is %f ray dir y is %f\n", rayDirX, rayDirY);
 		mapX = (int)data->ray_c.pos_x;
 		mapY = (int)data->ray_c.pos_y;
@@ -173,10 +175,10 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 			texX = 1000 - texX - 1;
 		if(side == 1 && rayDirY < 0)
 			texX = 1000 - texX - 1;
-		data->ray_c.wall_height = lineHeight;
-		data->ray_c.start = drawStart;
-		data->ray_c.end = drawEnd;
-		data->ray_c.text_x = texX;
+		ray_c->wall_height = lineHeight;
+		ray_c->start = drawStart;
+		ray_c->end = drawEnd;
+		ray_c->text_x = texX;
 		data->wall_to_draw = (uint32_t *)data->south->pixels;
 		// printf("wallX = %f\n", wallX);
 		draw_ray(data, indexX);

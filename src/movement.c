@@ -101,24 +101,23 @@ void	move_backward(t_cub3d *data)
 
 void	move_forward(t_cub3d *data)
 {
-	double dirX = cos(degree_to_rad(data->map.p_angle));
-	double dirY = sin(degree_to_rad(data->map.p_angle));
+	printf("delta time = %f\n", data->mlx->delta_time);
+	if (data->map.grid[(int)(data->ray_c.pos_y + data->ray_c.dir_y * (data->mlx->delta_time * 3))][(int)(data->ray_c.pos_x)] == '0')
+	{
+		data->ray_c.pos_y += data->ray_c.dir_y * (data->mlx->delta_time * 3);
+		data->map.player.y += data->ray_c.dir_y * (data->mlx->delta_time * 3);
+	}
+    if (data->map.grid[(int)(data->ray_c.pos_y)][(int)(data->ray_c.pos_x + data->ray_c.dir_x * (data->mlx->delta_time * 3))] == '0')
+	{
+		printf("here 2\n");
+		data->ray_c.pos_x += data->ray_c.dir_x * (data->mlx->delta_time * 3);
+		data->map.player.x += data->ray_c.dir_x * (data->mlx->delta_time * 3);
+	}
 
-	if (data->map.grid[(int)(data->ray_c.pos_y + dirY * (data->mlx->delta_time * 3))][(int)(data->ray_c.pos_x)] == '0')
-	{
-	printf("here\n");
-		data->ray_c.pos_y += dirY * (data->mlx->delta_time * 3);
-		printf("posy is %f\n", data->ray_c.pos_y);
-	}
-    if (data->map.grid[(int)(data->ray_c.pos_y)][(int)(data->ray_c.pos_x + dirX * (data->mlx->delta_time * 3))] == '0')
-	{
-		data->ray_c.pos_x += dirX * (data->mlx->delta_time * 3);
-		printf("posx is %f\n", data->ray_c.pos_x);
-	}
-	if (data->map.grid[(int)(data->ray_c.pos_x + dirX * (data->mlx->delta_time * 3))][(int)(data->ray_c.pos_y)] == '0')
-		data->ray_c.pos_x += dirX * (data->mlx->delta_time * 3);
-    if (data->map.grid[(int)(data->ray_c.pos_x)][(int)(data->ray_c.pos_y + dirY * (data->mlx->delta_time * 3))] == '0')
-		data->ray_c.pos_y += dirY * (data->mlx->delta_time * 3);
+	// if (data->map.grid[(int)(data->ray_c.pos_x + dirX * (data->mlx->delta_time * 3))][(int)(data->ray_c.pos_y)] == '0')
+	// 	data->ray_c.pos_x += dirX * (data->mlx->delta_time * 3);
+    // if (data->map.grid[(int)(data->ray_c.pos_x)][(int)(data->ray_c.pos_y + dirY * (data->mlx->delta_time * 3))] == '0')
+	// 	data->ray_c.pos_y += dirY * (data->mlx->delta_time * 3);
 	// data->map.offsety -= data->ray_c.dir_y * 3;
 	// data->map.player.pix_y -= data->ray_c.dir_y * 3;
 	// if (data->map.offsety < 0)
