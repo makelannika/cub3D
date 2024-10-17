@@ -88,6 +88,9 @@ typedef struct s_cub3d
 	mlx_image_t		*background;
 	uint32_t		*wall_to_draw;
 	double			frametime;
+	double			time;
+	double			old_time;
+	double			movespeed;
 	int				floor;
 	int				ceiling;
 	int				elements_found;
@@ -131,5 +134,6 @@ int		free_str_array(char **array);
 int		free_data(t_cub3d *data);
 
 double	degree_to_rad(float player_angle);
+size_t	get_ms();
 
 #endif

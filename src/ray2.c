@@ -41,12 +41,12 @@ void	draw_ray(t_cub3d *data, int ray_index)
 void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 {
 	double	rad;
-	double	dirX;
-	double	dirY;
+	// double	dirX;
+	// double	dirY;
 	double	planeX;
 	double	planeY;
-	double	time = 0;
-	double	oldtime = 0;
+	// double	time = 0;
+	// double	oldtime = 0;
 	double	cameraX;
 	double	rayDirX;
 	double	rayDirY;
@@ -66,9 +66,11 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	data->ray_c.pos_x = data->map.player.x + .5;
 	data->ray_c.pos_y = data->map.player.y + .5;
 	rad = degree_to_rad(player_angle);
-	dirX = cos(rad);
-	dirY = sin(rad);
-	printf("player x is %i posx is %f dirX is %f \n", data->map.player.x, data->ray_c.pos_x, dirX);
+	// dirX = cos(rad);
+	// dirY = sin(rad);
+	ray_c->dir_x = cos(rad);
+	ray_c->dir_y = sin(rad);
+	// printf("player x is %i posx is %f dirX is %f \n", data->map.player.x, data->ray_c.pos_x, dirX);
 	planeX = 0.0;
 	planeY = 0.66;
 	indexX = 0;
@@ -79,8 +81,8 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		hit = 0;
 		cameraX = 2 * indexX / (double)SCREEN_WIDTH - 1;
 		// printf("camera x is %f\n", cameraX);
-		rayDirX = dirX + planeX * cameraX;
-		rayDirY = dirY + planeY * cameraX;
+		rayDirX = ray_c->dir_x + planeX * cameraX;
+		rayDirY = ray_c->dir_y + planeY * cameraX;
 		// printf("ray dir x is %f ray dir y is %f\n", rayDirX, rayDirY);
 		mapX = (int)data->ray_c.pos_x;
 		mapY = (int)data->ray_c.pos_y;
@@ -182,4 +184,5 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		indexX++;
 		// printf("lineHeight = %d\n", lineHeight);
 	}
+	data->time = get_ms();
 }
