@@ -30,7 +30,7 @@ void	draw_ray(t_cub3d *data, int ray_index)
 		int texY = (int)tex_pos & (1000 - 1);
 		tex_pos += i;
 		// printf("texY = %d\n", texY);
-		if (!(data->ray_c.start < 275 && ray_index < 275))
+		// if (!(data->ray_c.start < 275 && ray_index < 275))
 			draw_pixel(data, ray_index, (1000 * texY + data->ray_c.text_x));
 			// draw_pixel(data, ray_index, ((int)counter * 1000) + data->ray_c.text_x);
 		data->ray_c.start++;
@@ -43,8 +43,8 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	double	rad;
 	// double	dirX;
 	// double	dirY;
-	double	planeX;
-	double	planeY;
+	// double	planeX;
+	// double	planeY;
 	// double	time = 0;
 	// double	oldtime = 0;
 	double	cameraX;
@@ -63,16 +63,14 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	int		hit = 0;
 	int		side = 0;
 
-	data->ray_c.pos_x = data->map.player.x + .5;
-	data->ray_c.pos_y = data->map.player.y + .5;
 	rad = degree_to_rad(player_angle);
 	// dirX = cos(rad);
 	// dirY = sin(rad);
-	ray_c->dir_x = cos(rad);
-	ray_c->dir_y = sin(rad);
+	// ray_c->dir_x = cos(rad);
+	// ray_c->dir_y = sin(rad);
 	// printf("player x is %i posx is %f dirX is %f \n", data->map.player.x, data->ray_c.pos_x, dirX);
-	planeX = 0.0;
-	planeY = 0.66;
+	// planeX = 0.0;
+	// planeY = 0.66;
 	indexX = 0;
 
 	// gettimeofday(&data->old_time, NULL);
@@ -82,8 +80,8 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		hit = 0;
 		cameraX = 2 * indexX / (double)SCREEN_WIDTH - 1;
 		// printf("camera x is %f\n", cameraX);
-		rayDirX = ray_c->dir_x + planeX * cameraX;
-		rayDirY = ray_c->dir_y + planeY * cameraX;
+		rayDirX = ray_c->dir_x + ray_c->plane_x * cameraX;
+		rayDirY = ray_c->dir_y + ray_c->plane_y * cameraX;
 		// printf("ray dir x is %f ray dir y is %f\n", rayDirX, rayDirY);
 		mapX = (int)data->ray_c.pos_x;
 		mapY = (int)data->ray_c.pos_y;

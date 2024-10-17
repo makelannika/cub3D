@@ -89,9 +89,9 @@ void	draw_background(t_cub3d *data)
 		x = 0;
 		while (x < 1000)
 		{
-			if (y < 275 && x < 275)
-				mlx_put_pixel(data->background, x++, y, 255);
-			else if (y < 500)
+			// if (y < 275 && x < 275)
+			// 	mlx_put_pixel(data->background, x++, y, 255);
+			if (y < 500)
 				mlx_put_pixel(data->background, x++, y, data->ceiling);
 			else
 				mlx_put_pixel(data->background, x++, y, data->floor);

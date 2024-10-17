@@ -1,10 +1,10 @@
 NO ./assets/N.png
-SO ./assets/bamboo.png
+SO ./assets/S.png
 WE ./assets/W.png
 EA ./assets/E.png
 
 F 220,100,0
-C 225,30,0
+C 0,0,0
 
 11111111111111111
 10000000000000001
