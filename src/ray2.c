@@ -68,11 +68,12 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	rad = degree_to_rad(player_angle);
 	dirX = cos(rad);
 	dirY = sin(rad);
-	printf("player x is %i posx is %f dirX is %f \n", data->map.player.x, data->ray_c.pos_x, dirX);
+	// printf("player x is %i posx is %f dirX is %f \n", data->map.player.x, data->ray_c.pos_x, dirX);
 	planeX = 0.0;
 	planeY = 0.66;
 	indexX = 0;
 
+	// gettimeofday(&data->old_time, NULL);
 	draw_background(data);
 	while (indexX < SCREEN_WIDTH)
 	{
