@@ -74,7 +74,7 @@ void	move_right(t_cub3d *data)
 void	move_backward(t_cub3d *data)
 {
 	if (data->map.grid[(int)(data->ray_c.pos_y - data->ray_c.ray_dir_y * (data->mlx->delta_time * 5))][(int)(data->ray_c.pos_x)] != '1')
-		data->ray_c.pos_y -= data->ray_c.ray_dir_y * (data->mlx->delta_time * 5);
+		data->ray_c.pos_y -= data->ray_c.dir_y * (data->mlx->delta_time * 5);
     if (data->map.grid[(int)(data->ray_c.pos_y)][(int)(data->ray_c.pos_x - data->ray_c.dir_x * (data->mlx->delta_time * 5))] != '1')
 		data->ray_c.pos_x -= data->ray_c.dir_x * (data->mlx->delta_time * 5);
 	fov_cast(data, &data->ray_c, data->map.p_angle);
