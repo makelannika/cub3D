@@ -14,7 +14,7 @@ void	draw_ray(t_cub3d *data, int ray_index)
 	// float	counter;
 	double	tex_pos;
 
-	i = 1.0 * 1000.0 / data->ray_c.wall_height;
+	i = 1.0 * 1000 / data->ray_c.wall_height;
 	tex_pos = (data->ray_c.start - 1000 / 2 + data->ray_c.wall_height / 2) * i;
 	// tex_pos = (data->ray_c.start - (-data->ray_c.wall_height / 2 + SCREEN_HEIGHT / 2)) * i;
 
@@ -54,9 +54,9 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	double	rayDirY;
 	double	sideDistX;
 	double	sideDistY;
-	double	deltaDistX;
-	double	deltaDistY;
 	double	perpWallDist;
+	// double deltaDistX;
+	// double deltaDistY;
 	int		indexX;
 	int		mapX;
 	int		mapY;
@@ -173,10 +173,10 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 			texX = 1000 - texX - 1;
 		if(side == 1 && rayDirY < 0)
 			texX = 1000 - texX - 1;
-		data->ray_c.wall_height = lineHeight;
-		data->ray_c.start = drawStart;
-		data->ray_c.end = drawEnd;
-		data->ray_c.text_x = texX;
+		ray_c->wall_height = lineHeight;
+		ray_c->start = drawStart;
+		ray_c->end = drawEnd;
+		ray_c->text_x = texX;
 		data->wall_to_draw = (uint32_t *)data->south->pixels;
 		// printf("wallX = %f\n", wallX);
 		draw_ray(data, indexX);
