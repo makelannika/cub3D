@@ -185,5 +185,4 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 		indexX++;
 		// printf("lineHeight = %d\n", lineHeight);
 	}
-	data->time = get_ms();
 }

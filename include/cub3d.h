@@ -99,8 +99,6 @@ typedef struct s_cub3d
 	t_map			map;
 	t_ray			ray_c;
 	mlx_t			*mlx;
-	struct timeval	old_time;
-	double			frame_time;
 } t_cub3d;
 
 /*******PARSING*******/
@@ -136,6 +134,5 @@ int		free_str_array(char **array);
 int		free_data(t_cub3d *data);
 
 double	degree_to_rad(float player_angle);
-size_t	get_ms();
 
 #endif
