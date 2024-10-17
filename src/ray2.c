@@ -75,6 +75,7 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	planeY = 0.66;
 	indexX = 0;
 
+	// gettimeofday(&data->old_time, NULL);
 	draw_background(data);
 	while (indexX < SCREEN_WIDTH)
 	{

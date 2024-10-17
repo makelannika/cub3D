@@ -99,6 +99,8 @@ typedef struct s_cub3d
 	t_map			map;
 	t_ray			ray_c;
 	mlx_t			*mlx;
+	struct timeval	old_time;
+	double			frame_time;
 } t_cub3d;
 
 /*******PARSING*******/
