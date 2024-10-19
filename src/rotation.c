@@ -29,16 +29,28 @@ void	reset_minimap(t_cub3d *data)
 
 void	rotate_right(t_cub3d *data)
 {
-	data->map.p_angle -= 15;
-	if (data->map.p_angle < 0)
-		data->map.p_angle = 345;
+	double	old_dir_x = data->ray_c.dir_x;
+	data->ray_c.dir_x = data->ray_c.dir_x * cos(-data->mlx->delta_time * 3) - data->ray_c.dir_y * sin(-data->mlx->delta_time * 3);
+	data->ray_c.dir_y = old_dir_x  * sin(-data->mlx->delta_time * 3) + data->ray_c.dir_y * cos(-data->mlx->delta_time * 3);
+	double oldPlaneX = data->ray_c.plane_x;
+	data->ray_c.plane_x = data->ray_c.plane_x * cos(-data->mlx->delta_time * 3) - data->ray_c.plane_y * sin(-data->mlx->delta_time * 3);
+	data->ray_c.plane_y = oldPlaneX * sin(-data->mlx->delta_time * 3) + data->ray_c.plane_y * cos(-data->mlx->delta_time * 3);
+	// data->map.p_angle -= 15;
+	// if (data->map.p_angle < 0)
+	// 	data->map.p_angle = 345;
 	fov_cast(data, &data->ray_c, data->map.p_angle);
 }
 
 void	rotate_left(t_cub3d *data)
 {
-	data->map.p_angle += 15;
-	if (data->map.p_angle > 360)
-		data->map.p_angle = 15;
+	double	old_dir_x = data->ray_c.dir_x;
+	data->ray_c.dir_x = data->ray_c.dir_x * cos(data->mlx->delta_time * 3) - data->ray_c.dir_y * sin(data->mlx->delta_time * 3);
+	data->ray_c.dir_y = old_dir_x  * sin(data->mlx->delta_time * 3) + data->ray_c.dir_y * cos(data->mlx->delta_time * 3);
+	double oldPlaneX = data->ray_c.plane_x;
+	data->ray_c.plane_x = data->ray_c.plane_x * cos(data->mlx->delta_time * 3) - data->ray_c.plane_y * sin(data->mlx->delta_time * 3);
+	data->ray_c.plane_y = oldPlaneX * sin(data->mlx->delta_time * 3) + data->ray_c.plane_y * cos(data->mlx->delta_time * 3);
+	// data->map.p_angle += 15;
+	// if (data->map.p_angle > 360)
+	// 	data->map.p_angle = 15;
 	fov_cast(data, &data->ray_c, data->map.p_angle);
 }

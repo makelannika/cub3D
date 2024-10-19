@@ -77,6 +77,8 @@ typedef struct s_ray
 	int		start;
 	int		end;
 	int		wall_height;
+	double	plane_x;
+	double	plane_y;
 } t_ray;
 
 typedef struct s_cub3d
