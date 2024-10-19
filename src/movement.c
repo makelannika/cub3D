@@ -101,17 +101,21 @@ void	move_backward(t_cub3d *data)
 
 void	move_forward(t_cub3d *data)
 {
-	printf("delta time = %f\n", data->mlx->delta_time);
-	if (data->map.grid[(int)(data->ray_c.pos_y + data->ray_c.dir_y * (data->mlx->delta_time * 3))][(int)(data->ray_c.pos_x)] == '0')
+	printf("move speed = %f\n", data->mlx->delta_time * 50);
+	printf("pos x = %f dir x = %f\n", data->ray_c.pos_x, data->ray_c.dir_x);
+	printf("pos y = %f dir y = %f\n", data->ray_c.pos_y, data->ray_c.dir_y);
+	printf("new x = %f\n", data->ray_c.pos_x + data->ray_c.dir_x * (data->mlx->delta_time * 50));
+	printf("new y = %f\n", data->ray_c.pos_y + data->ray_c.dir_y * (data->mlx->delta_time * 50));
+	if (data->map.grid[(int)(data->ray_c.pos_y + data->ray_c.dir_y * (data->mlx->delta_time * 50))][(int)(data->ray_c.pos_x)] == '0')
 	{
-		data->ray_c.pos_y += data->ray_c.dir_y * (data->mlx->delta_time * 3);
-		data->map.player.y += data->ray_c.dir_y * (data->mlx->delta_time * 3);
+		data->ray_c.pos_y += data->ray_c.dir_y * (data->mlx->delta_time * 50);
+		data->map.player.y += data->ray_c.dir_y * (data->mlx->delta_time * 50);
 	}
-    if (data->map.grid[(int)(data->ray_c.pos_y)][(int)(data->ray_c.pos_x + data->ray_c.dir_x * (data->mlx->delta_time * 3))] == '0')
+    if (data->map.grid[(int)(data->ray_c.pos_y)][(int)(data->ray_c.pos_x + data->ray_c.dir_x * (data->mlx->delta_time * 50))] == '0')
 	{
 		printf("here 2\n");
-		data->ray_c.pos_x += data->ray_c.dir_x * (data->mlx->delta_time * 3);
-		data->map.player.x += data->ray_c.dir_x * (data->mlx->delta_time * 3);
+		data->ray_c.pos_x += data->ray_c.dir_x * (data->mlx->delta_time * 50);
+		data->map.player.x += data->ray_c.dir_x * (data->mlx->delta_time * 50);
 	}
 
 	// if (data->map.grid[(int)(data->ray_c.pos_x + dirX * (data->mlx->delta_time * 3))][(int)(data->ray_c.pos_y)] == '0')
