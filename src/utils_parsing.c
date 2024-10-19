@@ -50,8 +50,8 @@ void	set_orientation(t_cub3d *data, char orientation, int x, int y)
 	}
 	data->map.player.x = x;
 	data->map.player.y = y;
-	data->map.offsetx = 13;
-	data->map.offsety = 13;
+	// data->map.offsetx = 13;
+	// data->map.offsety = 13;
 	data->map.player.pix_x = x * 25 + 13;
 	data->map.player.pix_y = y * 25 + 13;
 }

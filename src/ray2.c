@@ -11,30 +11,17 @@ double degree_to_rad(float player_angle)
 void	draw_ray(t_cub3d *data, int ray_index)
 {
 	double	i;
-	// float	counter;
 	double	tex_pos;
 
 	i = 1.0 * 1000 / data->ray_c.wall_height;
 	tex_pos = (data->ray_c.start - 1000 / 2 + data->ray_c.wall_height / 2) * i;
-	// tex_pos = (data->ray_c.start - (-data->ray_c.wall_height / 2 + SCREEN_HEIGHT / 2)) * i;
-
-	// counter = 0;
-	// if (i < 1)
-	// 	i = 1;
-	// printf("texX = %d\n", data->ray_c.text_x);
-	// printf("wall height = %d i = %f\n", data->ray_c.wall_height, i);
 	while (data->ray_c.start < data->ray_c.end)
 	{
-		// printf("text_x is %i\n", data->ray_c.text_x);
-		// printf("ray index is %i\n", ray_index);
 		int texY = (int)tex_pos & (1000 - 1);
 		tex_pos += i;
-		// printf("texY = %d\n", texY);
 		// if (!(data->ray_c.start < 275 && ray_index < 275))
 			draw_pixel(data, ray_index, (1000 * texY + data->ray_c.text_x));
-			// draw_pixel(data, ray_index, ((int)counter * 1000) + data->ray_c.text_x);
 		data->ray_c.start++;
-		// counter += i;
 	}
 }
 
