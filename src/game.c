@@ -47,7 +47,6 @@ int	init_game(t_cub3d *data)
 	data->ray_c.dir_x = cos(rad);
 	data->ray_c.dir_y = sin(rad);
 	fov_cast(data, &data->ray_c);
-	// mlx_key_hook(data->mlx, &my_keyhook, data);
 	mlx_loop_hook(data->mlx, (void (*)(void *))my_keyhook, data);
 	mlx_loop(data->mlx);
 	return (0);
