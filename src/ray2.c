@@ -28,11 +28,7 @@ void	draw_ray(t_cub3d *data, int ray_index)
 		data->ray_c.start++;
 	}
 }
-/*
--1
--0,998
--0,996
-... */
+
 void fov_cast(t_cub3d *data, t_ray *ray_c)
 {
 	double	cameraX;
