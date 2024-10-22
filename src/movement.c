@@ -40,10 +40,15 @@ void	move_left(t_cub3d *data)
 	}
 	fov_cast(data, &data->ray_c, data->map.p_angle);
 }
-
+/*
+W	dir y = -0 dir x = -1			+ -		|		++
+E	dir x = 0 dir y = 1				--------+---------
+N	dir y = 1 dir x = -0			--		|		-+
+S	dir y = -1 dir x = 0
+*/
 void	move_right(t_cub3d *data)
 {
-	
+	// if (data->map.grid[][] != '1')
 	// data->map.player.pix_x += data->ray_c.dir_y * 1 * 3;
 	// data->map.player.pix_y += data->ray_c.dir_x * 1 * 3;
 	// data->map.offsetx += data->ray_c.dir_y * 1 * 3;

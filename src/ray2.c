@@ -63,7 +63,7 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	int		hit = 0;
 	int		side = 0;
 
-	rad = degree_to_rad(player_angle);
+	// rad = degree_to_rad(player_angle);
 	// dirX = cos(rad);
 	// dirY = sin(rad);
 	// ray_c->dir_x = cos(rad);
