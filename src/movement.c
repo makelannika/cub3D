@@ -45,17 +45,10 @@ void	move_backward(t_cub3d *data)
 
 void	move_forward(t_cub3d *data)
 {
-	// printf("ray_dir_y = %f\n", data->ray_c.dir_y);
-	// printf("ray_dir_x = %f\n", data->ray_c.dir_x);
-	// printf("pos_y before = %f\n", data->ray_c.pos_y);
-	// printf("pos_x before = %f\n", data->ray_c.pos_x);
-	printf("move forward\n");
 	if (data->map.grid[(int)(data->ray_c.pos_y + data->ray_c.dir_y * (data->mlx->delta_time * 3.0))][(int)(data->ray_c.pos_x)] != '1')
 		data->ray_c.pos_y += data->ray_c.dir_y * (data->mlx->delta_time * 3.0);
 	if (data->map.grid[(int)(data->ray_c.pos_y)][(int)(data->ray_c.pos_x + data->ray_c.dir_x * (data->mlx->delta_time * 3.0))] != '1')
 		data->ray_c.pos_x += data->ray_c.dir_x * (data->mlx->delta_time * 3.0);
-	// printf("pos_y after = %f\n", data->ray_c.pos_y);
-	// printf("pos_x after = %f\n", data->ray_c.pos_x);
 	fov_cast(data, &data->ray_c);
 }
 

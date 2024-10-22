@@ -13,7 +13,7 @@ void	draw_ray(t_cub3d *data, int ray_index)
 	double	i;
 	double	tex_pos;
 
-	ray_index = 999 - ray_index;
+	// ray_index = 999 - ray_index;
 	data->ray_c.text_x = 999 - data->ray_c.text_x;
 	i = 1.0 * 1000 / data->ray_c.wall_height;
 	tex_pos = (data->ray_c.start - 1000 / 2 + data->ray_c.wall_height / 2) * i;
