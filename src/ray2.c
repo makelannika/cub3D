@@ -13,17 +13,18 @@ void	draw_ray(t_cub3d *data, int ray_index)
 	double	i;
 	double	tex_pos;
 
-	// ray_index = 999 - ray_index;
+	ray_index = 999 - ray_index;
 	data->ray_c.text_x = 999 - data->ray_c.text_x;
 	i = 1.0 * 1000 / data->ray_c.wall_height;
 	tex_pos = (data->ray_c.start - 1000 / 2 + data->ray_c.wall_height / 2) * i;
 	while (data->ray_c.start < data->ray_c.end)
 	{
+		// int texY = (int)tex_pos & (1000 - 1);
 		int texY = (int)tex_pos;
 		tex_pos += i;
 		// if (!(data->ray_c.start < 275 && ray_index < 275))
 		// if(ray_index > 395 && ray_index < 439)
-			// printf("textY = %d\n", texY);
+			// printf("textpos = %f textY = %d textX = %d i = %f\n", tex_pos, texY, data->ray_c.text_x, i);
 		draw_pixel(data, ray_index, (1000 * texY + data->ray_c.text_x));
 		data->ray_c.start++;
 	}
