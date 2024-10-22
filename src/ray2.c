@@ -22,7 +22,9 @@ void	draw_ray(t_cub3d *data, int ray_index)
 		int texY = (int)tex_pos;
 		tex_pos += i;
 		// if (!(data->ray_c.start < 275 && ray_index < 275))
-			draw_pixel(data, ray_index, (1000 * texY + data->ray_c.text_x));
+		// if(ray_index > 395 && ray_index < 439)
+			// printf("textY = %d\n", texY);
+		draw_pixel(data, ray_index, (1000 * texY + data->ray_c.text_x));
 		data->ray_c.start++;
 	}
 }
@@ -56,7 +58,7 @@ void fov_cast(t_cub3d *data, t_ray *ray_c)
 		cameraX = 2 * indexX / (double)SCREEN_WIDTH - 1;
 		rayDirX = ray_c->dir_x + ray_c->plane_x * cameraX;
 		rayDirY = ray_c->dir_y + ray_c->plane_y * cameraX;
-		// printf("ray is %i dirx is %f diry %f\n", indexX, rayDirX, rayDirY);
+		// rayDirY *= -1;
 		mapX = (int)data->ray_c.pos_x;
 		mapY = (int)data->ray_c.pos_y;
 		double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
