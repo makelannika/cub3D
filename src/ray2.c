@@ -22,7 +22,9 @@ void	draw_ray(t_cub3d *data, int ray_index)
 		int texY = (int)tex_pos & (1000 - 1);
 		tex_pos += i;
 		// if (!(data->ray_c.start < 275 && ray_index < 275))
-			draw_pixel(data, ray_index, (1000 * texY + data->ray_c.text_x));
+		// if(ray_index > 395 && ray_index < 439)
+			// printf("textY = %d\n", texY);
+		draw_pixel(data, ray_index, (1000 * texY + data->ray_c.text_x));
 		data->ray_c.start++;
 	}
 }
