@@ -27,7 +27,7 @@ void	reset_minimap(t_cub3d *data)
 	}
 }
 
-void	rotate_right(t_cub3d *data)
+void	rotate_left(t_cub3d *data)
 {
 	double	old_dir_x = data->ray_c.dir_x;
 	data->ray_c.dir_x = data->ray_c.dir_x * cos(-data->mlx->delta_time * 3) - data->ray_c.dir_y * sin(-data->mlx->delta_time * 3);
@@ -41,7 +41,7 @@ void	rotate_right(t_cub3d *data)
 	fov_cast(data, &data->ray_c);
 }
 
-void	rotate_left(t_cub3d *data)
+void	rotate_right(t_cub3d *data)
 {
 	double	old_dir_x = data->ray_c.dir_x;
 	data->ray_c.dir_x = data->ray_c.dir_x * cos(data->mlx->delta_time * 3) - data->ray_c.dir_y * sin(data->mlx->delta_time * 3);

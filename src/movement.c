@@ -12,7 +12,7 @@
 
 #include "../include/cub3d.h"
 
-void	move_left(t_cub3d *data)
+void	move_right(t_cub3d *data)
 {
 	if (data->map.grid[(int)(data->ray_c.pos_y + data->ray_c.dir_x * (data->mlx->delta_time * 3.0))]
 		[(int)(data->ray_c.pos_x - data->ray_c.dir_y * (data->mlx->delta_time * 3.0))] != '1')
@@ -23,7 +23,7 @@ void	move_left(t_cub3d *data)
 	fov_cast(data, &data->ray_c);
 }
 
-void	move_right(t_cub3d *data)
+void	move_left(t_cub3d *data)
 {
 	if (data->map.grid[(int)(data->ray_c.pos_y - data->ray_c.dir_x * (data->mlx->delta_time * 3.0))]
 		[(int)(data->ray_c.pos_x + data->ray_c.dir_y * (data->mlx->delta_time * 3.0))] != '1')
