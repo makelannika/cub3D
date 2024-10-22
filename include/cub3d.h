@@ -121,14 +121,14 @@ int		init_game(t_cub3d *data);
 void	rotate_right(t_cub3d *data);
 void	rotate_left(t_cub3d *data);
 void	reset_minimap(t_cub3d * data);
-void	my_keyhook(mlx_key_data_t keydata, void *game_data);
+void	my_keyhook(void *game_data);
 
 /*******DRAWING*******/
 void	draw_minimap(t_cub3d *data, int y, int x);
 void	draw_player(t_cub3d *data);
 void	draw_background(t_cub3d *data);
 void	draw_pixel(t_cub3d *data, int x, int incr);
-void	fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle);
+void	fov_cast(t_cub3d *data, t_ray *ray_c);
 
 /*******CLEANING******/
 int		err(char *str, void *ptr);
