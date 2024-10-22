@@ -19,14 +19,18 @@ void	draw_ray(t_cub3d *data, int ray_index)
 	tex_pos = (data->ray_c.start - 1000 / 2 + data->ray_c.wall_height / 2) * i;
 	while (data->ray_c.start < data->ray_c.end)
 	{
-		int texY = (int)tex_pos & (1000 - 1);
+		int texY = (int)tex_pos;
 		tex_pos += i;
 		// if (!(data->ray_c.start < 275 && ray_index < 275))
 			draw_pixel(data, ray_index, (1000 * texY + data->ray_c.text_x));
 		data->ray_c.start++;
 	}
 }
-
+/*
+-1
+-0,998
+-0,996
+... */
 void fov_cast(t_cub3d *data, t_ray *ray_c)
 {
 	double	cameraX;
