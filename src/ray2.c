@@ -13,8 +13,9 @@ void	draw_ray(t_cub3d *data, t_ray *ray_c, int screen_x)
 	screen_x = 999 - screen_x; /* screen x index */
 	ray_c->txtr_x = 999 - ray_c->txtr_x; /* texture x index */
 	ray_c->increment = 1.0 * SCREEN_HEIGHT / ray_c->wall_height; /* increment */
-	// txtr_pos = (ray_c->start - 1000 / 2 + ray_c->wall_height / 2) * increment; /* wtf is this? */
-	ray_c->txtr_y = 0; /* texture y index */
+	double txtr_pos = (ray_c->start - 1000 / 2 + ray_c->wall_height / 2) * ray_c->increment; /* wtf is this? */
+	// ray_c->txtr_y = 0; /* texture y index */
+	ray_c->txtr_y = (int)txtr_pos & (1000 - 1);
 	while (ray_c->start <= ray_c->end)
 	{
 		// if (!(ray_c->start < 275 && screen_x < 275))
@@ -108,17 +109,24 @@ void fov_cast(t_cub3d *data, t_ray *ray_c)
 			ray_c->end = SCREEN_HEIGHT - 1;
 		
 		if (ray_c->side == 0)
+		{
+			// printf("fuck\n");
 			ray_c->wall_x = ray_c->pos_y + ray_c->distance * ray_c->ray_dir_y;
+		}
 		else
+		{
+			// printf("here\n");
 			ray_c->wall_x = ray_c->pos_x + ray_c->distance * ray_c->ray_dir_x;
+		}
 		ray_c->wall_x -= floor((ray_c->wall_x));
 
-		ray_c->txtr_x = (int)(ray_c->wall_x * (double)(1000));
+		ray_c->txtr_x = (ray_c->wall_x * (double)(1000));
+		// printf("ray = %d, posY = %f, distance = %f, dirY = %f, wallx = %f, textx = %f\n", ray_c->screen_x,ray_c->pos_y, ray_c->distance, ray_c->ray_dir_y, ray_c->wall_x, ray_c->txtr_x);
 		if(ray_c->side == 0 && ray_c->ray_dir_x > 0)
-			ray_c->txtr_x = 1000 - ray_c->txtr_x - 1;
+			ray_c->txtr_x = 1000.0 - ray_c->txtr_x - 1.0;
 		if(ray_c->side == 1 && ray_c->ray_dir_y < 0)
-			ray_c->txtr_x = 1000 - ray_c->txtr_x - 1;
-		ray_c->txtr_x = ray_c->txtr_x;
+			ray_c->txtr_x = 1000.0 - ray_c->txtr_x - 1.0;
+		// ray_c->txtr_x = ray_c->txtr_x;
 		draw_ray(data, ray_c, ray_c->screen_x);
 		ray_c->screen_x++;
 	}

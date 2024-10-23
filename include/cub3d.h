@@ -68,7 +68,7 @@ typedef struct s_ray
 
 	double	increment;
 	double	txtr_y;
-	int		txtr_x;
+	double	txtr_x;
 	int		wall_height;
 	int		start;
 	int		end;
