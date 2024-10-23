@@ -8,141 +8,118 @@ double degree_to_rad(float player_angle)
 	return (rad);
 }
 
-void	draw_ray(t_cub3d *data, int ray_index)
+void	draw_ray(t_cub3d *data, t_ray *ray_c, int screen_x)
 {
-	double	i;
-	double	tex_pos;
-
-	ray_index = 999 - ray_index;
-	data->ray_c.text_x = 999 - data->ray_c.text_x;
-	i = 1.0 * 1000 / data->ray_c.wall_height;
-	tex_pos = (data->ray_c.start - 1000 / 2 + data->ray_c.wall_height / 2) * i;
-	while (data->ray_c.start < data->ray_c.end)
+	screen_x = 999 - screen_x; /* screen x index */
+	ray_c->txtr_x = 999 - ray_c->txtr_x; /* texture x index */
+	ray_c->increment = 1.0 * SCREEN_HEIGHT / ray_c->wall_height; /* increment */
+	// txtr_pos = (ray_c->start - 1000 / 2 + ray_c->wall_height / 2) * increment; /* wtf is this? */
+	ray_c->txtr_y = 0; /* texture y index */
+	while (ray_c->start <= ray_c->end)
 	{
-		// int texY = (int)tex_pos & (1000 - 1);
-		int texY = (int)tex_pos;
-		tex_pos += i;
-		// if (!(data->ray_c.start < 275 && ray_index < 275))
-		// if(ray_index > 395 && ray_index < 439)
-			// printf("textpos = %f textY = %d textX = %d i = %f\n", tex_pos, texY, data->ray_c.text_x, i);
-		draw_pixel(data, ray_index, (1000 * texY + data->ray_c.text_x));
-		data->ray_c.start++;
+		// if (!(ray_c->start < 275 && screen_x < 275))
+		draw_pixel(data, screen_x, (1000 * (int)ray_c->txtr_y + ray_c->txtr_x));
+		ray_c->txtr_y += ray_c->increment;
+		ray_c->start++;
 	}
+}
+
+void	init_vars(t_ray *ray_c)
+{
+	ray_c->hit = 0;
+	ray_c->camera_x = 2 * ray_c->screen_x / (double)SCREEN_WIDTH - 1;
+	ray_c->ray_dir_x = ray_c->dir_x + ray_c->plane_x * ray_c->camera_x;
+	ray_c->ray_dir_y = ray_c->dir_y + ray_c->plane_y * ray_c->camera_x;
+	ray_c->map_x = (int)ray_c->pos_x;
+	ray_c->map_y = (int)ray_c->pos_y;
+	ray_c->delta_dist_x = (ray_c->ray_dir_x == 0) ? 1e30 : fabs(1 / ray_c->ray_dir_x);
+	ray_c->delta_dist_y = (ray_c->ray_dir_y == 0) ? 1e30 : fabs(1 / ray_c->ray_dir_y);
 }
 
 void fov_cast(t_cub3d *data, t_ray *ray_c)
 {
-	double	cameraX;
-	double	rayDirX;
-	double	rayDirY;
-	double	sideDistX;
-	double	sideDistY;
-	double	perpWallDist;
-	int		indexX;
-	int		mapX;
-	int		mapY;
-	int		stepX;
-	int		stepY;
-	int		hit = 0;
-	int		side = 0;
-
-	indexX = 0;
-
 	draw_background(data);
-	while (indexX < SCREEN_WIDTH)
+	ray_c->side = 0;
+	ray_c->screen_x = 0;
+	while (ray_c->screen_x < SCREEN_WIDTH)
 	{
-		hit = 0;
-		cameraX = 2 * indexX / (double)SCREEN_WIDTH - 1;
-		rayDirX = ray_c->dir_x + ray_c->plane_x * cameraX;
-		rayDirY = ray_c->dir_y + ray_c->plane_y * cameraX;
-		// rayDirY *= -1;
-		mapX = (int)data->ray_c.pos_x;
-		mapY = (int)data->ray_c.pos_y;
-		double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
-      	double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
-		// deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
-      	// deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
-		if (rayDirX < 0)
+		init_vars(ray_c);
+		if (ray_c->ray_dir_x < 0)
 		{
-			stepX = -1;
-			sideDistX = (data->ray_c.pos_x - mapX) * deltaDistX;
+			ray_c->step_x = -1;
+			ray_c->side_dist_x = (ray_c->pos_x - ray_c->map_x) * ray_c->delta_dist_x;
 		}
 		else
 		{
-			stepX = 1;
-			sideDistX = (mapX + 1.0 - data->ray_c.pos_x) * deltaDistX;
+			ray_c->step_x = 1;
+			ray_c->side_dist_x = (ray_c->map_x + 1.0 - ray_c->pos_x) * ray_c->delta_dist_x;
 		}
-		if (rayDirY < 0)
+		if (ray_c->ray_dir_y < 0)
 		{
-			stepY = -1;
-			sideDistY = (data->ray_c.pos_y - mapY) * deltaDistY;
+			ray_c->step_y = -1;
+			ray_c->side_dist_y = (ray_c->pos_y - ray_c->map_y) * ray_c->delta_dist_y;
 		}
 		else
 		{
-			stepY = 1;
-			sideDistY = (mapY + 1.0 - data->ray_c.pos_y) * deltaDistY;
+			ray_c->step_y = 1;
+			ray_c->side_dist_y = (ray_c->map_y + 1.0 - ray_c->pos_y) * ray_c->delta_dist_y;
 		}
-		while (hit == 0)
+		while (!ray_c->hit)
 		{
-			if (sideDistX < sideDistY)
+			if (ray_c->side_dist_x < ray_c->side_dist_y)
 			{
-				sideDistX += deltaDistX;
-				mapX += stepX;
-				side = 0;
+				ray_c->side_dist_x += ray_c->delta_dist_x;
+				ray_c->map_x += ray_c->step_x;
+				ray_c->side = 0;
 			}
 			else
 			{
-				sideDistY += deltaDistY;
-				mapY += stepY;
-				side = 1;
+				ray_c->side_dist_y += ray_c->delta_dist_y;
+				ray_c->map_y += ray_c->step_y;
+				ray_c->side = 1;
 			}
-			if (data->map.grid[mapY][mapX] == '1')
-				hit = 1;
+			if (data->map.grid[ray_c->map_y][ray_c->map_x] == '1')
+				ray_c->hit = 1;
 		}
-		if (side == 0)
+		if (ray_c->side == 0)
 		{
-			if(mapX > data->ray_c.pos_x)
+			if(ray_c->map_x > ray_c->pos_x)
 				data->wall_to_draw = (uint32_t *)data->west->pixels;
 			else
 				data->wall_to_draw = (uint32_t *)data->east->pixels;
-			perpWallDist = (sideDistX - deltaDistX);
+			ray_c->distance = (ray_c->side_dist_x - ray_c->delta_dist_x);
 		}
 		else
 		{
-			if(mapY > data->ray_c.pos_y)
+			if(ray_c->map_y > ray_c->pos_y)
 				data->wall_to_draw = (uint32_t *)data->north->pixels;
 			else
 				data->wall_to_draw = (uint32_t *)data->south->pixels;
-			perpWallDist = (sideDistY - deltaDistY);
+			ray_c->distance = (ray_c->side_dist_y - ray_c->delta_dist_y);
 		}
-		if (perpWallDist < 1)
-			perpWallDist = 1;
-		int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
-		int drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2;
-		if (drawStart < 0) 
-			drawStart = 0;
-		int drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2;
-		if (drawEnd >= SCREEN_HEIGHT)
-			drawEnd = SCREEN_HEIGHT - 1;
+		if (ray_c->distance < 1)
+			ray_c->distance = 1;
+		ray_c->wall_height = (int)(SCREEN_HEIGHT / ray_c->distance);
+		ray_c->start = -ray_c->wall_height / 2 + SCREEN_HEIGHT / 2;
+		if (ray_c->start < 0) 
+			ray_c->start = 0;
+		ray_c->end = ray_c->wall_height / 2 + SCREEN_HEIGHT / 2;
+		if (ray_c->end >= SCREEN_HEIGHT)
+			ray_c->end = SCREEN_HEIGHT - 1;
 		
-		double wallX;
-		if (side == 0)
-			wallX = data->ray_c.pos_y + perpWallDist * rayDirY;
+		if (ray_c->side == 0)
+			ray_c->wall_x = ray_c->pos_y + ray_c->distance * ray_c->ray_dir_y;
 		else
-			wallX = data->ray_c.pos_x + perpWallDist * rayDirX;
-		wallX -= floor((wallX));
+			ray_c->wall_x = ray_c->pos_x + ray_c->distance * ray_c->ray_dir_x;
+		ray_c->wall_x -= floor((ray_c->wall_x));
 
-		int texX = (int)(wallX * (double)(1000));
-		if(side == 0 && rayDirX > 0)
-			texX = 1000 - texX - 1;
-		if(side == 1 && rayDirY < 0)
-			texX = 1000 - texX - 1;
-		ray_c->wall_height = lineHeight;
-		ray_c->start = drawStart;
-		ray_c->end = drawEnd;
-		ray_c->text_x = texX;
-		// printf("wallX = %f\n", wallX);
-		draw_ray(data, indexX);
-		indexX++;
+		ray_c->txtr_x = (int)(ray_c->wall_x * (double)(1000));
+		if(ray_c->side == 0 && ray_c->ray_dir_x > 0)
+			ray_c->txtr_x = 1000 - ray_c->txtr_x - 1;
+		if(ray_c->side == 1 && ray_c->ray_dir_y < 0)
+			ray_c->txtr_x = 1000 - ray_c->txtr_x - 1;
+		ray_c->txtr_x = ray_c->txtr_x;
+		draw_ray(data, ray_c, ray_c->screen_x);
+		ray_c->screen_x++;
 	}
 }

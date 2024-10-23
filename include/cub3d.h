@@ -50,33 +50,33 @@ typedef struct s_map
 typedef struct s_ray
 {
 	double	camera_x;
-	double	current_angle;
 	double	ray_dir_x;
 	double	ray_dir_y;
-	double	delta_dist_x;
-    double	delta_dist_y;
-	double	unit_x;
-	double	unit_y;
-	int		ray_index_x;
-	int		ray_index_y;
-    int		step_x;
-	int		step_y;
     double	side_dist_x;
 	double	side_dist_y;
-	double	ray_distance;
-	double	wall_hit;
-	int		wall_hit_x;
-	int		wall_hit_y;
-	int		text_x;
+	double	delta_dist_x;
+    double	delta_dist_y;
+	double	distance;
+	double	wall_x;
+	int		screen_x;
+	int		side;
+	int		hit;
+	int		map_x;
+	int		map_y;
+    int		step_x;
+	int		step_y;
+
+	double	increment;
+	double	txtr_y;
+	int		txtr_x;
+	int		wall_height;
+	int		start;
+	int		end;
+
 	double	dir_x;
 	double	dir_y;
 	double	pos_x;
 	double	pos_y;
-	int		hit;
-	int		side;
-	int		start;
-	int		end;
-	int		wall_height;
 	double	plane_x;
 	double	plane_y;
 } t_ray;
