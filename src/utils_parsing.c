@@ -25,13 +25,29 @@ int	check_extension(char *arg)
 void	set_orientation(t_cub3d *data, char orientation, int x, int y)
 {
 	if (orientation == 'E')
+	{
+		data->ray_c.plane_x = 0.0;
+		data->ray_c.plane_y = -0.66;
 		data->map.p_angle = 0.0;
-	else if (orientation == 'N')
-		data->map.p_angle = 90.0;
-	else if (orientation == 'W')
-		data->map.p_angle = 180.0;
+	}
 	else if (orientation == 'S')
+	{
+		data->ray_c.plane_x = 0.66;
+		data->ray_c.plane_y = 0.0;
+		data->map.p_angle = 90.0;
+	}
+	else if (orientation == 'W')
+	{
+		data->ray_c.plane_x = 0.0;
+		data->ray_c.plane_y = 0.66;
+		data->map.p_angle = 180.0;
+	}
+	else if (orientation == 'N')
+	{
+		data->ray_c.plane_x = -0.66;
+		data->ray_c.plane_y = 0.0;
 		data->map.p_angle = 270.0;
+	}
 	data->map.player.x = x;
 	data->map.player.y = y;
 	data->map.offsetx = 13;
@@ -65,5 +81,16 @@ int	validate_line(char *str)
 			return (1);
 		str++;
 	}
+	return (0);
+}
+
+int	create_grid(t_cub3d *data, char *file)
+{
+	data->fd = open(file, O_RDONLY);
+	if (data->fd == -1)
+		return (err("open failed", NULL));
+	data->map.grid = ft_calloc(data->map.height + 1, sizeof(char *));
+	if (!data->map.grid)
+		return (err("malloc failed", NULL));
 	return (0);
 }

@@ -26,15 +26,10 @@ int	create_images(t_cub3d *data)
 {
 	if (check_png_sizes(data))
 		return (err("invalid png size", NULL));
-	data->minimap_txtr = mlx_load_png("assets/minimap.png");
-	if (!data->minimap_txtr)
-		return (err("loading png failed", NULL));
-	data->minimap = mlx_texture_to_image(data->mlx, data->minimap_txtr);
 	data->background = mlx_new_image(data->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	if (!data->minimap || !data->background)
+	if (!data->background)
 		return (err("creating image failed", NULL));
-	if (mlx_image_to_window(data->mlx, data->background, 0, 0) == -1
-	|| mlx_image_to_window(data->mlx, data->minimap, 0, 0) == -1)
+	if (mlx_image_to_window(data->mlx, data->background, 0, 0) == -1)
 		return (err("displaying image failed", NULL));
 	return (0);
 }
@@ -46,9 +41,15 @@ int	init_game(t_cub3d *data)
 		return (err("initializing mlx failed", NULL));
 	if (create_images(data))
 		return (1);
-	draw_player(data, data->map.p_angle);
-	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
-	mlx_key_hook(data->mlx, &my_keyhook, data);
+	// data->ray_c.pos_x = data->map.player.x + .5;
+	// data->ray_c.pos_y = data->map.player.y + .5;
+	data->ray_c.pos_x = data->map.player.x + 1;
+	data->ray_c.pos_y = data->map.player.y + .67;
+	float	rad = degree_to_rad(data->map.p_angle);
+	data->ray_c.dir_x = cos(rad);
+	data->ray_c.dir_y = sin(rad);
+	fov_cast(data, &data->ray_c);
+	mlx_loop_hook(data->mlx, (void (*)(void *))my_keyhook, data);
 	mlx_loop(data->mlx);
 	return (0);
 }
