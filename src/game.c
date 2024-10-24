@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/27 19:43:40 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/24 22:24:02 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,16 @@ int	create_images(t_cub3d *data)
 
 int	init_game(t_cub3d *data)
 {
+	float	rad;
+
 	data->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D", false);
 	if (!data->mlx)
 		return (err("initializing mlx failed", NULL));
 	if (create_images(data))
 		return (1);
+	rad = degree_to_rad(data->map.p_angle);
 	data->ray_c.pos_x = data->map.player.x + .5;
 	data->ray_c.pos_y = data->map.player.y + .5;
-	float	rad = degree_to_rad(data->map.p_angle);
 	data->ray_c.dir_x = cos(rad);
 	data->ray_c.dir_y = sin(rad);
 	fov_cast(data, &data->ray_c);

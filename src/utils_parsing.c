@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 16:37:06 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/24 22:33:50 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ void	set_orientation(t_cub3d *data, char orientation, int x, int y)
 	}
 	data->map.player.x = x;
 	data->map.player.y = y;
-	data->map.offsetx = 13;
-	data->map.offsety = 13;
 	data->map.player.pix_x = x * 25 + 13;
 	data->map.player.pix_y = y * 25 + 13;
 }

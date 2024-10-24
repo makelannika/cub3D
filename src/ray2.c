@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray2.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/24 22:17:24 by linhnguy          #+#    #+#             */
+/*   Updated: 2024/10/24 22:21:38 by linhnguy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
-double degree_to_rad(float player_angle)
+double	degree_to_rad(float player_angle)
 {
-	double rad;
-	
+	double	rad;
+
 	rad = player_angle * M_PI / 180.0;
 	return (rad);
 }
@@ -16,9 +28,9 @@ void	draw_ray(t_cub3d *data, t_ray *ray_c, int screen_x)
 	ray_c->txtr_y = 0;
 	while (ray_c->start <= ray_c->end)
 	{
-		// if (!(ray_c->start < 275 && screen_x < 275))
 		if (ray_c->start >= 0 && ray_c->start < SCREEN_HEIGHT)
-			draw_pixel(data, screen_x, (1000 * (int)(ray_c->txtr_y) + ray_c->txtr_x));
+			draw_pixel(data, screen_x,
+				(1000 * (int)(ray_c->txtr_y) + ray_c->txtr_x));
 		ray_c->txtr_y += ray_c->increment;
 		ray_c->start++;
 	}
@@ -32,11 +44,17 @@ void	init_vars(t_ray *ray_c)
 	ray_c->ray_dir_y = ray_c->dir_y + ray_c->plane_y * ray_c->camera_x;
 	ray_c->map_x = (int)ray_c->pos_x;
 	ray_c->map_y = (int)ray_c->pos_y;
-	ray_c->delta_dist_x = (ray_c->ray_dir_x == 0) ? 1e30 : fabs(1 / ray_c->ray_dir_x);
-	ray_c->delta_dist_y = (ray_c->ray_dir_y == 0) ? 1e30 : fabs(1 / ray_c->ray_dir_y);
+	if (ray_c->ray_dir_x == 0)
+		ray_c->delta_dist_x = 1e30;
+	else
+		ray_c->delta_dist_x = fabs(1 / ray_c->ray_dir_x);
+	if (ray_c->ray_dir_y == 0)
+		ray_c->delta_dist_y = 1e30;
+	else
+		ray_c->delta_dist_y = fabs(1 / ray_c->ray_dir_y);
 }
 
-void fov_cast(t_cub3d *data, t_ray *ray_c)
+void	fov_cast(t_cub3d *data, t_ray *ray_c)
 {
 	draw_background(data);
 	ray_c->side = 0;
@@ -44,7 +62,6 @@ void fov_cast(t_cub3d *data, t_ray *ray_c)
 	while (ray_c->screen_x < SCREEN_WIDTH)
 	{
 		init_vars(ray_c);
-		// printf("deltax = %f deltay = %f\n", ray_c->delta_dist_x, ray_c->delta_dist_y);
 		if (ray_c->ray_dir_x < 0)
 		{
 			ray_c->step_x = -1;
@@ -67,10 +84,6 @@ void fov_cast(t_cub3d *data, t_ray *ray_c)
 		}
 		while (!ray_c->hit)
 		{
-		// 	printf("Position: (%f, %f), Direction: (%f, %f)\n", 
-        //    ray_c->pos_x, ray_c->pos_y, ray_c->ray_dir_x, ray_c->ray_dir_y);
-    		// printf("Current map pos: (%d, %d), Side distances: (%f, %f)\n", 
-        //    ray_c->map_x, ray_c->map_y, ray_c->side_dist_x, ray_c->side_dist_y);
 			if (ray_c->side_dist_x < ray_c->side_dist_y)
 			{
 				ray_c->side_dist_x += ray_c->delta_dist_x;
@@ -83,13 +96,12 @@ void fov_cast(t_cub3d *data, t_ray *ray_c)
 				ray_c->map_y += ray_c->step_y;
 				ray_c->side = 1;
 			}
-			// printf("ray = %d mapy = %d mapx = %d\n", ray_c->screen_x ,ray_c->map_y, ray_c->map_x);
 			if (data->map.grid[ray_c->map_y][ray_c->map_x] == '1')
 				ray_c->hit = 1;
 		}
 		if (ray_c->side == 0)
 		{
-			if(ray_c->map_x > ray_c->pos_x)
+			if (ray_c->map_x > ray_c->pos_x)
 				data->wall_to_draw = (uint32_t *)data->west->pixels;
 			else
 				data->wall_to_draw = (uint32_t *)data->east->pixels;
@@ -97,7 +109,7 @@ void fov_cast(t_cub3d *data, t_ray *ray_c)
 		}
 		else
 		{
-			if(ray_c->map_y > ray_c->pos_y)
+			if (ray_c->map_y > ray_c->pos_y)
 				data->wall_to_draw = (uint32_t *)data->north->pixels;
 			else
 				data->wall_to_draw = (uint32_t *)data->south->pixels;
@@ -106,17 +118,15 @@ void fov_cast(t_cub3d *data, t_ray *ray_c)
 		ray_c->wall_height = (int)(SCREEN_HEIGHT / ray_c->distance);
 		ray_c->start = -ray_c->wall_height / 2 + SCREEN_HEIGHT / 2;
 		ray_c->end = ray_c->wall_height / 2 + SCREEN_HEIGHT / 2;
-		
 		if (ray_c->side == 0)
 			ray_c->wall_x = ray_c->pos_y + ray_c->distance * ray_c->ray_dir_y;
 		else
 			ray_c->wall_x = ray_c->pos_x + ray_c->distance * ray_c->ray_dir_x;
 		ray_c->wall_x -= floor((ray_c->wall_x));
-
 		ray_c->txtr_x = (int)(ray_c->wall_x * (double)(1000));
-		if(ray_c->side == 0 && ray_c->ray_dir_x > 0)
+		if (ray_c->side == 0 && ray_c->ray_dir_x > 0)
 			ray_c->txtr_x = 1000 - ray_c->txtr_x - 1;
-		if(ray_c->side == 1 && ray_c->ray_dir_y < 0)
+		if (ray_c->side == 1 && ray_c->ray_dir_y < 0)
 			ray_c->txtr_x = 1000 - ray_c->txtr_x - 1;
 		draw_ray(data, ray_c, ray_c->screen_x);
 		ray_c->screen_x++;
