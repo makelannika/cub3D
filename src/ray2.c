@@ -19,11 +19,43 @@ void	draw_ray(t_cub3d *data, t_ray *ray_c, int screen_x)
 	while (ray_c->start <= ray_c->end)
 	{
 		// if (!(ray_c->start < 275 && screen_x < 275))
-		draw_pixel(data, screen_x, (1000 * (int)ray_c->txtr_y + ray_c->txtr_x));
+		if (ray_c->start >= 0 && ray_c->start < SCREEN_HEIGHT)
+			draw_pixel(data, screen_x, (1000 * floor(ray_c->txtr_y) + ray_c->txtr_x));
 		ray_c->txtr_y += ray_c->increment;
 		ray_c->start++;
 	}
 }
+
+// void	draw_ray(t_cub3d *data, t_ray *ray_c, int screen_x)
+// {
+// 	screen_x = 999 - screen_x; /* screen x index */
+// 	ray_c->txtr_x = 999 - ray_c->txtr_x; /* texture x index */
+// 	float i = 1000 / ray_c->wall_height;
+// 	ray_c->increment = 0;
+// 	while (ray_c->start <= ray_c->end)
+// 	{
+// 		// if (!(ray_c->start < 275 && screen_x < 275))
+// 		if (ray_c->start >= 0 && ray_c->start < SCREEN_HEIGHT)
+// 			draw_pixel(data, screen_x, (1000 * floor(ray_c->increment * i)) + ray_c->txtr_x);
+// 		ray_c->start++;
+// 		ray_c->increment++;
+// 	}
+// }
+
+// void	draw_ray(t_cub3d *data, t_ray *ray_c, int screen_x)
+// {
+// 	int	i;
+// 	float incr;
+
+// 	incr = 0;
+// 	i = 1000 / data->ray_c.wall_height;
+// 	while (data->ray_c.start < data->ray_c.end)
+// 	{
+// 			draw_pixel(data, screen_x, ((int)incr  * 1000) + ray_c->txtr_x);
+// 		data->ray_c.start++;
+// 		incr += i;
+// 	}
+// }
 
 void	init_vars(t_ray *ray_c)
 {
@@ -98,15 +130,15 @@ void fov_cast(t_cub3d *data, t_ray *ray_c)
 				data->wall_to_draw = (uint32_t *)data->south->pixels;
 			ray_c->distance = (ray_c->side_dist_y - ray_c->delta_dist_y);
 		}
-		if (ray_c->distance < 1)
-			ray_c->distance = 1;
+		// if (ray_c->distance < 1)
+		// 	ray_c->distance = 1;
 		ray_c->wall_height = (int)(SCREEN_HEIGHT / ray_c->distance);
 		ray_c->start = -ray_c->wall_height / 2 + SCREEN_HEIGHT / 2;
-		if (ray_c->start < 0) 
-			ray_c->start = 0;
+		// if (ray_c->start < 0) 
+		// 	ray_c->start = 0;
 		ray_c->end = ray_c->wall_height / 2 + SCREEN_HEIGHT / 2;
-		if (ray_c->end >= SCREEN_HEIGHT)
-			ray_c->end = SCREEN_HEIGHT - 1;
+		// if (ray_c->end >= SCREEN_HEIGHT)
+		// 	ray_c->end = SCREEN_HEIGHT - 1;
 		
 		if (ray_c->side == 0)
 		{
@@ -120,12 +152,12 @@ void fov_cast(t_cub3d *data, t_ray *ray_c)
 		}
 		ray_c->wall_x -= floor((ray_c->wall_x));
 
-		ray_c->txtr_x = (ray_c->wall_x * (double)(1000));
-		// printf("ray = %d, posY = %f, distance = %f, dirY = %f, wallx = %f, textx = %f\n", ray_c->screen_x,ray_c->pos_y, ray_c->distance, ray_c->ray_dir_y, ray_c->wall_x, ray_c->txtr_x);
+		ray_c->txtr_x = (int)(ray_c->wall_x * (double)(1000));
+		// printf("ray = %d, posY = %f, distance = %f, dirY = %f, wallx = %f, textx = %d\n", ray_c->screen_x,ray_c->pos_y, ray_c->distance, ray_c->ray_dir_y, ray_c->wall_x, ray_c->txtr_x);
 		if(ray_c->side == 0 && ray_c->ray_dir_x > 0)
-			ray_c->txtr_x = 1000.0 - ray_c->txtr_x - 1.0;
+			ray_c->txtr_x = 1000 - ray_c->txtr_x - 1;
 		if(ray_c->side == 1 && ray_c->ray_dir_y < 0)
-			ray_c->txtr_x = 1000.0 - ray_c->txtr_x - 1.0;
+			ray_c->txtr_x = 1000 - ray_c->txtr_x - 1;
 		// ray_c->txtr_x = ray_c->txtr_x;
 		draw_ray(data, ray_c, ray_c->screen_x);
 		ray_c->screen_x++;
