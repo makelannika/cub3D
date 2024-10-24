@@ -13,49 +13,16 @@ void	draw_ray(t_cub3d *data, t_ray *ray_c, int screen_x)
 	screen_x = 999 - screen_x; /* screen x index */
 	ray_c->txtr_x = 999 - ray_c->txtr_x; /* texture x index */
 	ray_c->increment = 1.0 * SCREEN_HEIGHT / ray_c->wall_height; /* increment */
-	double txtr_pos = (ray_c->start - 1000 / 2 + ray_c->wall_height / 2) * ray_c->increment; /* wtf is this? */
-	// ray_c->txtr_y = 0; /* texture y index */
-	ray_c->txtr_y = (int)txtr_pos & (1000 - 1);
+	ray_c->txtr_y = 0;
 	while (ray_c->start <= ray_c->end)
 	{
 		// if (!(ray_c->start < 275 && screen_x < 275))
 		if (ray_c->start >= 0 && ray_c->start < SCREEN_HEIGHT)
-			draw_pixel(data, screen_x, (1000 * floor(ray_c->txtr_y) + ray_c->txtr_x));
+			draw_pixel(data, screen_x, (1000 * (int)(ray_c->txtr_y) + ray_c->txtr_x));
 		ray_c->txtr_y += ray_c->increment;
 		ray_c->start++;
 	}
 }
-
-// void	draw_ray(t_cub3d *data, t_ray *ray_c, int screen_x)
-// {
-// 	screen_x = 999 - screen_x; /* screen x index */
-// 	ray_c->txtr_x = 999 - ray_c->txtr_x; /* texture x index */
-// 	float i = 1000 / ray_c->wall_height;
-// 	ray_c->increment = 0;
-// 	while (ray_c->start <= ray_c->end)
-// 	{
-// 		// if (!(ray_c->start < 275 && screen_x < 275))
-// 		if (ray_c->start >= 0 && ray_c->start < SCREEN_HEIGHT)
-// 			draw_pixel(data, screen_x, (1000 * floor(ray_c->increment * i)) + ray_c->txtr_x);
-// 		ray_c->start++;
-// 		ray_c->increment++;
-// 	}
-// }
-
-// void	draw_ray(t_cub3d *data, t_ray *ray_c, int screen_x)
-// {
-// 	int	i;
-// 	float incr;
-
-// 	incr = 0;
-// 	i = 1000 / data->ray_c.wall_height;
-// 	while (data->ray_c.start < data->ray_c.end)
-// 	{
-// 			draw_pixel(data, screen_x, ((int)incr  * 1000) + ray_c->txtr_x);
-// 		data->ray_c.start++;
-// 		incr += i;
-// 	}
-// }
 
 void	init_vars(t_ray *ray_c)
 {
