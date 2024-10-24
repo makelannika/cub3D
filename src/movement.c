@@ -14,67 +14,73 @@
 
 void	move_right(t_cub3d *data)
 {
-	if (data->map.grid[(int)(data->ray_c.pos_y + data->ray_c.dir_x * (data->mlx->delta_time * 6.0))]
-		[(int)(data->ray_c.pos_x - data->ray_c.dir_y * (data->mlx->delta_time * 6.0))] != '1')
-		{
-			// if (data->map.grid[(int)(data->ray_c.pos_y + data->ray_c.dir_x * (data->mlx->delta_time * 3.0))]
-			// 	[(int)(data->ray_c.pos_x - data->ray_c.dir_y * (data->mlx->delta_time * 3.0))] != '1')
-			{
-				data->ray_c.pos_x -= data->ray_c.dir_y * (data->mlx->delta_time * 3.0);
-				data->ray_c.pos_y += data->ray_c.dir_x * (data->mlx->delta_time * 3.0);
-			}
-		}
+	int new_x;
+	int new_y;
+	float frame;
+	float limit;
+
+	limit = .12;
+	frame = .08;
+	new_x = data->ray_c.pos_x - data->ray_c.dir_y * limit;
+	new_y = data->ray_c.pos_y + data->ray_c.dir_x * limit;
+	if (data->map.grid[new_y][(int)(data->ray_c.pos_x)] != '1')
+		data->ray_c.pos_y += data->ray_c.dir_x * frame;
+	if (data->map.grid[(int)(data->ray_c.pos_y)][new_x] != '1')
+		data->ray_c.pos_x -= data->ray_c.dir_y * frame;
 	fov_cast(data, &data->ray_c);
 }
 
 void	move_left(t_cub3d *data)
 {
-	if (data->map.grid[(int)(data->ray_c.pos_y - data->ray_c.dir_x * (data->mlx->delta_time * 6.0))]
-		[(int)(data->ray_c.pos_x + data->ray_c.dir_y * (data->mlx->delta_time * 6.0))] != '1')
-		{
-			// if (data->map.grid[(int)(data->ray_c.pos_y - data->ray_c.dir_x * (data->mlx->delta_time * 3.0))]
-			// 	[(int)(data->ray_c.pos_x + data->ray_c.dir_y * (data->mlx->delta_time * 3.0))] != '1')
-			{
-				data->ray_c.pos_x += data->ray_c.dir_y * (data->mlx->delta_time * 3.0);
-				data->ray_c.pos_y -= data->ray_c.dir_x * (data->mlx->delta_time * 3.0);
-			}
-		}
+	int new_x;
+	int new_y;
+	float frame;
+	float limit;
+
+	limit = .12;
+	frame =.08;
+	new_x = data->ray_c.pos_x + data->ray_c.dir_y * limit;
+	new_y = data->ray_c.pos_y - data->ray_c.dir_x * limit;
+	if (data->map.grid[new_y][(int)(data->ray_c.pos_x)] != '1')
+		data->ray_c.pos_y -= data->ray_c.dir_x * frame;
+	if (data->map.grid[(int)(data->ray_c.pos_y)][new_x] != '1')
+		data->ray_c.pos_x += data->ray_c.dir_y * frame;
 	fov_cast(data, &data->ray_c);
 }
 
 void	move_backward(t_cub3d *data)
 {
-	if (data->map.grid[(int)((data->ray_c.pos_y - data->ray_c.dir_y * (data->mlx->delta_time * 6.0)))][(int)(data->ray_c.pos_x)] != '1')
-	{
-		// if (data->map.grid[(int)(data->ray_c.pos_y - data->ray_c.dir_y * (data->mlx->delta_time * 3.0))][(int)(data->ray_c.pos_x)] != '1')
-			data->ray_c.pos_y -= data->ray_c.dir_y * (data->mlx->delta_time * 3.0);
-	}
-	if (data->map.grid[(int)(data->ray_c.pos_y)][(int)((data->ray_c.pos_x - data->ray_c.dir_x * (data->mlx->delta_time * 6.0)))] != '1')
-	{
-		// if (data->map.grid[(int)(data->ray_c.pos_y)][(int)(data->ray_c.pos_x - data->ray_c.dir_x * (data->mlx->delta_time * 3.0))] != '1')
-			data->ray_c.pos_x -= data->ray_c.dir_x * (data->mlx->delta_time * 3.0);
-	}
+	int new_x;
+	int new_y;
+	float frame;
+	float limit;
+
+	limit = .12;
+	frame = .08;
+	new_x = data->ray_c.pos_x - data->ray_c.dir_x * limit;
+	new_y = data->ray_c.pos_y - data->ray_c.dir_y * limit;
+	if (data->map.grid[new_y][(int)(data->ray_c.pos_x)] != '1')
+			data->ray_c.pos_y -= data->ray_c.dir_y * frame;
+	if (data->map.grid[(int)(data->ray_c.pos_y)][new_x] != '1')
+			data->ray_c.pos_x -= data->ray_c.dir_x * frame;
 	fov_cast(data, &data->ray_c);
 }
 
 void	move_forward(t_cub3d *data)
 {
-	if (data->map.grid[(int)((data->ray_c.pos_y + data->ray_c.dir_y * (data->mlx->delta_time * 6.0)))][(int)(data->ray_c.pos_x)] != '1')
-	{
-		// if (data->map.grid[(int)(data->ray_c.pos_y + data->ray_c.dir_y * (data->mlx->delta_time * 3.0))][(int)(data->ray_c.pos_x)] != '1'){
+	int new_x;
+	int new_y;
+	float frame;
+	float limit;
 
-		// printf("here1\n");
-			data->ray_c.pos_y += data->ray_c.dir_y * (data->mlx->delta_time * 3.0);
-		// }
-	}
-	if (data->map.grid[(int)(data->ray_c.pos_y)][(int)((data->ray_c.pos_x + data->ray_c.dir_x * (data->mlx->delta_time * 6.0)))] != '1')
-	{	
-		// if (data->map.grid[(int)(data->ray_c.pos_y)][(int)(data->ray_c.pos_x + data->ray_c.dir_x * (data->mlx->delta_time * 3.0))] != '1'){
-
-		// printf("here2\n");
-			data->ray_c.pos_x += data->ray_c.dir_x * (data->mlx->delta_time * 3.0);
-		// }
-	}
+	limit = .12;
+	frame = .08;
+	new_x = data->ray_c.pos_x + data->ray_c.dir_x * limit;
+	new_y = data->ray_c.pos_y + data->ray_c.dir_y * limit;
+	if (data->map.grid[new_y][(int)(data->ray_c.pos_x)] != '1')
+			data->ray_c.pos_y += data->ray_c.dir_y * frame;
+	if (data->map.grid[(int)(data->ray_c.pos_y)][new_x] != '1')
+			data->ray_c.pos_x += data->ray_c.dir_x * frame;
 	fov_cast(data, &data->ray_c);
 }
 

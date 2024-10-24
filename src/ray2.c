@@ -10,9 +10,9 @@ double degree_to_rad(float player_angle)
 
 void	draw_ray(t_cub3d *data, t_ray *ray_c, int screen_x)
 {
-	screen_x = 999 - screen_x; /* screen x index */
-	ray_c->txtr_x = 999 - ray_c->txtr_x; /* texture x index */
-	ray_c->increment = 1.0 * SCREEN_HEIGHT / ray_c->wall_height; /* increment */
+	screen_x = 999 - screen_x;
+	ray_c->txtr_x = 999 - ray_c->txtr_x;
+	ray_c->increment = 1.0 * SCREEN_HEIGHT / ray_c->wall_height;
 	ray_c->txtr_y = 0;
 	while (ray_c->start <= ray_c->end)
 	{
@@ -44,6 +44,7 @@ void fov_cast(t_cub3d *data, t_ray *ray_c)
 	while (ray_c->screen_x < SCREEN_WIDTH)
 	{
 		init_vars(ray_c);
+		// printf("deltax = %f deltay = %f\n", ray_c->delta_dist_x, ray_c->delta_dist_y);
 		if (ray_c->ray_dir_x < 0)
 		{
 			ray_c->step_x = -1;
@@ -66,6 +67,10 @@ void fov_cast(t_cub3d *data, t_ray *ray_c)
 		}
 		while (!ray_c->hit)
 		{
+		// 	printf("Position: (%f, %f), Direction: (%f, %f)\n", 
+        //    ray_c->pos_x, ray_c->pos_y, ray_c->ray_dir_x, ray_c->ray_dir_y);
+    		// printf("Current map pos: (%d, %d), Side distances: (%f, %f)\n", 
+        //    ray_c->map_x, ray_c->map_y, ray_c->side_dist_x, ray_c->side_dist_y);
 			if (ray_c->side_dist_x < ray_c->side_dist_y)
 			{
 				ray_c->side_dist_x += ray_c->delta_dist_x;
@@ -78,6 +83,7 @@ void fov_cast(t_cub3d *data, t_ray *ray_c)
 				ray_c->map_y += ray_c->step_y;
 				ray_c->side = 1;
 			}
+			// printf("ray = %d mapy = %d mapx = %d\n", ray_c->screen_x ,ray_c->map_y, ray_c->map_x);
 			if (data->map.grid[ray_c->map_y][ray_c->map_x] == '1')
 				ray_c->hit = 1;
 		}
@@ -97,35 +103,21 @@ void fov_cast(t_cub3d *data, t_ray *ray_c)
 				data->wall_to_draw = (uint32_t *)data->south->pixels;
 			ray_c->distance = (ray_c->side_dist_y - ray_c->delta_dist_y);
 		}
-		// if (ray_c->distance < 1)
-		// 	ray_c->distance = 1;
 		ray_c->wall_height = (int)(SCREEN_HEIGHT / ray_c->distance);
 		ray_c->start = -ray_c->wall_height / 2 + SCREEN_HEIGHT / 2;
-		// if (ray_c->start < 0) 
-		// 	ray_c->start = 0;
 		ray_c->end = ray_c->wall_height / 2 + SCREEN_HEIGHT / 2;
-		// if (ray_c->end >= SCREEN_HEIGHT)
-		// 	ray_c->end = SCREEN_HEIGHT - 1;
 		
 		if (ray_c->side == 0)
-		{
-			// printf("fuck\n");
 			ray_c->wall_x = ray_c->pos_y + ray_c->distance * ray_c->ray_dir_y;
-		}
 		else
-		{
-			// printf("here\n");
 			ray_c->wall_x = ray_c->pos_x + ray_c->distance * ray_c->ray_dir_x;
-		}
 		ray_c->wall_x -= floor((ray_c->wall_x));
 
 		ray_c->txtr_x = (int)(ray_c->wall_x * (double)(1000));
-		// printf("ray = %d, posY = %f, distance = %f, dirY = %f, wallx = %f, textx = %d\n", ray_c->screen_x,ray_c->pos_y, ray_c->distance, ray_c->ray_dir_y, ray_c->wall_x, ray_c->txtr_x);
 		if(ray_c->side == 0 && ray_c->ray_dir_x > 0)
 			ray_c->txtr_x = 1000 - ray_c->txtr_x - 1;
 		if(ray_c->side == 1 && ray_c->ray_dir_y < 0)
 			ray_c->txtr_x = 1000 - ray_c->txtr_x - 1;
-		// ray_c->txtr_x = ray_c->txtr_x;
 		draw_ray(data, ray_c, ray_c->screen_x);
 		ray_c->screen_x++;
 	}

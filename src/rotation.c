@@ -27,17 +27,29 @@ void	reset_minimap(t_cub3d *data)
 	}
 }
 
+double normalize_vector(double *x, double *y)
+{
+    double length = sqrt((*x) * (*x) + (*y) * (*y));
+    if (length != 0 && length != 1.0)
+    {
+        *x /= length;
+        *y /= length;
+    }
+    return length;
+}
+
 void	rotate_left(t_cub3d *data)
 {
 	double	old_dir_x = data->ray_c.dir_x;
 	data->ray_c.dir_x = data->ray_c.dir_x * cos(-data->mlx->delta_time * 3) - data->ray_c.dir_y * sin(-data->mlx->delta_time * 3);
 	data->ray_c.dir_y = old_dir_x  * sin(-data->mlx->delta_time * 3) + data->ray_c.dir_y * cos(-data->mlx->delta_time * 3);
+	normalize_vector(&data->ray_c.dir_x, &data->ray_c.dir_y);
 	double oldPlaneX = data->ray_c.plane_x;
 	data->ray_c.plane_x = data->ray_c.plane_x * cos(-data->mlx->delta_time * 3) - data->ray_c.plane_y * sin(-data->mlx->delta_time * 3);
 	data->ray_c.plane_y = oldPlaneX * sin(-data->mlx->delta_time * 3) + data->ray_c.plane_y * cos(-data->mlx->delta_time * 3);
-	// data->map.p_angle -= 15;
-	// if (data->map.p_angle < 0)
-	// 	data->map.p_angle = 345;
+	normalize_vector(&data->ray_c.plane_x, &data->ray_c.plane_y);
+    data->ray_c.plane_x *= 0.66;
+    data->ray_c.plane_y *= 0.66;
 	fov_cast(data, &data->ray_c);
 }
 
@@ -46,11 +58,12 @@ void	rotate_right(t_cub3d *data)
 	double	old_dir_x = data->ray_c.dir_x;
 	data->ray_c.dir_x = data->ray_c.dir_x * cos(data->mlx->delta_time * 3) - data->ray_c.dir_y * sin(data->mlx->delta_time * 3);
 	data->ray_c.dir_y = old_dir_x  * sin(data->mlx->delta_time * 3) + data->ray_c.dir_y * cos(data->mlx->delta_time * 3);
+	normalize_vector(&data->ray_c.dir_x, &data->ray_c.dir_y);
 	double oldPlaneX = data->ray_c.plane_x;
 	data->ray_c.plane_x = data->ray_c.plane_x * cos(data->mlx->delta_time * 3) - data->ray_c.plane_y * sin(data->mlx->delta_time * 3);
 	data->ray_c.plane_y = oldPlaneX * sin(data->mlx->delta_time * 3) + data->ray_c.plane_y * cos(data->mlx->delta_time * 3);
-	// data->map.p_angle += 15;
-	// if (data->map.p_angle > 360)
-	// 	data->map.p_angle = 15;
+	normalize_vector(&data->ray_c.plane_x, &data->ray_c.plane_y);
+    data->ray_c.plane_x *= 0.66;
+    data->ray_c.plane_y *= 0.66;
 	fov_cast(data, &data->ray_c);
 }
