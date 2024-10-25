@@ -2,6 +2,8 @@
 
 Cub3D is a maze exploration game built with raycasting techniques, inspired by the classic Wolfenstein 3D. This project leverages the MLX42 graphics library to create a 3D first-person view within a maze environment, incorporating wall textures, floor and ceiling colors, and smooth player movements.
 
+![Screenshot from 2024-10-25 14-17-40](https://github.com/user-attachments/assets/f88b9716-9933-40d7-8f53-fc974632db74)
+
 ## Features
 
 - **First-Person Perspective**: Experience the maze as if you are moving through it in real time, with walls and textures displayed based on the direction faced.
@@ -72,13 +74,3 @@ C 225,30,0      # Ceiling color (RGB)
 ## Error Handling
 
 The program validates the map file. If any misconfiguration is detected, the program exits with an error message.
-
-## Known Issues
-
-- Please list any known bugs or limitations here.
-
-## Future Enhancements
-
-- Adding additional wall textures
-- Expanding map parsing features
-- Integrating sound effects or additional graphics enhancements
