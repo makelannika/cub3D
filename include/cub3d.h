@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/25 19:45:39 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/25 21:46:53 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,14 @@ int		parse_file(t_cub3d *data, char *file);
 int		parse_map(t_cub3d *data, char *line, char *file);
 int		create_grid(t_cub3d *data, char *file);
 int		copy_color(t_cub3d *data, char *str, char identifier);
-int		validate_index(t_cub3d *data, char **grid, int y, int x);
 int		validate_line(char *str);
+int		get_arr_len(char **array);
+void	set_orientation(t_cub3d *data, char orientation);
 
 /*******GAME***********/
 int		game(t_cub3d *data);
 
-// /*******MOVEMENT*******/
+/*******MOVEMENT*******/
 void	rotate_right(t_cub3d *data, t_ray *ray);
 void	rotate_left(t_cub3d *data, t_ray *ray);
 void	my_keyhook(void *game_data);

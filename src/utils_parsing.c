@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/24 22:33:50 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:41:16 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int	check_extension(char *arg)
+int	get_arr_len(char **array)
 {
-	int	len;
+	int	i;
 
-	len = ft_strlen(arg);
-	if (len > 4)
-		return (ft_strncmp(&arg[len - 4], ".cub", 5));
-	return (1);
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
 }
 
 void	set_orientation(t_cub3d *data, char orientation)
@@ -50,26 +50,6 @@ void	set_orientation(t_cub3d *data, char orientation)
 	}
 }
 
-int	validate_index(t_cub3d *data, char **grid, int y, int x)
-{
-	if (y == 0 || x == 0 || y == data->map.height -1
-		|| x >= (int)ft_strlen(grid[y + 1]) || x >= (int)ft_strlen(grid[y - 1])
-		|| !grid[y][x - 1] || !ft_strchr("01NSWE", grid[y][x - 1])
-		|| !grid[y][x + 1] || !ft_strchr("01NSWE", grid[y][x + 1])
-		|| !grid[y - 1][x] || !ft_strchr("01NSWE", grid[y - 1][x])
-		|| !grid[y + 1][x] || !ft_strchr("01NSWE", grid[y + 1][x]))
-		return (err("map must be surrounded by walls", NULL));
-	if (ft_strchr("NSWE", grid[y][x]))
-	{
-		if (data->map.player.x)
-			return (err("multiple starting positions found in the map", NULL));
-		set_orientation(data, grid[y][x]);
-		data->map.player.x = x;
-		data->map.player.y = y;
-	}
-	return (0);
-}
-
 int	validate_line(char *str)
 {
 	while (*str)
@@ -90,4 +70,14 @@ int	create_grid(t_cub3d *data, char *file)
 	if (!data->map.grid)
 		return (err("malloc failed", NULL));
 	return (0);
+}
+
+int	check_extension(char *arg)
+{
+	int	len;
+
+	len = ft_strlen(arg);
+	if (len > 4)
+		return (ft_strncmp(&arg[len - 4], ".cub", 5));
+	return (1);
 }

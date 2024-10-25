@@ -6,11 +6,31 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/25 14:14:05 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/25 21:16:11 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+int	validate_index(t_cub3d *data, char **grid, int y, int x)
+{
+	if (y == 0 || x == 0 || y == data->map.height -1
+		|| x >= (int)ft_strlen(grid[y + 1]) || x >= (int)ft_strlen(grid[y - 1])
+		|| !grid[y][x - 1] || !ft_strchr("01NSWE", grid[y][x - 1])
+		|| !grid[y][x + 1] || !ft_strchr("01NSWE", grid[y][x + 1])
+		|| !grid[y - 1][x] || !ft_strchr("01NSWE", grid[y - 1][x])
+		|| !grid[y + 1][x] || !ft_strchr("01NSWE", grid[y + 1][x]))
+		return (err("map must be surrounded by walls", NULL));
+	if (ft_strchr("NSWE", grid[y][x]))
+	{
+		if (data->map.player.x)
+			return (err("multiple starting positions found in the map", NULL));
+		set_orientation(data, grid[y][x]);
+		data->map.player.x = x;
+		data->map.player.y = y;
+	}
+	return (0);
+}
 
 int	validate_map(t_cub3d *data)
 {
