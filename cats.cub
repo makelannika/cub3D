@@ -1,8 +1,8 @@
 
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+NO ./assets/cat.png
+SO ./assets/cat2.png
+WE ./assets/cat3.png
+EA ./assets/cat4.png
 
 F 220,100,0
 C 225,30,0

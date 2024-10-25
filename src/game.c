@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/10/25 13:01:47 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/10/25 14:26:06 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	check_png_sizes(t_cub3d *data)
 {
-	printf("width = %d height = %d", data->north->width, data->north->height);
 	if (data->north->width != 1000 || data->north->height != 1000
 		|| data->south->width != 1000 || data->south->height != 1000
 		|| data->west->width != 1000 || data->west->height != 1000
