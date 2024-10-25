@@ -33,22 +33,9 @@ int	validate_map(t_cub3d *data)
 		y++;
 		x = 0;
 	}
-	if (!data->map.player.pix_x)
+	if (!data->map.player.x)
 		return (err("no starting position found in the map", NULL));
 	return (0);
-}
-
-void	get_map_width(t_cub3d *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->map.grid[i])
-	{
-		if ((int)ft_strlen(data->map.grid[i]) > data->map.width)
-			data->map.width = ft_strlen(data->map.grid[i]);
-		i++;
-	}
 }
 
 int	copy_map(t_cub3d *data)
@@ -62,7 +49,7 @@ int	copy_map(t_cub3d *data)
 		return (err("get_next_line failed", NULL));
 	while (line)
 	{
-		if (ft_strchr("1 ", *line))
+		if (ft_strchr("1 ", *line) && ft_strchr(line, '1'))
 		{	
 			if (line[ft_strlen(line) - 1] == '\n')
 				data->map.grid[i++] = ft_substr(line, 0, ft_strlen(line) - 1);
@@ -85,7 +72,8 @@ int	get_map_height(t_cub3d *data, char *line)
 	{
 		if (validate_line(line))
 			return (err("forbidden character found in the map", line));
-		data->map.height++;
+		if (ft_strchr(line, '1'))
+			data->map.height++;
 		free(line);
 		line = get_next_line(data->fd, &data->gnl_err);
 		if (data->gnl_err)
@@ -101,12 +89,13 @@ int	parse_map(t_cub3d *data, char *line, char *file)
 {
 	if (get_map_height(data, line))
 		return (1);
+	printf("map height: %d\n", data->map.height);
 	if (create_grid(data, file))
 		return (1);
 	if (copy_map(data))
 		return (1);
-	get_map_width(data);
 	if (validate_map(data))
 		return (1);
+	printf("map validated\n");
 	return (0);
 }

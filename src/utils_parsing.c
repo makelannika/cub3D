@@ -22,7 +22,7 @@ int	check_extension(char *arg)
 	return (1);
 }
 
-void	set_orientation(t_cub3d *data, char orientation, int x, int y)
+void	set_orientation(t_cub3d *data, char orientation)
 {
 	if (orientation == 'E')
 	{
@@ -48,24 +48,25 @@ void	set_orientation(t_cub3d *data, char orientation, int x, int y)
 		data->ray.plane_y = 0.0;
 		data->map.p_angle = 270.0;
 	}
-	data->map.player.x = x;
-	data->map.player.y = y;
 }
 
 int	validate_index(t_cub3d *data, char **grid, int y, int x)
 {
-	if (ft_strchr("NSWE", grid[y][x]))
-	{
-		if (data->map.player.x)
-			return (err("multiple starting positions found in the map", NULL));
-		set_orientation(data, grid[y][x], x, y);
-		return (0);
-	}
-	if (!grid[y][x - 1] || !ft_strchr("01NSWE", grid[y][x - 1])
+	if (y == 0 || x == 0 || y == data->map.height -1
+		|| x >= (int)ft_strlen(grid[y + 1]) || x >= (int)ft_strlen(grid[y - 1])
+		|| !grid[y][x - 1] || !ft_strchr("01NSWE", grid[y][x - 1])
 		|| !grid[y][x + 1] || !ft_strchr("01NSWE", grid[y][x + 1])
 		|| !grid[y - 1][x] || !ft_strchr("01NSWE", grid[y - 1][x])
 		|| !grid[y + 1][x] || !ft_strchr("01NSWE", grid[y + 1][x]))
 		return (err("map must be surrounded by walls", NULL));
+	if (ft_strchr("NSWE", grid[y][x]))
+	{
+		if (data->map.player.x)
+			return (err("multiple starting positions found in the map", NULL));
+		set_orientation(data, grid[y][x]);
+		data->map.player.x = x;
+		data->map.player.y = y;
+	}
 	return (0);
 }
 
