@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/24 22:38:57 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:45:39 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ typedef struct s_coor
 {
 	int		x;
 	int		y;
-	// float	pix_x;
-	// float	pix_y;
 }	t_coor;
 
 typedef struct s_map
@@ -99,38 +97,33 @@ typedef struct s_cub3d
 	mlx_t			*mlx;
 }	t_cub3d;
 
-/*******PARSING*******/
+/*******PARSING********/
 int		check_extension(char *arg);
 int		parse_file(t_cub3d *data, char *file);
 int		parse_map(t_cub3d *data, char *line, char *file);
 int		create_grid(t_cub3d *data, char *file);
-int		rgba_to_hex(int r, int g, int b, int a);
-int		reverse_bytes(int p);
 int		copy_color(t_cub3d *data, char *str, char identifier);
 int		validate_index(t_cub3d *data, char **grid, int y, int x);
 int		validate_line(char *str);
 
-/*******GAME**********/
-int		init_game(t_cub3d *data);
+/*******GAME***********/
+int		game(t_cub3d *data);
 
-/*******MOVEMENT******/
+// /*******MOVEMENT*******/
 void	rotate_right(t_cub3d *data, t_ray *ray);
 void	rotate_left(t_cub3d *data, t_ray *ray);
-void	reset_minimap(t_cub3d *data);
 void	my_keyhook(void *game_data);
 
-/*******DRAWING*******/
-// void	draw_minimap(t_cub3d *data, int y, int x);
-void	draw_player(t_cub3d *data);
-void	draw_background(t_cub3d *data);
-void	draw_pixel(t_cub3d *data, int x, int incr);
+/*******RENDERING******/
+void	init_casting(t_cub3d *data);
+void	init_vars(t_ray *ray);
 void	fov_cast(t_cub3d *data, t_ray *ray);
+void	draw_background(t_cub3d *data);
+void	draw_ray(t_cub3d *data, t_ray *ray, int screen_x);
 
-/*******CLEANING******/
+/*******CLEANING*******/
 int		err(char *str, void *ptr);
 int		free_str_array(char **array);
 int		free_data(t_cub3d *data);
-
-double	degree_to_rad(float player_angle);
 
 #endif

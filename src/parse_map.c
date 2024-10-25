@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 16:35:09 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/25 14:14:05 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,11 @@ int	parse_map(t_cub3d *data, char *line, char *file)
 {
 	if (get_map_height(data, line))
 		return (1);
-	printf("map height: %d\n", data->map.height);
 	if (create_grid(data, file))
 		return (1);
 	if (copy_map(data))
 		return (1);
 	if (validate_map(data))
 		return (1);
-	printf("map validated\n");
 	return (0);
 }

@@ -6,19 +6,11 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:55:39 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 15:58:00 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/25 14:37:32 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-int	reverse_bytes(int p)
-{
-	return (((p & 0xFF) << 24)
-		| ((p & 0xFF00) << 8)
-		| ((p & 0xFF0000) >> 8)
-		| ((p & 0xFF000000) >> 24));
-}
 
 int	rgba_to_hex(int r, int g, int b, int a)
 {

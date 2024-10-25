@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 19:48:24 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/09/26 19:31:30 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/25 14:42:54 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 		return (err("program takes one .cub file as an argument", NULL));
 	if (parse_file(&data, argv[1]))
 		return (free_data(&data));
-	if (init_game(&data))
+	if (game(&data))
 		return (free_data(&data));
 	free_data(&data);
 	return (0);
