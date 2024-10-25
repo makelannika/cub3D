@@ -44,11 +44,11 @@ int	init_game(t_cub3d *data)
 	if (create_images(data))
 		return (1);
 	rad = degree_to_rad(data->map.p_angle);
-	data->ray_c.pos_x = data->map.player.x + .5;
-	data->ray_c.pos_y = data->map.player.y + .5;
-	data->ray_c.dir_x = cos(rad);
-	data->ray_c.dir_y = sin(rad);
-	fov_cast(data, &data->ray_c);
+	data->ray.pos_x = data->map.player.x + .5;
+	data->ray.pos_y = data->map.player.y + .5;
+	data->ray.dir_x = cos(rad);
+	data->ray.dir_y = sin(rad);
+	fov_cast(data, &data->ray);
 	mlx_loop_hook(data->mlx, (void (*)(void *))my_keyhook, data);
 	mlx_loop(data->mlx);
 	return (0);

@@ -40,42 +40,42 @@ double	normalize_vector(double *x, double *y)
 	return (length);
 }
 
-void	rotate_left(t_cub3d *data, t_ray *ray_c)
+void	rotate_left(t_cub3d *data, t_ray *ray)
 {
 	double	old_dir_x;
 	double	old_plane_x;
 	float	frame;
 
 	frame = .08;
-	old_dir_x = ray_c->dir_x;
-	old_plane_x = ray_c->plane_x;
-	ray_c->dir_x = ray_c->dir_x * cos(-frame) - ray_c->dir_y * sin(-frame);
-	ray_c->dir_y = old_dir_x * sin(-frame) + ray_c->dir_y * cos(-frame);
-	normalize_vector(&ray_c->dir_x, &ray_c->dir_y);
-	ray_c->plane_x = ray_c->plane_x * cos(-frame) - ray_c->plane_y * sin(-frame);
-	ray_c->plane_y = old_plane_x * sin(-frame) + ray_c->plane_y * cos(-frame);
-	normalize_vector(&ray_c->plane_x, &ray_c->plane_y);
-	ray_c->plane_x *= 0.66;
-	ray_c->plane_y *= 0.66;
-	fov_cast(data, ray_c);
+	old_dir_x = ray->dir_x;
+	old_plane_x = ray->plane_x;
+	ray->dir_x = ray->dir_x * cos(-frame) - ray->dir_y * sin(-frame);
+	ray->dir_y = old_dir_x * sin(-frame) + ray->dir_y * cos(-frame);
+	normalize_vector(&ray->dir_x, &ray->dir_y);
+	ray->plane_x = ray->plane_x * cos(-frame) - ray->plane_y * sin(-frame);
+	ray->plane_y = old_plane_x * sin(-frame) + ray->plane_y * cos(-frame);
+	normalize_vector(&ray->plane_x, &ray->plane_y);
+	ray->plane_x *= 0.66;
+	ray->plane_y *= 0.66;
+	fov_cast(data, ray);
 }
 
-void	rotate_right(t_cub3d *data, t_ray *ray_c)
+void	rotate_right(t_cub3d *data, t_ray *ray)
 {
 	double	old_dir_x;
 	double	old_plane_x;
 	float	frame;
 
 	frame = .08;
-	old_dir_x = ray_c->dir_x;
-	old_plane_x = ray_c->plane_x;
-	ray_c->dir_x = ray_c->dir_x * cos(frame) - ray_c->dir_y * sin(frame);
-	ray_c->dir_y = old_dir_x * sin(frame) + ray_c->dir_y * cos(frame);
-	normalize_vector(&ray_c->dir_x, &ray_c->dir_y);
-	ray_c->plane_x = ray_c->plane_x * cos(frame) - ray_c->plane_y * sin(frame);
-	ray_c->plane_y = old_plane_x * sin(frame) + ray_c->plane_y * cos(frame);
-	normalize_vector(&ray_c->plane_x, &ray_c->plane_y);
-	ray_c->plane_x *= 0.66;
-	ray_c->plane_y *= 0.66;
-	fov_cast(data, ray_c);
+	old_dir_x = ray->dir_x;
+	old_plane_x = ray->plane_x;
+	ray->dir_x = ray->dir_x * cos(frame) - ray->dir_y * sin(frame);
+	ray->dir_y = old_dir_x * sin(frame) + ray->dir_y * cos(frame);
+	normalize_vector(&ray->dir_x, &ray->dir_y);
+	ray->plane_x = ray->plane_x * cos(frame) - ray->plane_y * sin(frame);
+	ray->plane_y = old_plane_x * sin(frame) + ray->plane_y * cos(frame);
+	normalize_vector(&ray->plane_x, &ray->plane_y);
+	ray->plane_x *= 0.66;
+	ray->plane_y *= 0.66;
+	fov_cast(data, ray);
 }

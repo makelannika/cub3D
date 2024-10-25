@@ -103,5 +103,5 @@ void	draw_pixel(t_cub3d *data, int x, int incr)
 	int	pixel;
 
 	pixel = reverse_bytes(data->wall_to_draw[incr]);
-	mlx_put_pixel(data->background, x, data->ray_c.start, pixel);
+	mlx_put_pixel(data->background, x, data->ray.start, pixel);
 }

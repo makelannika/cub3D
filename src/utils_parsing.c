@@ -26,39 +26,37 @@ void	set_orientation(t_cub3d *data, char orientation, int x, int y)
 {
 	if (orientation == 'E')
 	{
-		data->ray_c.plane_x = 0.0;
-		data->ray_c.plane_y = -0.66;
+		data->ray.plane_x = 0.0;
+		data->ray.plane_y = -0.66;
 		data->map.p_angle = 0.0;
 	}
 	else if (orientation == 'S')
 	{
-		data->ray_c.plane_x = 0.66;
-		data->ray_c.plane_y = 0.0;
+		data->ray.plane_x = 0.66;
+		data->ray.plane_y = 0.0;
 		data->map.p_angle = 90.0;
 	}
 	else if (orientation == 'W')
 	{
-		data->ray_c.plane_x = 0.0;
-		data->ray_c.plane_y = 0.66;
+		data->ray.plane_x = 0.0;
+		data->ray.plane_y = 0.66;
 		data->map.p_angle = 180.0;
 	}
 	else if (orientation == 'N')
 	{
-		data->ray_c.plane_x = -0.66;
-		data->ray_c.plane_y = 0.0;
+		data->ray.plane_x = -0.66;
+		data->ray.plane_y = 0.0;
 		data->map.p_angle = 270.0;
 	}
 	data->map.player.x = x;
 	data->map.player.y = y;
-	data->map.player.pix_x = x * 25 + 13;
-	data->map.player.pix_y = y * 25 + 13;
 }
 
 int	validate_index(t_cub3d *data, char **grid, int y, int x)
 {
 	if (ft_strchr("NSWE", grid[y][x]))
 	{
-		if (data->map.player.pix_x)
+		if (data->map.player.x)
 			return (err("multiple starting positions found in the map", NULL));
 		set_orientation(data, grid[y][x], x, y);
 		return (0);

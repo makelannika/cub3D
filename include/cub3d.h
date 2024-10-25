@@ -98,7 +98,7 @@ typedef struct s_cub3d
 	int				gnl_err;
 	int				fd;
 	t_map			map;
-	t_ray			ray_c;
+	t_ray			ray;
 	mlx_t			*mlx;
 }	t_cub3d;
 
