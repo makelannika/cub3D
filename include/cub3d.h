@@ -32,16 +32,13 @@ typedef struct s_coor
 {
 	int		x;
 	int		y;
-	float	pix_x;
-	float	pix_y;
+	// float	pix_x;
+	// float	pix_y;
 }	t_coor;
 
 typedef struct s_map
 {
 	int		height;
-	int		width;
-	int		offsetx;
-	int		offsety;
 	double	p_angle;
 	char	**grid;
 	t_coor	player;
@@ -117,17 +114,17 @@ int		validate_line(char *str);
 int		init_game(t_cub3d *data);
 
 /*******MOVEMENT******/
-void	rotate_right(t_cub3d *data, t_ray *ray_c);
-void	rotate_left(t_cub3d *data, t_ray *ray_c);
+void	rotate_right(t_cub3d *data, t_ray *ray);
+void	rotate_left(t_cub3d *data, t_ray *ray);
 void	reset_minimap(t_cub3d *data);
 void	my_keyhook(void *game_data);
 
 /*******DRAWING*******/
-void	draw_minimap(t_cub3d *data, int y, int x);
+// void	draw_minimap(t_cub3d *data, int y, int x);
 void	draw_player(t_cub3d *data);
 void	draw_background(t_cub3d *data);
 void	draw_pixel(t_cub3d *data, int x, int incr);
-void	fov_cast(t_cub3d *data, t_ray *ray_c);
+void	fov_cast(t_cub3d *data, t_ray *ray);
 
 /*******CLEANING******/
 int		err(char *str, void *ptr);

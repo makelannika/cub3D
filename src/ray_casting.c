@@ -258,7 +258,7 @@ void fov_cast(t_cub3d *data, t_ray *ray_c, float player_angle)
 	plane_x = -dir_y * .6;
 	plane_y = dir_x * .6;
     draw_background(data);
-	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
+	// draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
 	draw_player(data);
 	// printf("player angle is %f\n", player_angle);
 	// printf("dir %f, %f - plane %f, %f\n", ray_c->dir_x, ray_c->dir_y, plane_x, plane_y);

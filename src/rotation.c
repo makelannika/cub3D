@@ -46,7 +46,7 @@ void	rotate_left(t_cub3d *data, t_ray *ray)
 	double	old_plane_x;
 	float	frame;
 
-	frame = .08;
+	frame = .06;
 	old_dir_x = ray->dir_x;
 	old_plane_x = ray->plane_x;
 	ray->dir_x = ray->dir_x * cos(-frame) - ray->dir_y * sin(-frame);
@@ -66,7 +66,7 @@ void	rotate_right(t_cub3d *data, t_ray *ray)
 	double	old_plane_x;
 	float	frame;
 
-	frame = .08;
+	frame = .06;
 	old_dir_x = ray->dir_x;
 	old_plane_x = ray->plane_x;
 	ray->dir_x = ray->dir_x * cos(frame) - ray->dir_y * sin(frame);

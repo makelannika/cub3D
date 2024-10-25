@@ -12,71 +12,71 @@
 
 #include "../include/cub3d.h"
 
-void	draw_square(t_cub3d *data, int y_coor, int x_coor)
-{
-	int	x;
-	int	y;
-	int	xx;
-	int	yy;
+// void	draw_square(t_cub3d *data, int y_coor, int x_coor)
+// {
+// 	int	x;
+// 	int	y;
+// 	int	xx;
+// 	int	yy;
 
-	y = 1;
-	while (y < INDEX_HEIGHT)
-	{
-		yy = y_coor + y - data->map.offsety + 13;
-		x = 1;
-		while (x < INDEX_WIDTH)
-		{
-			xx = x_coor + x - data->map.offsetx + 13;
-			if (xx >= 0 && xx < 275 && yy >= 0 && yy < 275)
-				mlx_put_pixel(data->background, xx, yy, 0x0000FFFF);
-			x++;
-		}
-		y++;
-	}
-}
+// 	y = 1;
+// 	while (y < INDEX_HEIGHT)
+// 	{
+// 		yy = y_coor + y - data->map.offsety + 13;
+// 		x = 1;
+// 		while (x < INDEX_WIDTH)
+// 		{
+// 			xx = x_coor + x - data->map.offsetx + 13;
+// 			if (xx >= 0 && xx < 275 && yy >= 0 && yy < 275)
+// 				mlx_put_pixel(data->background, xx, yy, 0x0000FFFF);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }
 
-void	draw_minimap(t_cub3d *data, int y, int x)
-{
-	int	mini_y;
-	int	mini_x;
+// void	draw_minimap(t_cub3d *data, int y, int x)
+// {
+// 	int	mini_y;
+// 	int	mini_x;
 
-	mini_y = 0;
-	mini_x = 0;
-	while (mini_y < 12)
-	{
-		if (y >= data->map.height)
-			break ;
-		x -= mini_x;
-		mini_x = 0;
-		while (mini_x < 12)
-		{
-			if (y >= 0 && x >= (int)ft_strlen(data->map.grid[y]))
-				break ;
-			if ((y >= 0 && x >= 0) && data->map.grid[y][x] == '1')
-				draw_square(data, mini_y * INDEX_HEIGHT, mini_x * INDEX_WIDTH);
-			x++;
-			mini_x++;
-		}
-		y++;
-		mini_y++;
-	}
-}
+// 	mini_y = 0;
+// 	mini_x = 0;
+// 	while (mini_y < 12)
+// 	{
+// 		if (y >= data->map.height)
+// 			break ;
+// 		x -= mini_x;
+// 		mini_x = 0;
+// 		while (mini_x < 12)
+// 		{
+// 			if (y >= 0 && x >= (int)ft_strlen(data->map.grid[y]))
+// 				break ;
+// 			if ((y >= 0 && x >= 0) && data->map.grid[y][x] == '1')
+// 				draw_square(data, mini_y * INDEX_HEIGHT, mini_x * INDEX_WIDTH);
+// 			x++;
+// 			mini_x++;
+// 		}
+// 		y++;
+// 		mini_y++;
+// 	}
+// }
 
-void	draw_player(t_cub3d *data)
-{
-	int	x;
-	int	y;
+// void	draw_player(t_cub3d *data)
+// {
+// 	int	x;
+// 	int	y;
 
-	y = -1;
-	while (y < 2)
-	{
-		x = -1;
-		while (x < 2)
-			mlx_put_pixel(data->background,
-				PLAYER_X + x++, PLAYER_Y + y, 0xFFFFFF);
-		y++;
-	}
-}
+// 	y = -1;
+// 	while (y < 2)
+// 	{
+// 		x = -1;
+// 		while (x < 2)
+// 			mlx_put_pixel(data->background,
+// 				PLAYER_X + x++, PLAYER_Y + y, 0xFFFFFF);
+// 		y++;
+// 	}
+// }
 
 void	draw_background(t_cub3d *data)
 {

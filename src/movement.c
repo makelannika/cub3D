@@ -20,7 +20,7 @@ void	move_right(t_cub3d *data, t_ray *ray)
 	float	limit;
 
 	limit = .12;
-	frame = .08;
+	frame = .06;
 	new_x = ray->pos_x - ray->dir_y * limit;
 	new_y = ray->pos_y + ray->dir_x * limit;
 	if (data->map.grid[new_y][(int)(ray->pos_x)] != '1')
@@ -38,7 +38,7 @@ void	move_left(t_cub3d *data, t_ray *ray)
 	float	limit;
 
 	limit = .12;
-	frame = .08;
+	frame = .06;
 	new_x = ray->pos_x + ray->dir_y * limit;
 	new_y = ray->pos_y - ray->dir_x * limit;
 	if (data->map.grid[new_y][(int)(ray->pos_x)] != '1')
@@ -56,7 +56,7 @@ void	move_backward(t_cub3d *data, t_ray *ray)
 	float	limit;
 
 	limit = .12;
-	frame = .08;
+	frame = .06;
 	new_x = data->ray.pos_x - data->ray.dir_x * limit;
 	new_y = data->ray.pos_y - data->ray.dir_y * limit;
 	if (data->map.grid[new_y][(int)(data->ray.pos_x)] != '1')
@@ -74,7 +74,7 @@ void	move_forward(t_cub3d *data, t_ray *ray)
 	float	limit;
 
 	limit = .12;
-	frame = .08;
+	frame = .06;
 	new_x = ray->pos_x + ray->dir_x * limit;
 	new_y = ray->pos_y + ray->dir_y * limit;
 	if (data->map.grid[new_y][(int)(ray->pos_x)] != '1')
