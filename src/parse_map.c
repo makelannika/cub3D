@@ -6,11 +6,31 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 16:35:09 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/25 21:16:11 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+int	validate_index(t_cub3d *data, char **grid, int y, int x)
+{
+	if (y == 0 || x == 0 || y == data->map.height -1
+		|| x >= (int)ft_strlen(grid[y + 1]) || x >= (int)ft_strlen(grid[y - 1])
+		|| !grid[y][x - 1] || !ft_strchr("01NSWE", grid[y][x - 1])
+		|| !grid[y][x + 1] || !ft_strchr("01NSWE", grid[y][x + 1])
+		|| !grid[y - 1][x] || !ft_strchr("01NSWE", grid[y - 1][x])
+		|| !grid[y + 1][x] || !ft_strchr("01NSWE", grid[y + 1][x]))
+		return (err("map must be surrounded by walls", NULL));
+	if (ft_strchr("NSWE", grid[y][x]))
+	{
+		if (data->map.player.x)
+			return (err("multiple starting positions found in the map", NULL));
+		set_orientation(data, grid[y][x]);
+		data->map.player.x = x;
+		data->map.player.y = y;
+	}
+	return (0);
+}
 
 int	validate_map(t_cub3d *data)
 {
@@ -33,22 +53,9 @@ int	validate_map(t_cub3d *data)
 		y++;
 		x = 0;
 	}
-	if (!data->map.player.pix_x)
+	if (!data->map.player.x)
 		return (err("no starting position found in the map", NULL));
 	return (0);
-}
-
-void	get_map_width(t_cub3d *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->map.grid[i])
-	{
-		if ((int)ft_strlen(data->map.grid[i]) > data->map.width)
-			data->map.width = ft_strlen(data->map.grid[i]);
-		i++;
-	}
 }
 
 int	copy_map(t_cub3d *data)
@@ -62,7 +69,7 @@ int	copy_map(t_cub3d *data)
 		return (err("get_next_line failed", NULL));
 	while (line)
 	{
-		if (ft_strchr("1 ", *line))
+		if (ft_strchr("1 ", *line) && ft_strchr(line, '1'))
 		{	
 			if (line[ft_strlen(line) - 1] == '\n')
 				data->map.grid[i++] = ft_substr(line, 0, ft_strlen(line) - 1);
@@ -85,7 +92,8 @@ int	get_map_height(t_cub3d *data, char *line)
 	{
 		if (validate_line(line))
 			return (err("forbidden character found in the map", line));
-		data->map.height++;
+		if (ft_strchr(line, '1'))
+			data->map.height++;
 		free(line);
 		line = get_next_line(data->fd, &data->gnl_err);
 		if (data->gnl_err)
@@ -105,7 +113,6 @@ int	parse_map(t_cub3d *data, char *line, char *file)
 		return (1);
 	if (copy_map(data))
 		return (1);
-	get_map_width(data);
 	if (validate_map(data))
 		return (1);
 	return (0);

@@ -6,7 +6,7 @@
 #    By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/09/27 16:00:03 by amakela          ###   ########.fr        #
+#    Updated: 2024/10/25 20:54:33 by amakela          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,29 +22,28 @@ HEADERS 	= -I $(MLXDIR)/include -I $(LIBFTDIR)
 
 LIBS		= $(LIBFT) $(MLX42) -lglfw -lm -L"~/.brew/Cellar/glfw/3.4/lib/"
 
-CFLAGS		= -Wall -Wextra -g #-Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 
 CC			= cc
 
-CFILES		=	src/game.c				src/main.c				src/parse_elements.c	\
-				src/parse_map.c			src/utils_cleaning.c	src/utils_parsing.c		\
-				src/movement.c			src/rotation.c			src/utils_colors.c		\
-				src/drawing.c			src/ray2.c #src/ray_casting.c		\
-				
+CFILES		=	src/game.c				src/main.c				src/parse_file.c		\
+				src/parse_map.c			src/movement.c			src/rotation.c			\
+				src/utils_colors.c		src/drawing.c			src/ray_casting.c 		\
+				src/utils_parsing.c		src/utils_ray_casting.c	src/utils_cleaning.c
 
 OFILES		= $(CFILES:.c=.o)
 
-%.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
-	
 all: $(MLX42) $(NAME)
-
-$(MLX42):
-	@cmake $(MLXDIR) -B $(MLXDIR)/build && make -C $(MLXDIR)/build -j4
 
 $(NAME): $(OFILES)
 	make -C $(LIBFTDIR)
 	$(CC) $(OFILES) $(LIBS) -o $(NAME)
+
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
+
+$(MLX42):
+	@cmake $(MLXDIR) -B $(MLXDIR)/build && make -C $(MLXDIR)/build -j4
 
 clean:
 	rm -f $(OFILES)

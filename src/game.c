@@ -3,29 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/10/24 22:24:02 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/10/25 20:06:38 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int	check_png_sizes(t_cub3d *data)
+int	validate_pngs(t_cub3d *data)
 {
 	if (data->north->width != 1000 || data->north->height != 1000
 		|| data->south->width != 1000 || data->south->height != 1000
 		|| data->west->width != 1000 || data->west->height != 1000
 		|| data->east->width != 1000 || data->east->height != 1000)
-		return (1);
+		return (err("invalid png size", NULL));
 	return (0);
 }
 
-int	create_images(t_cub3d *data)
+int	init_background(t_cub3d *data)
 {
-	if (check_png_sizes(data))
-		return (err("invalid png size", NULL));
 	data->background = mlx_new_image(data->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!data->background)
 		return (err("creating image failed", NULL));
@@ -34,21 +32,15 @@ int	create_images(t_cub3d *data)
 	return (0);
 }
 
-int	init_game(t_cub3d *data)
+int	game(t_cub3d *data)
 {
-	float	rad;
-
 	data->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "Cub3D", false);
 	if (!data->mlx)
 		return (err("initializing mlx failed", NULL));
-	if (create_images(data))
+	if (init_background(data) || validate_pngs(data))
 		return (1);
-	rad = degree_to_rad(data->map.p_angle);
-	data->ray_c.pos_x = data->map.player.x + .5;
-	data->ray_c.pos_y = data->map.player.y + .5;
-	data->ray_c.dir_x = cos(rad);
-	data->ray_c.dir_y = sin(rad);
-	fov_cast(data, &data->ray_c);
+	init_casting(data);
+	fov_cast(data, &data->ray);
 	mlx_loop_hook(data->mlx, (void (*)(void *))my_keyhook, data);
 	mlx_loop(data->mlx);
 	return (0);
