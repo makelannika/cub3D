@@ -3,56 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   rotation.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:48:37 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/19 15:16:21 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/24 22:52:34 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-void	rotate_right(t_cub3d *data)
+void	reset_minimap(t_cub3d *data)
 {
-	mlx_delete_image(data->mlx, data->minimap);
-	data->minimap = mlx_texture_to_image(data->mlx, data->minimap_txtr);
-	mlx_image_to_window(data->mlx, data->minimap, 0, 0);
-	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
-	data->map.p_angle -= 15;
-	if (data->map.p_angle < 0)
-		data->map.p_angle = 345;
-	draw_player(data, data->map.p_angle);
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < 275)
+	{
+		x = 0;
+		while (x < 275)
+			mlx_put_pixel(data->background, x++, y, 255);
+		y++;
+	}
 }
 
-void	rotate_left(t_cub3d *data)
+double	normalize_vector(double *x, double *y)
 {
-	mlx_delete_image(data->mlx, data->minimap);
-	data->minimap = mlx_texture_to_image(data->mlx, data->minimap_txtr);
-	mlx_image_to_window(data->mlx, data->minimap, 0, 0);
-	draw_minimap(data, data->map.player.y - 5, data->map.player.x -5);
-	data->map.p_angle += 15;
-	if (data->map.p_angle > 360)
-		data->map.p_angle = 15;
-	draw_player(data, data->map.p_angle);
+	double	length;
+
+	length = sqrt((*x) * (*x) + (*y) * (*y));
+	if (length != 0 && length != 1.0)
+	{
+		*x /= length;
+		*y /= length;
+	}
+	return (length);
 }
 
-void	my_keyhook(mlx_key_data_t keydata, void *game_data)
+void	rotate_left(t_cub3d *data, t_ray *ray_c)
 {
-	t_cub3d	*data;
+	double	old_dir_x;
+	double	old_plane_x;
+	float	frame;
 
-	data = (t_cub3d *)game_data;
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_RELEASE)
-		mlx_close_window(data->mlx);
-	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
-		rotate_right(data);
-	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
-		rotate_left(data);
-	if (mlx_is_key_down(data->mlx, MLX_KEY_W))
-		move_up(data);
-	if (mlx_is_key_down(data->mlx, MLX_KEY_A))
-		move_left(data);
-	if (mlx_is_key_down(data->mlx, MLX_KEY_D))
-		move_right(data);
-	if (mlx_is_key_down(data->mlx, MLX_KEY_S))
-		move_down(data);
+	frame = .08;
+	old_dir_x = ray_c->dir_x;
+	old_plane_x = ray_c->plane_x;
+	ray_c->dir_x = ray_c->dir_x * cos(-frame) - ray_c->dir_y * sin(-frame);
+	ray_c->dir_y = old_dir_x * sin(-frame) + ray_c->dir_y * cos(-frame);
+	normalize_vector(&ray_c->dir_x, &ray_c->dir_y);
+	ray_c->plane_x = ray_c->plane_x * cos(-frame) - ray_c->plane_y * sin(-frame);
+	ray_c->plane_y = old_plane_x * sin(-frame) + ray_c->plane_y * cos(-frame);
+	normalize_vector(&ray_c->plane_x, &ray_c->plane_y);
+	ray_c->plane_x *= 0.66;
+	ray_c->plane_y *= 0.66;
+	fov_cast(data, ray_c);
+}
+
+void	rotate_right(t_cub3d *data, t_ray *ray_c)
+{
+	double	old_dir_x;
+	double	old_plane_x;
+	float	frame;
+
+	frame = .08;
+	old_dir_x = ray_c->dir_x;
+	old_plane_x = ray_c->plane_x;
+	ray_c->dir_x = ray_c->dir_x * cos(frame) - ray_c->dir_y * sin(frame);
+	ray_c->dir_y = old_dir_x * sin(frame) + ray_c->dir_y * cos(frame);
+	normalize_vector(&ray_c->dir_x, &ray_c->dir_y);
+	ray_c->plane_x = ray_c->plane_x * cos(frame) - ray_c->plane_y * sin(frame);
+	ray_c->plane_y = old_plane_x * sin(frame) + ray_c->plane_y * cos(frame);
+	normalize_vector(&ray_c->plane_x, &ray_c->plane_y);
+	ray_c->plane_x *= 0.66;
+	ray_c->plane_y *= 0.66;
+	fov_cast(data, ray_c);
 }
