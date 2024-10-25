@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:59:12 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 20:15:40 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/24 22:24:27 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ void	draw_background(t_cub3d *data)
 		x = 0;
 		while (x < 1000)
 		{
-			// if (y < 275 && x < 275)
-			// 	mlx_put_pixel(data->background, x++, y, 255);
 			if (y < 500)
 				mlx_put_pixel(data->background, x++, y, data->ceiling);
 			else
@@ -103,11 +101,7 @@ void	draw_background(t_cub3d *data)
 void	draw_pixel(t_cub3d *data, int x, int incr)
 {
 	int	pixel;
-	pixel = reverse_bytes(data->wall_to_draw[incr]); /* with casting */
-	// int	pixel = rgba_to_hex(data->wall_to_draw[incr * 4], /* without casting */
-	// 					data->wall_to_draw[incr * 4 + 1],
-	// 					data->wall_to_draw[incr * 4 + 2],
-	// 					data->wall_to_draw[incr * 4 + 3]);
-	// if (data->ray_c.start <= data->ray_c.end)
-		mlx_put_pixel(data->background, x, data->ray_c.start, pixel);
+
+	pixel = reverse_bytes(data->wall_to_draw[incr]);
+	mlx_put_pixel(data->background, x, data->ray_c.start, pixel);
 }

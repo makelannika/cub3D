@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 20:57:24 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/24 22:38:57 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_coor
 	int		y;
 	float	pix_x;
 	float	pix_y;
-} t_coor;
+}	t_coor;
 
 typedef struct s_map
 {
@@ -45,17 +45,17 @@ typedef struct s_map
 	double	p_angle;
 	char	**grid;
 	t_coor	player;
-} t_map;
+}	t_map;
 
 typedef struct s_ray
 {
 	double	camera_x;
 	double	ray_dir_x;
 	double	ray_dir_y;
-    double	side_dist_x;
+	double	side_dist_x;
 	double	side_dist_y;
 	double	delta_dist_x;
-    double	delta_dist_y;
+	double	delta_dist_y;
 	double	distance;
 	double	wall_x;
 	int		screen_x;
@@ -63,9 +63,8 @@ typedef struct s_ray
 	int		hit;
 	int		map_x;
 	int		map_y;
-    int		step_x;
+	int		step_x;
 	int		step_y;
-
 	double	increment;
 	double	txtr_y;
 	int		txtr_x;
@@ -79,7 +78,7 @@ typedef struct s_ray
 	double	pos_y;
 	double	plane_x;
 	double	plane_y;
-} t_ray;
+}	t_ray;
 
 typedef struct s_cub3d
 {
@@ -101,7 +100,7 @@ typedef struct s_cub3d
 	t_map			map;
 	t_ray			ray_c;
 	mlx_t			*mlx;
-} t_cub3d;
+}	t_cub3d;
 
 /*******PARSING*******/
 int		check_extension(char *arg);
@@ -114,13 +113,13 @@ int		copy_color(t_cub3d *data, char *str, char identifier);
 int		validate_index(t_cub3d *data, char **grid, int y, int x);
 int		validate_line(char *str);
 
-/*******GAME**********/ 
+/*******GAME**********/
 int		init_game(t_cub3d *data);
 
 /*******MOVEMENT******/
-void	rotate_right(t_cub3d *data);
-void	rotate_left(t_cub3d *data);
-void	reset_minimap(t_cub3d * data);
+void	rotate_right(t_cub3d *data, t_ray *ray_c);
+void	rotate_left(t_cub3d *data, t_ray *ray_c);
+void	reset_minimap(t_cub3d *data);
 void	my_keyhook(void *game_data);
 
 /*******DRAWING*******/

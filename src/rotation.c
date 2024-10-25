@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotation.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:48:37 by amakela           #+#    #+#             */
-/*   Updated: 2024/09/27 19:35:01 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/24 22:52:34 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,55 @@ void	reset_minimap(t_cub3d *data)
 	}
 }
 
-void	rotate_left(t_cub3d *data)
+double	normalize_vector(double *x, double *y)
 {
-	double	old_dir_x = data->ray_c.dir_x;
-	data->ray_c.dir_x = data->ray_c.dir_x * cos(-data->mlx->delta_time * 3) - data->ray_c.dir_y * sin(-data->mlx->delta_time * 3);
-	data->ray_c.dir_y = old_dir_x  * sin(-data->mlx->delta_time * 3) + data->ray_c.dir_y * cos(-data->mlx->delta_time * 3);
-	double oldPlaneX = data->ray_c.plane_x;
-	data->ray_c.plane_x = data->ray_c.plane_x * cos(-data->mlx->delta_time * 3) - data->ray_c.plane_y * sin(-data->mlx->delta_time * 3);
-	data->ray_c.plane_y = oldPlaneX * sin(-data->mlx->delta_time * 3) + data->ray_c.plane_y * cos(-data->mlx->delta_time * 3);
-	// data->map.p_angle -= 15;
-	// if (data->map.p_angle < 0)
-	// 	data->map.p_angle = 345;
-	fov_cast(data, &data->ray_c);
+	double	length;
+
+	length = sqrt((*x) * (*x) + (*y) * (*y));
+	if (length != 0 && length != 1.0)
+	{
+		*x /= length;
+		*y /= length;
+	}
+	return (length);
 }
 
-void	rotate_right(t_cub3d *data)
+void	rotate_left(t_cub3d *data, t_ray *ray_c)
 {
-	double	old_dir_x = data->ray_c.dir_x;
-	data->ray_c.dir_x = data->ray_c.dir_x * cos(data->mlx->delta_time * 3) - data->ray_c.dir_y * sin(data->mlx->delta_time * 3);
-	data->ray_c.dir_y = old_dir_x  * sin(data->mlx->delta_time * 3) + data->ray_c.dir_y * cos(data->mlx->delta_time * 3);
-	double oldPlaneX = data->ray_c.plane_x;
-	data->ray_c.plane_x = data->ray_c.plane_x * cos(data->mlx->delta_time * 3) - data->ray_c.plane_y * sin(data->mlx->delta_time * 3);
-	data->ray_c.plane_y = oldPlaneX * sin(data->mlx->delta_time * 3) + data->ray_c.plane_y * cos(data->mlx->delta_time * 3);
-	// data->map.p_angle += 15;
-	// if (data->map.p_angle > 360)
-	// 	data->map.p_angle = 15;
-	fov_cast(data, &data->ray_c);
+	double	old_dir_x;
+	double	old_plane_x;
+	float	frame;
+
+	frame = .08;
+	old_dir_x = ray_c->dir_x;
+	old_plane_x = ray_c->plane_x;
+	ray_c->dir_x = ray_c->dir_x * cos(-frame) - ray_c->dir_y * sin(-frame);
+	ray_c->dir_y = old_dir_x * sin(-frame) + ray_c->dir_y * cos(-frame);
+	normalize_vector(&ray_c->dir_x, &ray_c->dir_y);
+	ray_c->plane_x = ray_c->plane_x * cos(-frame) - ray_c->plane_y * sin(-frame);
+	ray_c->plane_y = old_plane_x * sin(-frame) + ray_c->plane_y * cos(-frame);
+	normalize_vector(&ray_c->plane_x, &ray_c->plane_y);
+	ray_c->plane_x *= 0.66;
+	ray_c->plane_y *= 0.66;
+	fov_cast(data, ray_c);
+}
+
+void	rotate_right(t_cub3d *data, t_ray *ray_c)
+{
+	double	old_dir_x;
+	double	old_plane_x;
+	float	frame;
+
+	frame = .08;
+	old_dir_x = ray_c->dir_x;
+	old_plane_x = ray_c->plane_x;
+	ray_c->dir_x = ray_c->dir_x * cos(frame) - ray_c->dir_y * sin(frame);
+	ray_c->dir_y = old_dir_x * sin(frame) + ray_c->dir_y * cos(frame);
+	normalize_vector(&ray_c->dir_x, &ray_c->dir_y);
+	ray_c->plane_x = ray_c->plane_x * cos(frame) - ray_c->plane_y * sin(frame);
+	ray_c->plane_y = old_plane_x * sin(frame) + ray_c->plane_y * cos(frame);
+	normalize_vector(&ray_c->plane_x, &ray_c->plane_y);
+	ray_c->plane_x *= 0.66;
+	ray_c->plane_y *= 0.66;
+	fov_cast(data, ray_c);
 }
