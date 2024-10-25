@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 22:17:24 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/10/24 22:21:38 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/10/25 14:20:16 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ void	draw_ray(t_cub3d *data, t_ray *ray_c, int screen_x)
 	ray_c->txtr_x = 999 - ray_c->txtr_x;
 	ray_c->increment = 1.0 * SCREEN_HEIGHT / ray_c->wall_height;
 	ray_c->txtr_y = 0;
-	while (ray_c->start <= ray_c->end)
+	while (ray_c->start < ray_c->end)
 	{
 		if (ray_c->start >= 0 && ray_c->start < SCREEN_HEIGHT)
+		{
 			draw_pixel(data, screen_x,
 				(1000 * (int)(ray_c->txtr_y) + ray_c->txtr_x));
+		}
 		ray_c->txtr_y += ray_c->increment;
 		ray_c->start++;
 	}

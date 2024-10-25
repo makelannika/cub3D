@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:48:37 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/24 22:52:34 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/10/25 11:58:45 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	rotate_left(t_cub3d *data, t_ray *ray_c)
 	double	old_plane_x;
 	float	frame;
 
-	frame = .08;
+	frame = .06;
 	old_dir_x = ray_c->dir_x;
 	old_plane_x = ray_c->plane_x;
 	ray_c->dir_x = ray_c->dir_x * cos(-frame) - ray_c->dir_y * sin(-frame);
@@ -66,7 +66,7 @@ void	rotate_right(t_cub3d *data, t_ray *ray_c)
 	double	old_plane_x;
 	float	frame;
 
-	frame = .08;
+	frame = .06;
 	old_dir_x = ray_c->dir_x;
 	old_plane_x = ray_c->plane_x;
 	ray_c->dir_x = ray_c->dir_x * cos(frame) - ray_c->dir_y * sin(frame);

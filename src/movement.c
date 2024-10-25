@@ -6,7 +6,7 @@
 /*   By: linhnguy <linhnguy@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:45:22 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/24 22:40:50 by linhnguy         ###   ########.fr       */
+/*   Updated: 2024/10/25 14:10:29 by linhnguy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	move_right(t_cub3d *data, t_ray *ray_c)
 	float	frame;
 	float	limit;
 
-	limit = .12;
-	frame = .08;
+	limit = .25;
+	frame = .06;
 	new_x = ray_c->pos_x - ray_c->dir_y * limit;
 	new_y = ray_c->pos_y + ray_c->dir_x * limit;
 	if (data->map.grid[new_y][(int)(ray_c->pos_x)] != '1')
@@ -37,8 +37,8 @@ void	move_left(t_cub3d *data, t_ray *ray_c)
 	float	frame;
 	float	limit;
 
-	limit = .12;
-	frame = .08;
+	limit = .25;
+	frame = .06;
 	new_x = ray_c->pos_x + ray_c->dir_y * limit;
 	new_y = ray_c->pos_y - ray_c->dir_x * limit;
 	if (data->map.grid[new_y][(int)(ray_c->pos_x)] != '1')
@@ -55,8 +55,8 @@ void	move_backward(t_cub3d *data, t_ray *ray_c)
 	float	frame;
 	float	limit;
 
-	limit = .12;
-	frame = .08;
+	limit = .25;
+	frame = .06;
 	new_x = data->ray_c.pos_x - data->ray_c.dir_x * limit;
 	new_y = data->ray_c.pos_y - data->ray_c.dir_y * limit;
 	if (data->map.grid[new_y][(int)(data->ray_c.pos_x)] != '1')
@@ -73,8 +73,8 @@ void	move_forward(t_cub3d *data, t_ray *ray_c)
 	float	frame;
 	float	limit;
 
-	limit = .12;
-	frame = .08;
+	limit = .25;
+	frame = .06;
 	new_x = ray_c->pos_x + ray_c->dir_x * limit;
 	new_y = ray_c->pos_y + ray_c->dir_y * limit;
 	if (data->map.grid[new_y][(int)(ray_c->pos_x)] != '1')
