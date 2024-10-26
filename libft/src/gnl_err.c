@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:26:13 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/25 19:47:01 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/26 16:30:25 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char	*set_err(int *flag)
 {
-	ft_printf(1, "in set_err\n");
 	*flag = 1;
 	return (NULL);
 }

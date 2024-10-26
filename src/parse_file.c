@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:13:04 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/26 14:01:49 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/26 18:23:06 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	parse_element(t_cub3d *data, char *line)
 	element = ft_split(line, ' ');
 	if (!element)
 		return (err("malloc failed", NULL));
-	if (element[2])
+	if (get_arr_len(element) != 2)
 	{
 		free_str_array(element);
 		return (err("invalid .cub file content", NULL));
