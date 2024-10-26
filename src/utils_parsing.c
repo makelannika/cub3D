@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/25 21:41:16 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/26 15:26:47 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,25 @@ void	set_orientation(t_cub3d *data, char orientation)
 	{
 		data->ray.plane_x = 0.0;
 		data->ray.plane_y = -0.66;
-		data->map.p_angle = 0.0;
+		data->map.angle = 0.0;
 	}
 	else if (orientation == 'S')
 	{
 		data->ray.plane_x = 0.66;
 		data->ray.plane_y = 0.0;
-		data->map.p_angle = 90.0;
+		data->map.angle = 90.0;
 	}
 	else if (orientation == 'W')
 	{
 		data->ray.plane_x = 0.0;
 		data->ray.plane_y = 0.66;
-		data->map.p_angle = 180.0;
+		data->map.angle = 180.0;
 	}
 	else if (orientation == 'N')
 	{
 		data->ray.plane_x = -0.66;
 		data->ray.plane_y = 0.0;
-		data->map.p_angle = 270.0;
+		data->map.angle = 270.0;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 16:18:02 by linhnguy          #+#    #+#             */
-/*   Updated: 2024/10/25 20:06:38 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/26 14:53:41 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	game(t_cub3d *data)
 		return (err("initializing mlx failed", NULL));
 	if (init_background(data) || validate_pngs(data))
 		return (1);
-	init_casting(data);
+	init_player(data);
 	fov_cast(data, &data->ray);
 	mlx_loop_hook(data->mlx, (void (*)(void *))my_keyhook, data);
 	mlx_loop(data->mlx);

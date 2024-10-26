@@ -1,11 +1,10 @@
-
 NO ./assets/cat.png
 SO ./assets/cat2.png
 WE ./assets/cat3.png
 EA ./assets/cat4.png
 
-F 220,100,0
-C 225,30,0
+F 255,255,255
+C 255,255,255
 
         111111111111111111111111
         1000000000110000000000001
