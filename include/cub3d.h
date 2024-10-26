@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/25 21:46:53 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/26 15:29:39 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,22 @@
 # include "../libft/include/libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
-# include <stdio.h> /*delete*/
+# include <stdio.h>
 # include <math.h>
-# include <float.h>
-# include <sys/time.h>
 
-# define PLAYER_X 137
-# define PLAYER_Y 137
 # define SCREEN_WIDTH 1000
 # define SCREEN_HEIGHT 1000
-# define INDEX_WIDTH 25
-# define INDEX_HEIGHT 25
 
-typedef struct s_coor
+typedef struct s_draw
 {
-	int		x;
-	int		y;
-}	t_coor;
-
-typedef struct s_map
-{
-	int		height;
-	double	p_angle;
-	char	**grid;
-	t_coor	player;
-}	t_map;
+	uint32_t	*wall_to_draw;
+	double		increment;
+	double		txtr_y;
+	int			txtr_x;
+	int			start;
+	int			end;
+	int			wall_height;
+}	t_draw;
 
 typedef struct s_ray
 {
@@ -56,17 +47,8 @@ typedef struct s_ray
 	int		screen_x;
 	int		side;
 	int		hit;
-	int		map_x;
-	int		map_y;
 	int		step_x;
 	int		step_y;
-	double	increment;
-	double	txtr_y;
-	int		txtr_x;
-	int		wall_height;
-	int		start;
-	int		end;
-
 	double	dir_x;
 	double	dir_y;
 	double	pos_x;
@@ -75,6 +57,15 @@ typedef struct s_ray
 	double	plane_y;
 }	t_ray;
 
+typedef struct s_map
+{
+	double	angle;
+	char	**grid;
+	int		height;
+	int		y;
+	int		x;
+}	t_map;
+
 typedef struct s_cub3d
 {
 	mlx_texture_t	*north;
@@ -82,11 +73,6 @@ typedef struct s_cub3d
 	mlx_texture_t	*west;
 	mlx_texture_t	*east;
 	mlx_image_t		*background;
-	uint32_t		*wall_to_draw;
-	double			frametime;
-	double			time;
-	double			old_time;
-	double			movespeed;
 	int				floor;
 	int				ceiling;
 	int				elements_found;
@@ -94,6 +80,7 @@ typedef struct s_cub3d
 	int				fd;
 	t_map			map;
 	t_ray			ray;
+	t_draw			draw;
 	mlx_t			*mlx;
 }	t_cub3d;
 
@@ -116,14 +103,14 @@ void	rotate_left(t_cub3d *data, t_ray *ray);
 void	my_keyhook(void *game_data);
 
 /*******RENDERING******/
-void	init_casting(t_cub3d *data);
-void	init_vars(t_ray *ray);
+void	init_player(t_cub3d *data);
+void	init_casting(t_map *map, t_ray *ray);
 void	fov_cast(t_cub3d *data, t_ray *ray);
 void	draw_background(t_cub3d *data);
-void	draw_ray(t_cub3d *data, t_ray *ray, int screen_x);
+void	draw_ray(t_cub3d *data, t_draw *draw, int screen_x);
 
 /*******CLEANING*******/
-int		err(char *str, void *ptr);
+int		err(char *str, char *ptr);
 int		free_str_array(char **array);
 int		free_data(t_cub3d *data);
 

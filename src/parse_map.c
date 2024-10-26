@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/25 21:16:11 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/26 15:28:56 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	validate_index(t_cub3d *data, char **grid, int y, int x)
 		return (err("map must be surrounded by walls", NULL));
 	if (ft_strchr("NSWE", grid[y][x]))
 	{
-		if (data->map.player.x)
+		if (data->map.x)
 			return (err("multiple starting positions found in the map", NULL));
 		set_orientation(data, grid[y][x]);
-		data->map.player.x = x;
-		data->map.player.y = y;
+		data->map.x = x;
+		data->map.y = y;
 	}
 	return (0);
 }
@@ -53,7 +53,7 @@ int	validate_map(t_cub3d *data)
 		y++;
 		x = 0;
 	}
-	if (!data->map.player.x)
+	if (!data->map.x)
 		return (err("no starting position found in the map", NULL));
 	return (0);
 }

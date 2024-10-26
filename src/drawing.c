@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:59:12 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/25 19:32:41 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/26 15:44:17 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,26 @@ int	reverse_bytes(int p)
 		| ((p & 0xFF000000) >> 24));
 }
 
-void	draw_pixel(t_cub3d *data, int x, int incr)
+void	draw_pixel(t_cub3d *data, t_draw *draw, int x, int incr)
 {
 	int	pixel;
 
-	pixel = reverse_bytes(data->wall_to_draw[incr]);
-	mlx_put_pixel(data->background, x, data->ray.start, pixel);
+	pixel = reverse_bytes(draw->wall_to_draw[incr]);
+	mlx_put_pixel(data->background, x, draw->start, pixel);
 }
 
-void	draw_ray(t_cub3d *data, t_ray *ray, int screen_x)
+void	draw_ray(t_cub3d *data, t_draw *draw, int screen_x)
 {
 	screen_x = 999 - screen_x;
-	ray->txtr_x = 999 - ray->txtr_x;
-	ray->increment = 1.0 * SCREEN_HEIGHT / ray->wall_height;
-	ray->txtr_y = 0;
-	while (ray->start <= ray->end)
+	draw->txtr_x = 999 - draw->txtr_x;
+	draw->increment = 1.0 * SCREEN_HEIGHT / draw->wall_height;
+	draw->txtr_y = 0;
+	while (draw->start < draw->end)
 	{
-		if (ray->start >= 0 && ray->start < SCREEN_HEIGHT)
-			draw_pixel(data, screen_x,
-				(1000 * (int)(ray->txtr_y) + ray->txtr_x));
-		ray->txtr_y += ray->increment;
-		ray->start++;
+		if (draw->start >= 0 && draw->start < SCREEN_HEIGHT)
+			draw_pixel(data, &data->draw, screen_x,
+				(1000 * (int)(draw->txtr_y) + draw->txtr_x));
+		draw->txtr_y += draw->increment;
+		draw->start++;
 	}
 }
