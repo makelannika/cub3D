@@ -62,18 +62,19 @@ int	parse_file(t_cub3d *data, char *file)
 	data->fd = open(file, O_RDONLY);
 	if (data->fd == -1)
 		return (err("open failed", NULL));
-	line = get_next_line(data->fd, &data->gnl_err);
+	line = get_next_line(data->fd, &data->gnl_err, &data->text_read);
 	if (data->gnl_err)
 		return (err("get_next_line failed", NULL));
 	while (line && *line != '1' && *line != ' ')
 	{
+		// printf("%s\n", line);
 		if (*line != '\n')
 		{
 			if (parse_element(data, line))
 				return (err(NULL, line));
 		}
 		free(line);
-		line = get_next_line(data->fd, &data->gnl_err);
+		line = get_next_line(data->fd, &data->gnl_err, &data->text_read);
 		if (data->gnl_err)
 			return (err("get_next_line failed", NULL));
 	}

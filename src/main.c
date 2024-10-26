@@ -17,6 +17,9 @@ int	main(int argc, char **argv)
 	t_cub3d	data;
 
 	data = (t_cub3d){0};
+	data.text_read = ft_calloc(1, 1);
+	if (!data.text_read)
+		return (err("malloc failed\n", NULL));
 	if (argc != 2 || check_extension(argv[1]))
 		return (err("program takes one .cub file as an argument", NULL));
 	if (parse_file(&data, argv[1]))
@@ -26,9 +29,3 @@ int	main(int argc, char **argv)
 	free_data(&data);
 	return (0);
 }
-
-/*
-leaks
-	- still reachable bytes 
-	when err function is used?
-*/

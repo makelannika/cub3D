@@ -64,7 +64,7 @@ int	copy_map(t_cub3d *data)
 	char	*line;
 
 	i = 0;
-	line = get_next_line(data->fd, &data->gnl_err);
+	line = get_next_line(data->fd, &data->gnl_err, &data->text_read);
 	if (data->gnl_err)
 		return (err("get_next_line failed", NULL));
 	while (line)
@@ -79,7 +79,7 @@ int	copy_map(t_cub3d *data)
 				return (err("malloc failed", line));
 		}
 		free(line);
-		line = get_next_line(data->fd, &data->gnl_err);
+		line = get_next_line(data->fd, &data->gnl_err, &data->text_read);
 		if (data->gnl_err)
 			return (err("4 get_next_line failed", NULL));
 	}
@@ -90,15 +90,18 @@ int	get_map_height(t_cub3d *data, char *line)
 {
 	while (line && ft_strchr("1 ", *line))
 	{
+		// printf("%s\n", line);
 		if (validate_line(line))
 			return (err("forbidden character found in the map", line));
 		if (ft_strchr(line, '1'))
 			data->map.height++;
 		free(line);
-		line = get_next_line(data->fd, &data->gnl_err);
+		line = get_next_line(data->fd, &data->gnl_err, &data->text_read);
 		if (data->gnl_err)
 			return (err("get_next_line failed", NULL));
 	}
+		// printf("herer %s\n", *text_read);
+
 	if (line)
 		return (err("invalid .cub file content", line));
 	close(data->fd);

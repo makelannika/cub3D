@@ -17,10 +17,6 @@
 #  define BUFFER_SIZE 6
 # endif
 
-# ifndef MAX_FD
-#  define MAX_FD 4000
-# endif
-
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdarg.h>
@@ -80,7 +76,7 @@ int		ft_printhex(int fd, unsigned long nbr, char specifier, int *count);
 int		ft_printnbr(int fd, long nbr, int *count);
 int		ft_printstr(int fd, char *str);
 char	*set_err(int *flag);
-char	*get_next_line(int fd, int *flag);
+char	*get_next_line(int fd, int *flag, char **text_read);
 long	ft_atol(const char *str);
 
 #endif

@@ -68,6 +68,7 @@ typedef struct s_map
 
 typedef struct s_cub3d
 {
+	char			*text_read;
 	mlx_texture_t	*north;
 	mlx_texture_t	*south;
 	mlx_texture_t	*west;
