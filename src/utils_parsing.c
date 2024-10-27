@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/26 15:26:47 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/27 18:53:59 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	validate_line(char *str)
 
 int	create_grid(t_cub3d *data, char *file)
 {
-	data->fd = open(file, O_RDONLY);
-	if (data->fd == -1)
+	data->gnl.fd = open(file, O_RDONLY);
+	if (data->gnl.fd == -1)
 		return (err("open failed", NULL));
 	data->map.grid = ft_calloc(data->map.height + 1, sizeof(char *));
 	if (!data->map.grid)

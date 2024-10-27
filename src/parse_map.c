@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/26 15:28:56 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/27 23:10:33 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ int	validate_map(t_cub3d *data)
 	return (0);
 }
 
-int	copy_map(t_cub3d *data)
+int	copy_map(t_cub3d *data, t_gnl *gnl)
 {
 	int		i;
 	char	*line;
 
 	i = 0;
-	line = get_next_line(data->fd, &data->gnl_err, &data->text_read);
-	if (data->gnl_err)
+	line = get_next_line(gnl);
+	if (gnl->err)
 		return (err("get_next_line failed", NULL));
 	while (line)
 	{
@@ -79,42 +79,44 @@ int	copy_map(t_cub3d *data)
 				return (err("malloc failed", line));
 		}
 		free(line);
-		line = get_next_line(data->fd, &data->gnl_err, &data->text_read);
-		if (data->gnl_err)
+		line = get_next_line(gnl);
+		if (gnl->err)
 			return (err("4 get_next_line failed", NULL));
 	}
 	return (0);
 }
 
-int	get_map_height(t_cub3d *data, char *line)
+int	get_map_height(t_cub3d *data, t_gnl *gnl, char *line)
 {
 	while (line && ft_strchr("1 ", *line))
 	{
-		// printf("%s\n", line);
 		if (validate_line(line))
 			return (err("forbidden character found in the map", line));
 		if (ft_strchr(line, '1'))
 			data->map.height++;
 		free(line);
-		line = get_next_line(data->fd, &data->gnl_err, &data->text_read);
-		if (data->gnl_err)
+		line = get_next_line(gnl);
+		if (gnl->err)
 			return (err("get_next_line failed", NULL));
 	}
-		// printf("herer %s\n", *text_read);
-
 	if (line)
 		return (err("invalid .cub file content", line));
-	close(data->fd);
+	if (gnl->text_read)
+	{
+		free(gnl->text_read);
+		gnl->text_read = NULL;
+	}
+	close(gnl->fd);
 	return (0);
 }
 
-int	parse_map(t_cub3d *data, char *line, char *file)
+int	parse_map(t_cub3d *data, t_gnl *gnl, char *line, char *file)
 {
-	if (get_map_height(data, line))
+	if (get_map_height(data, gnl, line))
 		return (1);
 	if (create_grid(data, file))
 		return (1);
-	if (copy_map(data))
+	if (copy_map(data, gnl))
 		return (1);
 	if (validate_map(data))
 		return (1);

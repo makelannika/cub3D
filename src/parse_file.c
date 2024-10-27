@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:13:04 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/26 18:23:06 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/27 23:10:49 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,31 +55,30 @@ int	parse_element(t_cub3d *data, char *line)
 	return (0);
 }
 
-int	parse_file(t_cub3d *data, char *file)
+int	parse_file(t_cub3d *data, t_gnl *gnl, char *file)
 {
 	char	*line;
 
-	data->fd = open(file, O_RDONLY);
-	if (data->fd == -1)
+	gnl->fd = open(file, O_RDONLY);
+	if (gnl->fd == -1)
 		return (err("open failed", NULL));
-	line = get_next_line(data->fd, &data->gnl_err, &data->text_read);
-	if (data->gnl_err)
+	line = get_next_line(&data->gnl);
+	if (gnl->err)
 		return (err("get_next_line failed", NULL));
 	while (line && *line != '1' && *line != ' ')
 	{
-		// printf("%s\n", line);
 		if (*line != '\n')
 		{
 			if (parse_element(data, line))
 				return (err(NULL, line));
 		}
 		free(line);
-		line = get_next_line(data->fd, &data->gnl_err, &data->text_read);
-		if (data->gnl_err)
+		line = get_next_line(&data->gnl);
+		if (gnl->err)
 			return (err("get_next_line failed", NULL));
 	}
 	if (line && data->elements_found == 6)
-		return (parse_map(data, line, file));
+		return (parse_map(data, gnl, line, file));
 	else
 		return (err("required elements not found in .cub file", line));
 }

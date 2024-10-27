@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/26 15:29:39 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/27 18:57:13 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ typedef struct s_map
 
 typedef struct s_cub3d
 {
-	char			*text_read;
 	mlx_texture_t	*north;
 	mlx_texture_t	*south;
 	mlx_texture_t	*west;
@@ -77,8 +76,7 @@ typedef struct s_cub3d
 	int				floor;
 	int				ceiling;
 	int				elements_found;
-	int				gnl_err;
-	int				fd;
+	t_gnl			gnl;
 	t_map			map;
 	t_ray			ray;
 	t_draw			draw;
@@ -87,8 +85,8 @@ typedef struct s_cub3d
 
 /*******PARSING********/
 int		check_extension(char *arg);
-int		parse_file(t_cub3d *data, char *file);
-int		parse_map(t_cub3d *data, char *line, char *file);
+int		parse_file(t_cub3d *data, t_gnl *gnl, char *file);
+int		parse_map(t_cub3d *data, t_gnl *gnl, char *line, char *file);
 int		create_grid(t_cub3d *data, char *file);
 int		copy_color(t_cub3d *data, char *str, char identifier);
 int		validate_line(char *str);
