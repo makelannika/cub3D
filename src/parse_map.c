@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:25:41 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/28 02:14:58 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/28 15:46:46 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	validate_index(t_cub3d *data, char **grid, int y, int x)
 {
-	if (y == 0 || x == 0 || y == data->map.height -1
+	if (y == 0 || x == 0 || y == data->map.height -1 || x == (int)ft_strlen(grid[y]) -1
 		|| x >= (int)ft_strlen(grid[y + 1]) || x >= (int)ft_strlen(grid[y - 1])
 		|| !ft_strchr("01NSWE", grid[y][x - 1])
 		|| !ft_strchr("01NSWE", grid[y][x + 1])
