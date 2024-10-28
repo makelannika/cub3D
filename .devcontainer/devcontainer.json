@@ -1,0 +1,9 @@
+{
+    "name": "GLFW Environment",
+    "image": "mcr.microsoft.com/vscode/devcontainers/cpp:debian", // Use a C++ container image for OpenGL
+    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y libglfw3-dev",
+    "extensions": [
+      "ms-vscode.cpptools"
+    ]
+  }
+  
