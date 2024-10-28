@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:55:39 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/25 21:40:48 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/28 01:34:22 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,18 @@ int	get_color(char *str)
 
 int	count_commas(char *str)
 {
+	int	i;
 	int	commas;
 
+	i = 0;
 	commas = 0;
-	while (*str)
+	while (str[i])
 	{
-		if ((*str < '0' || *str > '9') && *str != ',')
+		if ((str[i] < '0' || str[i] > '9') && str[i] != ',')
 			return (1);
-		if (*str == ',')
+		if (str[i] == ',')
 			commas++;
-		str++;
+		i++;
 	}
 	return (commas);
 }
@@ -53,7 +55,7 @@ int	combine_values(t_cub3d *data, char **rgb, char identifier)
 	green = get_color(rgb[1]);
 	blue = get_color(rgb[2]);
 	if (red == -1 || green == -1 || blue == -1)
-		return (err("invalid floor/ceiling color", NULL));
+		return (1);
 	if (identifier == 'F')
 		data->floor = rgba_to_hex(red, green, blue, 255);
 	else

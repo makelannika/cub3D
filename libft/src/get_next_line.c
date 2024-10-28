@@ -5,110 +5,94 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/01 18:24:36 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/26 12:49:50 by amakela          ###   ########.fr       */
+/*   Created: 2024/10/27 13:03:07 by amakela           #+#    #+#             */
+/*   Updated: 2024/10/27 22:04:00 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
+#include "../../include/cub3d.h"
 
-int	find_nl(const char *s)
+char	*set_err(int *flag)
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i++] == '\n')
-			return (1);
-	}
-	return (0);
+	*flag = 1;
+	return (NULL);
 }
 
-void	freeptr(char **ptr)
+int free_ptr(char **ptr)
 {
-	free(*ptr);
+    if (!*ptr)
+        return (-1);
+    free(*ptr);
 	*ptr = NULL;
+    return (-1);
 }
 
-char	*next_line(char **text_read, ssize_t bytes_read, char *line, int *flag)
+char    *get_line(t_gnl *gnl, ssize_t bytes_read, char **line)
 {
-	int		i;
-	char	*temp;
+    int     i;
+    char    *tmp;
 
-	i = 0;
-	while ((*text_read)[i] != '\0' && (*text_read)[i] != '\n')
-		i++;
-	if ((*text_read)[i] == '\n')
-		i++;
-	line = ft_substr(*text_read, 0, i);
-	if (!line)
-		return (set_err(flag));
-	if (bytes_read == 0)
-		return (line);
-	temp = *text_read;
-	*text_read = ft_substr(*text_read, i, ft_strlen(*text_read) - i);
-	freeptr(&temp);
-	if (!*text_read)
-	{
-		freeptr(&line);
-		return (set_err(flag));
-	}
-	return (line);
+    i = 0;
+    while(gnl->text_read[i] != '\n' && gnl->text_read[i] != '\0')
+        i++;
+    if (gnl->text_read[i] == '\n')
+        i++;
+    *line = ft_substr(gnl->text_read, 0, i);
+    if (!*line)
+        return (set_err(&gnl->err));
+    if(!bytes_read)
+        return (*line);
+    tmp = gnl->text_read;
+    gnl->text_read = ft_substr(gnl->text_read, i, ft_strlen(gnl->text_read) - 1);
+    free_ptr(&tmp);
+    if (!gnl->text_read)
+    {
+        free_ptr(line);
+        return (set_err(&gnl->err));
+    }
+    return (*line);
 }
 
-ssize_t	read_file(int fd, char **text_read, ssize_t bytes_read, int *flag)
+ssize_t read_file(t_gnl *gnl, ssize_t *bytes_read, int fd)
 {
-	char	*temp;
-	char	buffer[BUFFER_SIZE + 1];
+    char    *tmp;
+    char    buffer[BUFFER_SIZE + 1];
 
-	while (!find_nl(*text_read))
-	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (!bytes_read)
-			break ;
-		buffer[bytes_read] = '\0';
-		temp = *text_read;
-		*text_read = ft_strjoin(*text_read, buffer);
-		freeptr(&temp);
-		if (!*text_read)
-		{
-			set_err(flag);
-			return (-1);
-		}
-	}
-	if ((bytes_read == -1) || (bytes_read == 0 && **text_read == '\0'))
-	{
-		freeptr(text_read);
-		return (-1);
-	}
-	return (bytes_read);
+    while (!ft_strchr(gnl->text_read, '\n') && *bytes_read)
+    {
+        *bytes_read = read(fd, buffer, BUFFER_SIZE);
+        if (*bytes_read == -1)
+            return (free_ptr(&gnl->text_read));
+        buffer[*bytes_read] = '\0';
+        tmp = gnl->text_read;
+        gnl->text_read = ft_strjoin(gnl->text_read, buffer);
+        free_ptr(&tmp);
+        if (!gnl->text_read)
+            return (-1);
+    }
+    return (*bytes_read);
 }
 
-char	*get_next_line(int fd, int *flag)
+char    *get_next_line(t_gnl *gnl)
 {
-	char		*line;
-	ssize_t		bytes_read;
-	static char	*text_read[MAX_FD];
+    char    *line;
+    ssize_t bytes_read;
 
-	line = 0;
-	bytes_read = 1;
-	if (fd < 0)
-		return (set_err(flag));
-	if (!text_read[fd])
-		text_read[fd] = (char *)ft_calloc(1, 1);
-	if (!text_read[fd])
-		return (set_err(flag));
-	if (read(fd, 0, 0) < 0)
-	{
-		freeptr(&text_read[fd]);
-		return (set_err(flag));
-	}
-	bytes_read = read_file(fd, &text_read[fd], bytes_read, flag);
-	if (bytes_read == -1)
-		return (NULL);
-	line = next_line(&text_read[fd], bytes_read, line, flag);
-	if (!line || bytes_read == 0)
-		freeptr(&text_read[fd]);
-	return (line);
+    line = NULL;
+    bytes_read = 1;
+    if (!gnl->text_read)
+    {
+        gnl->text_read = ft_calloc(1, 1);
+        if (!gnl->text_read)
+            return (set_err(&gnl->err));
+    }
+    if (read_file(gnl, &bytes_read, gnl->fd) == -1)
+        return (set_err(&gnl->err));
+    if (!get_line(gnl, bytes_read, &line) || !bytes_read)
+    {
+        free_ptr(&gnl->text_read);
+        return (NULL);
+    }
+    return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 15:44:38 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/26 13:57:55 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/27 19:32:26 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,22 @@
 #  define BUFFER_SIZE 6
 # endif
 
-# ifndef MAX_FD
-#  define MAX_FD 4000
-# endif
-
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdarg.h>
+
+typedef struct s_gnl
+{
+	char	*text_read;
+	int		err;
+	int		fd;
+}	t_gnl;
 
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
-}					t_list;
+}	t_list;
 
 int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);
@@ -79,8 +82,7 @@ int		ft_printf(int fd, const char *format, ...);
 int		ft_printhex(int fd, unsigned long nbr, char specifier, int *count);
 int		ft_printnbr(int fd, long nbr, int *count);
 int		ft_printstr(int fd, char *str);
-char	*set_err(int *flag);
-char	*get_next_line(int fd, int *flag);
+char    *get_next_line(t_gnl *gnl);
 long	ft_atol(const char *str);
 
 #endif
