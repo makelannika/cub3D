@@ -94,7 +94,6 @@ char    *get_next_line(t_gnl *gnl)
     if (!get_line(gnl, bytes_read, &line) || !bytes_read)
     {
         free_ptr(&gnl->text_read);
-        free_ptr(&line);
 		free(line);
         return (NULL);
     }
