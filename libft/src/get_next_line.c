@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 13:03:07 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/27 22:04:00 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/28 15:21:51 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ char    *get_next_line(t_gnl *gnl)
     if (!get_line(gnl, bytes_read, &line) || !bytes_read)
     {
         free_ptr(&gnl->text_read);
+        free_ptr(&line);
 		free(line);
         return (NULL);
     }
