@@ -51,6 +51,8 @@ char    *get_line(t_gnl *gnl, ssize_t bytes_read, char **line)
         free_ptr(line);
         return (set_err(&gnl->err));
     }
+	if (!*line)
+		return(*line);
     return (*line);
 }
 
@@ -92,6 +94,7 @@ char    *get_next_line(t_gnl *gnl)
     if (!get_line(gnl, bytes_read, &line) || !bytes_read)
     {
         free_ptr(&gnl->text_read);
+		free(line);
         return (NULL);
     }
     return (line);
