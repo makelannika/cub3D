@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:13:04 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/27 23:10:49 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/28 01:07:14 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ int	parse_file(t_cub3d *data, t_gnl *gnl, char *file)
 	gnl->fd = open(file, O_RDONLY);
 	if (gnl->fd == -1)
 		return (err("open failed", NULL));
-	line = get_next_line(&data->gnl);
+	line = get_next_line(gnl);
 	if (gnl->err)
 		return (err("get_next_line failed", NULL));
-	while (line && *line != '1' && *line != ' ')
+	while (line && (data->elements_found != 6 || *line == '\n'))
 	{
 		if (*line != '\n')
 		{
@@ -73,7 +73,7 @@ int	parse_file(t_cub3d *data, t_gnl *gnl, char *file)
 				return (err(NULL, line));
 		}
 		free(line);
-		line = get_next_line(&data->gnl);
+		line = get_next_line(gnl);
 		if (gnl->err)
 			return (err("get_next_line failed", NULL));
 	}

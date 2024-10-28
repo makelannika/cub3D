@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:55:39 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/26 17:44:28 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/28 01:34:22 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	combine_values(t_cub3d *data, char **rgb, char identifier)
 	green = get_color(rgb[1]);
 	blue = get_color(rgb[2]);
 	if (red == -1 || green == -1 || blue == -1)
-		return (err("invalid floor/ceiling color", NULL));
+		return (1);
 	if (identifier == 'F')
 		data->floor = rgba_to_hex(red, green, blue, 255);
 	else

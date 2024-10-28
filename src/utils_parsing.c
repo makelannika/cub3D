@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:33:08 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/27 18:53:59 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/28 01:53:42 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,14 @@ void	set_orientation(t_cub3d *data, char orientation)
 
 int	validate_line(char *str)
 {
+	if (*str == '\n')
+		return (1);
 	while (*str)
 	{
 		if (!ft_strchr(" 10NSWE\n", *str))
 			return (1);
 		str++;
 	}
-	return (0);
-}
-
-int	create_grid(t_cub3d *data, char *file)
-{
-	data->gnl.fd = open(file, O_RDONLY);
-	if (data->gnl.fd == -1)
-		return (err("open failed", NULL));
-	data->map.grid = ft_calloc(data->map.height + 1, sizeof(char *));
-	if (!data->map.grid)
-		return (err("malloc failed", NULL));
 	return (0);
 }
 

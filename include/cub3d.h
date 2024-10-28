@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/27 18:57:13 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/28 01:53:46 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ typedef struct s_cub3d
 int		check_extension(char *arg);
 int		parse_file(t_cub3d *data, t_gnl *gnl, char *file);
 int		parse_map(t_cub3d *data, t_gnl *gnl, char *line, char *file);
-int		create_grid(t_cub3d *data, char *file);
 int		copy_color(t_cub3d *data, char *str, char identifier);
 int		validate_line(char *str);
 int		get_arr_len(char **array);
