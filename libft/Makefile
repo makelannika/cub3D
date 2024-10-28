@@ -36,7 +36,7 @@ OFILES = $(CFILES:.c=.o)
 
 BOFILES = $(BONUSES:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 	

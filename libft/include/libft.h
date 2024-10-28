@@ -82,7 +82,7 @@ int		ft_printf(int fd, const char *format, ...);
 int		ft_printhex(int fd, unsigned long nbr, char specifier, int *count);
 int		ft_printnbr(int fd, long nbr, int *count);
 int		ft_printstr(int fd, char *str);
-char    *get_next_line(t_gnl *gnl);
+char	*get_next_line(t_gnl *gnl);
 long	ft_atol(const char *str);
 
 #endif
