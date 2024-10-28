@@ -6,7 +6,7 @@
 #    By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/10/26 16:48:12 by amakela          ###   ########.fr        #
+#    Updated: 2024/10/28 02:29:18 by amakela          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	make -C $(LIBFTDIR) fclean
-	rm -rf $(MLX42)/build
+	rm -rf $(MLXDIR)/build
 
 re: fclean all
 
