@@ -38,6 +38,8 @@ int	parse_element(t_cub3d *data, char *line)
 	char	**element;
 	int		len;
 
+	if (*line == ' ')
+		return (err("invalid .cub file content", NULL));
 	element = ft_split(line, ' ');
 	if (!element)
 		return (err("malloc failed", NULL));

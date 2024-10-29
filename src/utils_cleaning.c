@@ -15,7 +15,7 @@
 int	err(char *str, char *ptr)
 {
 	if (str)
-		ft_printf(2, "Error: %s\n", str);
+		ft_printf(2, "Error:\n%s\n", str);
 	if (ptr)
 		free(ptr);
 	return (1);

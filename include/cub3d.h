@@ -16,7 +16,6 @@
 # include "../libft/include/libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
-# include <stdio.h>
 # include <math.h>
 
 # define SCREEN_WIDTH 1000
