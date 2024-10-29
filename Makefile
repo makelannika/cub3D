@@ -6,11 +6,11 @@
 #    By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/10/28 02:29:18 by amakela          ###   ########.fr        #
+#    Updated: 2024/10/29 18:40:00 by amakela          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= cub3d
+NAME		= cub3D
 
 LIBFTDIR	= libft
 LIBFT		= $(LIBFTDIR)/libft.a
