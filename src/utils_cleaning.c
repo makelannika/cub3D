@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:27:06 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/28 00:52:15 by amakela          ###   ########.fr       */
+/*   Updated: 2024/10/29 18:39:22 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	err(char *str, char *ptr)
 {
 	if (str)
-		ft_printf(2, "Error:\n%s\n", str);
+		ft_printf(2, "Error\n%s\n", str);
 	if (ptr)
 		free(ptr);
 	return (1);
