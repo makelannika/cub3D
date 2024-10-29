@@ -20,16 +20,24 @@ char	*set_err(int *flag)
 }
 
 int	free_ptr(char **ptr)
+int	free_ptr(char **ptr)
 {
+	if (!*ptr)
+		return (-1);
+	free(*ptr);
 	if (!*ptr)
 		return (-1);
 	free(*ptr);
 	*ptr = NULL;
 	return (-1);
+	return (-1);
 }
 
 char	*get_line(t_gnl *gnl, ssize_t bytes_read, char **line)
+char	*get_line(t_gnl *gnl, ssize_t bytes_read, char **line)
 {
+	int		i;
+	char	*tmp;
 	int		i;
 	char	*tmp;
 
@@ -58,7 +66,10 @@ char	*get_line(t_gnl *gnl, ssize_t bytes_read, char **line)
 }
 
 ssize_t	read_file(t_gnl *gnl, ssize_t *bytes_read, int fd)
+ssize_t	read_file(t_gnl *gnl, ssize_t *bytes_read, int fd)
 {
+	char	*tmp;
+	char	buffer[BUFFER_SIZE + 1];
 	char	*tmp;
 	char	buffer[BUFFER_SIZE + 1];
 
@@ -75,8 +86,22 @@ ssize_t	read_file(t_gnl *gnl, ssize_t *bytes_read, int fd)
 			return (-1);
 	}
 	return (*bytes_read);
+	while (!ft_strchr(gnl->text_read, '\n') && *bytes_read)
+	{
+		*bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (*bytes_read == -1)
+			return (free_ptr(&gnl->text_read));
+		buffer[*bytes_read] = '\0';
+		tmp = gnl->text_read;
+		gnl->text_read = ft_strjoin(gnl->text_read, buffer);
+		free_ptr(&tmp);
+		if (!gnl->text_read)
+			return (-1);
+	}
+	return (*bytes_read);
 }
 
+char	*get_next_line(t_gnl *gnl)
 char	*get_next_line(t_gnl *gnl)
 {
 	char	*line;
