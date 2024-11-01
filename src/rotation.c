@@ -6,26 +6,11 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:48:37 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/26 14:27:30 by amakela          ###   ########.fr       */
+/*   Updated: 2024/11/01 13:10:35 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-void	reset_minimap(t_cub3d *data)
-{
-	int	y;
-	int	x;
-
-	y = 0;
-	while (y < 275)
-	{
-		x = 0;
-		while (x < 275)
-			mlx_put_pixel(data->background, x++, y, 255);
-		y++;
-	}
-}
 
 double	normalize_vector(double *x, double *y)
 {
