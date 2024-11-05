@@ -3,7 +3,7 @@ SO ./assets/S.png
 WE ./assets/W.png
 EA ./assets/E.png
 
-F 255,255,255
+F 128,128,128
 C 255,255,255
 
 11111111111111111
