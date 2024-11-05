@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:13:04 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/29 19:06:25 by amakela          ###   ########.fr       */
+/*   Updated: 2024/11/05 14:42:45 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 int	elements_found(t_cub3d *data)
 {
 	if (data->north && data->south && data->west && data->east
-		&& data->floor >= 0 && data->ceiling >= 0)
+		&& data->floor[0] && data->ceiling[0])
 		return (1);
 	return (0);
 }
 
 int	check_identifier(char **element, t_cub3d *data)
 {
-	if (!ft_strncmp("F", element[0], 2))
+	if (!ft_strncmp("F", element[0], 2) && !data->floor[0])
 		return (copy_color(data, element[1], 'F'));
-	if (!ft_strncmp("C", element[0], 2))
+	if (!ft_strncmp("C", element[0], 2) && !data->ceiling[0])
 		return (copy_color(data, element[1], 'C'));
 	if (!ft_strncmp("NO", element[0], 3) && !data->north)
 		data->north = mlx_load_png(element[1]);

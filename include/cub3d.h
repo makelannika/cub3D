@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:24:23 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/29 18:59:15 by amakela          ###   ########.fr       */
+/*   Updated: 2024/11/05 14:12:27 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ typedef struct s_cub3d
 	mlx_texture_t	*west;
 	mlx_texture_t	*east;
 	mlx_image_t		*background;
-	int				floor;
-	int				ceiling;
+	int				floor[2];
+	int				ceiling[2];
 	t_gnl			gnl;
 	t_map			map;
 	t_ray			ray;

@@ -6,7 +6,7 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 17:59:12 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/26 15:44:17 by amakela          ###   ########.fr       */
+/*   Updated: 2024/11/05 15:07:21 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	draw_background(t_cub3d *data)
 		while (x < 1000)
 		{
 			if (y < 500)
-				mlx_put_pixel(data->background, x++, y, data->ceiling);
+				mlx_put_pixel(data->background, x++, y, data->ceiling[1]);
 			else
-				mlx_put_pixel(data->background, x++, y, data->floor);
+				mlx_put_pixel(data->background, x++, y, data->floor[1]);
 		}
 		y++;
 	}

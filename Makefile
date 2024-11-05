@@ -6,7 +6,7 @@
 #    By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/24 13:25:09 by amakela           #+#    #+#              #
-#    Updated: 2024/10/29 18:40:00 by amakela          ###   ########.fr        #
+#    Updated: 2024/11/05 13:21:15 by amakela          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ HEADERS 	= -I $(MLXDIR)/include -I $(LIBFTDIR)
 
 LIBS		= $(LIBFT) $(MLX42) -lglfw -lm -L"~/.brew/Cellar/glfw/3.4/lib/"
 
-CFLAGS		= -Wall -Wextra -Werror -g 
+CFLAGS		= -Wall -Wextra -Werror
 
 CC			= cc
 

@@ -6,13 +6,13 @@
 /*   By: amakela <amakela@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:55:39 by amakela           #+#    #+#             */
-/*   Updated: 2024/10/28 01:34:22 by amakela          ###   ########.fr       */
+/*   Updated: 2024/11/05 14:46:26 by amakela          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int	rgba_to_hex(int r, int g, int b, int a)
+unsigned int	rgba_to_hex(int r, int g, int b, int a)
 {
 	return ((r << 24) | (g << 16) | (b << 8) | a);
 }
@@ -27,7 +27,7 @@ int	get_color(char *str)
 	return (color);
 }
 
-int	count_commas(char *str)
+int	get_commas(char *str)
 {
 	int	i;
 	int	commas;
@@ -57,9 +57,15 @@ int	combine_values(t_cub3d *data, char **rgb, char identifier)
 	if (red == -1 || green == -1 || blue == -1)
 		return (1);
 	if (identifier == 'F')
-		data->floor = rgba_to_hex(red, green, blue, 255);
+	{
+		data->floor[1] = rgba_to_hex(red, green, blue, 255);
+		data->floor[0] = 1;
+	}
 	else
-		data->ceiling = rgba_to_hex(red, green, blue, 255);
+	{
+		data->ceiling[1] = rgba_to_hex(red, green, blue, 255);
+		data->ceiling[0] = 1;
+	}
 	return (0);
 }
 
@@ -67,15 +73,15 @@ int	copy_color(t_cub3d *data, char *str, char identifier)
 {
 	char	**rgb;
 
-	if (count_commas(str) != 2)
+	if (get_commas(str) != 2)
 		return (err("invalid floor/ceiling color", NULL));
 	rgb = ft_split(str, ',');
 	if (!rgb)
 		return (err("malloc failed", NULL));
 	if (get_arr_len(rgb) != 3 || combine_values(data, rgb, identifier))
 	{
-		free_str_array(rgb);
-		return (err("invalid floor/ceiling color", NULL));
+		err("invalid floor/ceiling color", NULL);
+		return (free_str_array(rgb));
 	}
 	free_str_array(rgb);
 	return (0);
