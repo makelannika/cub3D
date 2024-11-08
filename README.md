@@ -33,8 +33,9 @@ make
 
 Provide a .cub configuration file to define the scene:
 ```bash
-./cub3D map_file.cub
+./cub3D maps/forest.cub
 ```
+There are other premade map files ready to run with different textures in the maps folder. 
 
 ## Controls
 
