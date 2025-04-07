@@ -21,7 +21,6 @@ Cub3D is a maze exploration game built with raycasting techniques, inspired by t
 ### Prerequisites
 
 - **MLX42 Library**: The project uses MLX42 for graphics, so make sure it's installed.
-- **libft Library**: Build your custom libft library if required by your setup.
 
 ### Compilation
 
